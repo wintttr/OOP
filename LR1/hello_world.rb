@@ -1,1 +1,1 @@
-puts "Hello, World!"
+puts "Hello, World!" # Выводим строку "Hello, World" на стандартный вывод
