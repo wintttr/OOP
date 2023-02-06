@@ -5,7 +5,7 @@ end
 
 # Находим количество чисел, взаимнопростых с данным
 def coprime_count(x)
-    (1..x).select{|i| coprime? x, i }.size
+    (1..x).count{|i| coprime? x, i }
 end
 
 # Находим сумму значений функции func от каждой цифры
