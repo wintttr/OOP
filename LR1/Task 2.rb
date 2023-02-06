@@ -52,5 +52,3 @@ def find_max_div(x)
 
     divs[count_array.index count_array.max]
 end
-
-puts num_div_by_3_sum 261434
