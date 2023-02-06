@@ -1,6 +1,6 @@
 # Если пользователь передал больше/меньше 1 аргумента, выводим ошибку
 if ARGV.size != 1 then 
-    puts "ERROR ERROR ERROR!!!!!!"
+    STDERR.puts "ERROR ERROR ERROR!!!!!!"
     exit
 end
 
