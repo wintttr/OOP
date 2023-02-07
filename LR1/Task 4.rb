@@ -31,3 +31,14 @@ def count_in_interval(array, a, b)
 end
 
 # Задание 50
+def elements_only_in_one_arr(L1, L2)
+    L1.each { |el|
+        L2.delete el
+    }
+
+    L2.each { |el|
+        L1.delete el
+    }
+
+    L2
+end
