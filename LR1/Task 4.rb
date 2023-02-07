@@ -19,6 +19,7 @@ end
 # Задание 26
 def count_between_min(array)
     min1 = array.index array.min
+    
     array.delete_at min1
     min2 = array.index array.min
 
@@ -31,14 +32,12 @@ def count_in_interval(array, a, b)
 end
 
 # Задание 50
-def elements_only_in_one_arr(L1, L2)
-    L1.each { |el|
-        L2.delete el
-    }
+# Не знаю, как это сделать по человечески...
+def elements_only_in_one_arr(l1, l2)
+    part1 = l1.reject { |el| l2.include? el }
+    part2 = l2.reject { |el| l1.include? el }
 
-    L2.each { |el|
-        L1.delete el
-    }
-
-    L2
+    (part1 + part2).sort.uniq
 end
+
+puts elements_only_in_one_arr [1,2,3,4], [3,4,5,6]
