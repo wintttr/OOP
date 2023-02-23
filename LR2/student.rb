@@ -22,8 +22,13 @@ class Student
 			raise ArgumentError, "#{telegram} - wrong telegram nickname format"
 		end
 
-        self.mail = mail
-        self.git = git
+		if mail == nil or Student.email_correct? mail then	
+        	self.mail = mail
+		else
+			raise ArgumentError, "#{mail} - wrong email format"
+		end
+		
+		self.git = git
     end
 
 	# Проверка номера телефона на корректность
@@ -39,7 +44,15 @@ class Student
 
 		tg =~ telegram_re
 	end
-	
+
+	# Проверка мейла на корректность
+	def Student.email_correct? email
+		email_re = /^[a-zA-Z0-9._]+\@[a-zA-Z0-9.]+\.[a-z]+$/
+
+		email =~ email_re
+	end
+
+
 	# Соединяет строки из массива запятой, пропуская элементы содержащие nil
 	# Если итоговая строка пустая, возвращает nil
 	def Student.join_with_comma str_arr
