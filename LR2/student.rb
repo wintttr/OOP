@@ -35,6 +35,11 @@ class Student
 		self.git = git
     end
 
+	def validate
+		self.git and
+		[self.phone, self.telegram, self.mail].compact.count > 0
+	end
+
 	# Проверка имени на корректность
 	def Student.name_correct? name
 		name_re = /^[а-яА-Я]+$/
