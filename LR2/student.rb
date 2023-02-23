@@ -14,6 +14,17 @@ class Student
 			raise ArgumentError, "Wrong student name format"
 		end
 
+		set_contacts phone: phone, mail: mail, telegram: telegram 
+		
+		self.git = git
+    end
+
+	def validate
+		self.git and
+		[self.phone, self.telegram, self.mail].compact.count > 0
+	end
+
+	def set_contacts (phone:nil, telegram:nil, mail:nil)
 		if phone == nil or Student.phone_correct? phone then 
         	self.phone = phone
 		else
@@ -31,13 +42,6 @@ class Student
 		else
 			raise ArgumentError, "#{mail} - wrong email format"
 		end
-		
-		self.git = git
-    end
-
-	def validate
-		self.git and
-		[self.phone, self.telegram, self.mail].compact.count > 0
 	end
 
 	# Проверка имени на корректность
