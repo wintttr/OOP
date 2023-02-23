@@ -5,11 +5,18 @@ class Student
 
     def initialize(surname:, first_name:, mid_name:, id:nil, phone:nil, telegram:nil, mail:nil, git:nil)
         self.id = id
-        self.surname = surname
-        self.first_name = first_name
-        self.mid_name = mid_name
-        self.phone = phone
-        self.telegram = telegram
+
+        self.surname = surname.capitalize
+        self.first_name = first_name.capitalize
+        self.mid_name = mid_name.capitalize
+
+		if phone == nil or Student.phone_correct? phone then 
+        	self.phone = phone
+		else
+			raise ArgumentError, "#{phone} - wrong phone number format"
+		end
+
+		self.telegram = telegram
         self.mail = mail
         self.git = git
     end
@@ -25,6 +32,12 @@ class Student
 		if field != nil then
 			"#{prompt}: #{field}"
 		end
+	end
+
+	# Проверка номера телефона на корректность
+	def Student.phone_correct? phone
+		phone_number_re = /^(\+\d|8) ?(\(\d{3}\)|\d{3}) ?\d{3}-?\d{2}-?\d{2}$/
+		phone =~ phone_number_re
 	end
 
 	def to_s
