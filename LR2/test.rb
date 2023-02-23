@@ -1,5 +1,24 @@
 require_relative "student"
 
+def test test_array, field
+    for el in test_array do
+        correct = true
+    begin
+        Student.new surname: "Фамилия", first_name: "Имя", mid_name: "Отчество", field => el[0]
+    rescue ArgumentError
+        correct = false
+    rescue Exception
+        raise Exception, "аааааааааааааааааааааа, что дееееееелаааааааааааааааааааааать такой ошибки я не предусмотрел!"
+    end
+        if correct == el[1]
+            puts "Тест пройден успешно, строка \"#{el[0]}\" - #{correct ? "корректна" : "некорректна"}."
+        else
+            puts "Тест не пройден, строка: \"#{el[0]}\""
+        end
+    end
+end
+
+
 numbers = [
     ["+79255508819", true],
     ["+7(925)550-88-19", true],
@@ -14,18 +33,18 @@ numbers = [
     ["123", false],
 ]
 
-for phone in numbers do
-    correct = true
-begin
-    Student.new surname: "Фамилия", first_name: "Имя", mid_name: "Отчество", phone: phone[0]
-rescue ArgumentError
-    correct = false
-rescue Exception
-    raise Exception, "аааааааааааааааааааааа, что дееееееелаааааааааааааааааааааать такой ошибки я не предусмотрел!"
-end
-    if correct == phone[1]
-        puts "Тест пройден успешно, номер \"#{phone[0]}\" - #{correct ? "правильный" : "неправильный"}."
-    else
-        puts "Номер \"#{phone[0]}\" неправильный, тест не пройден."
-    end
-end
+telegrams = [
+    ["@abcdef", true],
+    ["@ABCDEFF", true],
+    ["@123", false],
+    ["abcdef", false],
+    ["@фвафва", false]
+]
+
+puts "Тест номера телефона"
+test numbers, :phone
+puts
+
+puts "Тест телеграм ника"
+test telegrams, :telegram
+puts

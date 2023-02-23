@@ -16,11 +16,30 @@ class Student
 			raise ArgumentError, "#{phone} - wrong phone number format"
 		end
 
-		self.telegram = telegram
+		if telegram == nil or Student.telegram_correct? telegram then
+			self.telegram = telegram
+		else
+			raise ArgumentError, "#{telegram} - wrong telegram nickname format"
+		end
+
         self.mail = mail
         self.git = git
     end
 
+	# Проверка номера телефона на корректность
+	def Student.phone_correct? phone
+		phone_number_re = /^(\+\d|8) ?(\(\d{3}\)|\d{3}) ?\d{3}-?\d{2}-?\d{2}$/
+
+		phone =~ phone_number_re
+	end
+
+	# Проверка телеграма на корректность
+	def Student.telegram_correct? tg
+		telegram_re = /^\@[a-zA-Z]([a-zA-Z]|\d|_){4,32}$/
+
+		tg =~ telegram_re
+	end
+	
 	# Соединяет строки из массива запятой, пропуская элементы содержащие nil
 	# Если итоговая строка пустая, возвращает nil
 	def Student.join_with_comma str_arr
@@ -33,13 +52,7 @@ class Student
 			"#{prompt}: #{field}"
 		end
 	end
-
-	# Проверка номера телефона на корректность
-	def Student.phone_correct? phone
-		phone_number_re = /^(\+\d|8) ?(\(\d{3}\)|\d{3}) ?\d{3}-?\d{2}-?\d{2}$/
-		phone =~ phone_number_re
-	end
-
+	
 	def to_s
 		id = Student.field_string "Ид", self.id
 		surname = Student.field_string "Фамилия", self.surname
