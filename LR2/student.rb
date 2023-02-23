@@ -6,9 +6,13 @@ class Student
     def initialize(surname:, first_name:, mid_name:, id:nil, phone:nil, telegram:nil, mail:nil, git:nil)
         self.id = id
 
-        self.surname = surname.capitalize
-        self.first_name = first_name.capitalize
-        self.mid_name = mid_name.capitalize
+		if Student.full_name_correct? surname, first_name, mid_name then
+			self.surname = surname.capitalize
+			self.first_name = first_name.capitalize
+			self.mid_name = mid_name.capitalize
+		else
+			raise ArgumentError, "Wrong student name format"
+		end
 
 		if phone == nil or Student.phone_correct? phone then 
         	self.phone = phone
@@ -30,6 +34,19 @@ class Student
 		
 		self.git = git
     end
+
+	# Проверка имени на корректность
+	def Student.name_correct? name
+		name_re = /^[а-яА-Я]+$/
+
+		name =~ name_re
+	end
+
+	def Student.full_name_correct? surname, firstname, midname
+		Student.name_correct? surname and
+		Student.name_correct? firstname and
+		Student.name_correct? midname
+	end
 
 	# Проверка номера телефона на корректность
 	def Student.phone_correct? phone
