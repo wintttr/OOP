@@ -25,19 +25,22 @@ class Student
 	end
 
 	def set_contacts (phone:nil, telegram:nil, mail:nil)
-		if phone == nil or Student.phone_correct? phone then 
+		if phone == nil then # do nothing
+		elsif Student.phone_correct? phone then 
         	self.phone = phone
 		else
 			raise ArgumentError, "#{phone} - wrong phone number format"
 		end
 
-		if telegram == nil or Student.telegram_correct? telegram then
+		if telegram == nil then # do nothing
+		elsif Student.telegram_correct? telegram then
 			self.telegram = telegram
 		else
 			raise ArgumentError, "#{telegram} - wrong telegram nickname format"
 		end
 
-		if mail == nil or Student.email_correct? mail then	
+		if mail == nil then #do nothing
+		elsif Student.email_correct? mail then	
         	self.mail = mail
 		else
 			raise ArgumentError, "#{mail} - wrong email format"
