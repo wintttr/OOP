@@ -1,10 +1,10 @@
 require_relative "student"
 
-def test test_array, field
+def test test_array, field, test_name = ["Фамилия", "Имя", "Отчество"]
     for el in test_array do
         correct = true
     begin
-        Student.new surname: "Фамилия", first_name: "Имя", mid_name: "Отчество", field => el[0]
+        Student.new surname: test_name[0], first_name: test_name[1], mid_name: test_name[2], field => el[0]
     rescue ArgumentError
         correct = false
     rescue Exception
@@ -41,10 +41,29 @@ telegrams = [
     ["@фвафва", false]
 ]
 
+emails = [
+	["o@outlook.com", true],
+	["hr6zdl@yandex.ru", true],
+	["kaft93x@outlook.com", true],
+	["dcu@yandex.ru", true],
+	["19dn@outlook.com", true],
+	["pa5h@mail.ru", true],
+	["281av0@gmail.com", true],
+	["8edmfh@outlook.com", true],
+	["sfn13i@mail.ru", true],
+	["g0orc3x1@outlook.com", true],
+	["123", false],
+	["abcdef", false]
+]
+
 puts "Тест номера телефона"
 test numbers, :phone
 puts
 
 puts "Тест телеграм ника"
 test telegrams, :telegram
+puts
+
+puts "Тест имейла"
+test emails, :mail
 puts
