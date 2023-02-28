@@ -6,8 +6,14 @@ class Student
     attr_reader :surname, :first_name, :mid_name
     attr_reader :phone, :telegram, :mail
 	
-	def check_correctness field, value, correct, err_string
-		if correct.call value then 
+	def check_correctness field, value, correct, err_string, nil_expected = true
+		if value == nil and nil_expected then
+			if nil_expected then
+				instance_variable_set field, nil
+			else
+				raise NilError
+			end
+		elsif correct.call value then
         	instance_variable_set field, value
 		else
 			raise ArgumentError, err_string
@@ -15,15 +21,15 @@ class Student
 	end
 
 	def surname= value
-		check_correctness :@surname, value, lambda {|x| Student.name_correct? x}, "Wrong student name format"
+		check_correctness :@surname, value, lambda {|x| Student.name_correct? x}, "Wrong student name format", false
 	end
 	
 	def first_name= value
-		check_correctness :@first_name, value, lambda {|x| Student.name_correct? x}, "Wrong student name format"
+		check_correctness :@first_name, value, lambda {|x| Student.name_correct? x}, "Wrong student name format", false
 	end
 	
 	def mid_name= value
-		check_correctness :@mid_name, value, lambda {|x| Student.name_correct? x}, "Wrong student name format"
+		check_correctness :@mid_name, value, lambda {|x| Student.name_correct? x}, "Wrong student name format", false
 	end
 	
 	def phone= value
@@ -70,25 +76,25 @@ class Student
 	end
 
 	# Проверка имени на корректность
-	def Student.name_correct? name
-		name_re = 	
+	def self.name_correct? name
+		name_re = /^[а-яА-Я]+$/
 		name =~ name_re
 	end
 
 	# Проверка номера телефона на корректность
-	def Student.phone_correct? phone
+	def self.phone_correct? phone
 		phone_number_re = /^(\+\d|8) ?(\(\d{3}\)|\d{3}) ?\d{3}-?\d{2}-?\d{2}$/
 		phone =~ phone_number_re
 	end
 
 	# Проверка телеграма на корректность
-	def Student.telegram_correct? tg
+	def self.telegram_correct? tg
 		telegram_re = /^\@[a-zA-Z]([a-zA-Z]|\d|_){4,32}$/
 		tg =~ telegram_re
 	end
 
 	# Проверка мейла на корректность
-	def Student.email_correct? email
+	def self.email_correct? email
 		email_re = /^[a-zA-Z0-9._]+\@[a-zA-Z0-9.]+\.[a-z]+$/
 		email =~ email_re
 	end
@@ -96,12 +102,12 @@ class Student
 
 	# Соединяет строки из массива запятой, пропуская элементы содержащие nil
 	# Если итоговая строка пустая, возвращает nil
-	def Student.join_with_comma str_arr
+	def self.join_with_comma str_arr
 		result = str_arr.compact.join(", ")
 		result.empty? ? nil : result  
 	end
 
-	def Student.field_string prompt, field
+	def self.field_string prompt, field
 		if field != nil then
 			"#{prompt}: #{field}"
 		end
