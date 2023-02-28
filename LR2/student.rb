@@ -6,20 +6,6 @@ class Student
     attr_reader :surname, :first_name, :mid_name
     attr_reader :phone, :telegram, :mail
 	
-	def check_correctness field, value, correct, err_string, nil_expected = true
-		if value == nil and nil_expected then
-			if nil_expected then
-				instance_variable_set field, nil
-			else
-				raise NilError
-			end
-		elsif correct.call value then
-        	instance_variable_set field, value
-		else
-			raise ArgumentError, err_string
-		end
-	end
-
 	def surname= value
 		check_correctness :@surname, value, lambda {|x| Student.name_correct? x}, "Wrong student name format", false
 	end
@@ -74,6 +60,40 @@ class Student
 			self.mail = mail
 		end
 	end
+	
+	def to_s
+		id = Student.field_string "Ид", self.id
+		surname = Student.field_string "Фамилия", self.surname
+		first_name = Student.field_string "Имя", self.first_name
+		mid_name = Student.field_string "Отчество", self.mid_name
+		phone = Student.field_string "Телефон", self.phone
+		telegram = Student.field_string "Телеграм", self.telegram
+		mail = Student.field_string "Мейл", self.mail
+		git = Student.field_string "Гит", self.git
+		
+		full_name = Student.join_with_comma [surname, first_name, mid_name]
+		phone_and_tg = Student.join_with_comma [phone, telegram]
+		mail_and_git = Student.join_with_comma [mail, git]
+
+		[id, full_name, phone_and_tg, mail_and_git].compact.join "\n"
+	end
+	
+	
+	private
+	
+	def check_correctness field, value, correct, err_string, nil_expected = true
+		if value == nil and nil_expected then
+			if nil_expected then
+				instance_variable_set field, nil
+			else
+				raise NilError
+			end
+		elsif correct.call value then
+        	instance_variable_set field, value
+		else
+			raise ArgumentError, err_string
+		end
+	end
 
 	# Проверка имени на корректность
 	def self.name_correct? name
@@ -99,7 +119,6 @@ class Student
 		email =~ email_re
 	end
 
-
 	# Соединяет строки из массива запятой, пропуская элементы содержащие nil
 	# Если итоговая строка пустая, возвращает nil
 	def self.join_with_comma str_arr
@@ -111,22 +130,5 @@ class Student
 		if field != nil then
 			"#{prompt}: #{field}"
 		end
-	end
-	
-	def to_s
-		id = Student.field_string "Ид", self.id
-		surname = Student.field_string "Фамилия", self.surname
-		first_name = Student.field_string "Имя", self.first_name
-		mid_name = Student.field_string "Отчество", self.mid_name
-		phone = Student.field_string "Телефон", self.phone
-		telegram = Student.field_string "Телеграм", self.telegram
-		mail = Student.field_string "Мейл", self.mail
-		git = Student.field_string "Гит", self.git
-		
-		full_name = Student.join_with_comma [surname, first_name, mid_name]
-		phone_and_tg = Student.join_with_comma [phone, telegram]
-		mail_and_git = Student.join_with_comma [mail, git]
-
-		[id, full_name, phone_and_tg, mail_and_git].compact.join "\n"
 	end
 end
