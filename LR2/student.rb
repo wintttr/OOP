@@ -82,7 +82,7 @@ class Student
 	private
 	
 	def check_correctness field, value, correct, err_string, nil_expected = true
-		if value == nil and nil_expected then
+		if value == nil then
 			if nil_expected then
 				instance_variable_set field, nil
 			else
