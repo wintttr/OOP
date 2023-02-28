@@ -1,18 +1,49 @@
+class NilError < RuntimeError
+end
+
 class Student
-    attr_accessor :id
-    attr_accessor :surname, :first_name, :mid_name
-    attr_accessor :phone, :telegram, :mail, :git
+    attr_accessor :id, :git
+    attr_reader :surname, :first_name, :mid_name
+    attr_reader :phone, :telegram, :mail
+	
+	def check_correctness field, value, correct, err_string
+		if correct.call value then 
+        	instance_variable_set field, value
+		else
+			raise ArgumentError, err_string
+		end
+	end
+
+	def surname= value
+		check_correctness :@surname, value, lambda {|x| Student.name_correct? x}, "Wrong student name format"
+	end
+	
+	def first_name= value
+		check_correctness :@first_name, value, lambda {|x| Student.name_correct? x}, "Wrong student name format"
+	end
+	
+	def mid_name= value
+		check_correctness :@mid_name, value, lambda {|x| Student.name_correct? x}, "Wrong student name format"
+	end
+	
+	def phone= value
+		check_correctness :@phone, value, lambda {|x| Student.phone_correct? x}, "#{value} - wrong phone format"
+	end
+	
+	def telegram= value
+		check_correctness :@telegram, value, lambda {|x| Student.telegram_correct? x}, "#{value} - wrong telegram nickname format"
+	end
+	
+	def mail= value
+		check_correctness :@mail, value, lambda {|x| Student.email_correct? x}, "#{value} - wrong mail format"
+	end
 
     def initialize(surname:, first_name:, mid_name:, id:nil, phone:nil, telegram:nil, mail:nil, git:nil)
         self.id = id
 
-		if Student.full_name_correct? surname, first_name, mid_name then
-			self.surname = surname.capitalize
-			self.first_name = first_name.capitalize
-			self.mid_name = mid_name.capitalize
-		else
-			raise ArgumentError, "Wrong student name format"
-		end
+		self.surname = surname.capitalize
+		self.first_name = first_name.capitalize
+		self.mid_name = mid_name.capitalize
 
 		set_contacts phone: phone, mail: mail, telegram: telegram 
 		
@@ -25,59 +56,40 @@ class Student
 	end
 
 	def set_contacts (phone:nil, telegram:nil, mail:nil)
-		if phone == nil then # do nothing
-		elsif Student.phone_correct? phone then 
-        	self.phone = phone
-		else
-			raise ArgumentError, "#{phone} - wrong phone number format"
-		end
-
-		if telegram == nil then # do nothing
-		elsif Student.telegram_correct? telegram then
-			self.telegram = telegram
-		else
-			raise ArgumentError, "#{telegram} - wrong telegram nickname format"
-		end
-
-		if mail == nil then #do nothing
-		elsif Student.email_correct? mail then	
-        	self.mail = mail
-		else
-			raise ArgumentError, "#{mail} - wrong email format"
+		if phone != nil then
+			self.phone = phone
+		end 
+		
+		if telegram != nil then
+			self.telegram =  telegram
+		end	
+		
+		if mail != nil then
+			self.mail = mail
 		end
 	end
 
 	# Проверка имени на корректность
 	def Student.name_correct? name
-		name_re = /^[а-яА-Я]+$/
-
+		name_re = 	
 		name =~ name_re
-	end
-
-	def Student.full_name_correct? surname, firstname, midname
-		Student.name_correct? surname and
-		Student.name_correct? firstname and
-		Student.name_correct? midname
 	end
 
 	# Проверка номера телефона на корректность
 	def Student.phone_correct? phone
 		phone_number_re = /^(\+\d|8) ?(\(\d{3}\)|\d{3}) ?\d{3}-?\d{2}-?\d{2}$/
-
 		phone =~ phone_number_re
 	end
 
 	# Проверка телеграма на корректность
 	def Student.telegram_correct? tg
 		telegram_re = /^\@[a-zA-Z]([a-zA-Z]|\d|_){4,32}$/
-
 		tg =~ telegram_re
 	end
 
 	# Проверка мейла на корректность
 	def Student.email_correct? email
 		email_re = /^[a-zA-Z0-9._]+\@[a-zA-Z0-9.]+\.[a-z]+$/
-
 		email =~ email_re
 	end
 
