@@ -71,19 +71,10 @@ class Student
 				raise FieldDoesntExistError, matches[1]
 			end 
 
-			field_value_hash[matches[1]] = matches[2]
+			field_value_hash[matches[1].to_sym] = matches[2]
 		end
-
-
-		# исправить ужас
-		Student.new surname:field_value_hash["surname"], 
-					first_name:field_value_hash["first_name"], 
-					mid_name:field_value_hash["mid_name"], 
-					id:field_value_hash["id"], 
-					phone:field_value_hash["phone"], 
-					telegram:field_value_hash["telegram"], 
-					mail:field_value_hash["mail"], 
-					git:field_value_hash["git"]
+		
+		Student.new **field_value_hash
 	end
 
 	def validate
