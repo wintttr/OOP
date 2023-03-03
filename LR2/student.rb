@@ -1,4 +1,7 @@
-class NilError < RuntimeError
+class NilError < RuntimeError 
+end
+
+class FormatError < RuntimeError 
 end
 
 class Student
@@ -7,27 +10,27 @@ class Student
     attr_reader :phone, :telegram, :mail
 	
 	def surname= value
-		check_correctness :@surname, value, lambda {|x| Student.name_correct? x}, "Wrong student name format", false
+		check_correctness :surname, value, lambda {|x| Student.name_correct? x}, "Wrong student name format", false
 	end
 	
 	def first_name= value
-		check_correctness :@first_name, value, lambda {|x| Student.name_correct? x}, "Wrong student name format", false
+		check_correctness :first_name, value, lambda {|x| Student.name_correct? x}, "Wrong student name format", false
 	end
 	
 	def mid_name= value
-		check_correctness :@mid_name, value, lambda {|x| Student.name_correct? x}, "Wrong student name format", false
+		check_correctness :mid_name, value, lambda {|x| Student.name_correct? x}, "Wrong student name format", false
 	end
 	
 	def phone= value
-		check_correctness :@phone, value, lambda {|x| Student.phone_correct? x}, "#{value} - wrong phone format"
+		check_correctness :phone, value, lambda {|x| Student.phone_correct? x}, "#{value} - wrong phone format"
 	end
 	
 	def telegram= value
-		check_correctness :@telegram, value, lambda {|x| Student.telegram_correct? x}, "#{value} - wrong telegram nickname format"
+		check_correctness :telegram, value, lambda {|x| Student.telegram_correct? x}, "#{value} - wrong telegram nickname format"
 	end
 	
 	def mail= value
-		check_correctness :@mail, value, lambda {|x| Student.email_correct? x}, "#{value} - wrong mail format"
+		check_correctness :mail, value, lambda {|x| Student.email_correct? x}, "#{value} - wrong mail format"
 	end
 
     def initialize(surname:, first_name:, mid_name:, id:nil, phone:nil, telegram:nil, mail:nil, git:nil)
@@ -37,10 +40,40 @@ class Student
 		self.first_name = first_name.capitalize
 		self.mid_name = mid_name.capitalize
 
-		set_contacts phone: phone, mail: mail, telegram: telegram 
-		
+		self.phone = phone
+		self.mail = mail
+		self.telegram = telegram
+
 		self.git = git
     end
+
+	# исправить ужас
+	def self.construct_from_string str
+		fields = str.split(/,/)
+		field_init_re = /^(.+):\{(.+)\}$/
+		field_value_hash = {}
+
+		# исправить ужас
+		fields.each do |field|
+			if not (field =~ field_init_re) then
+				raise FormatError
+			end
+
+			matches = field.match field_init_re 
+			field_value_hash[matches[1]] = matches[2]
+		end
+
+
+		# исправить ужас
+		Student.new surname:field_value_hash["surname"], 
+					first_name:field_value_hash["first_name"], 
+					mid_name:field_value_hash["mid_name"], 
+					id:field_value_hash["id"], 
+					phone:field_value_hash["phone"], 
+					telegram:field_value_hash["telegram"], 
+					mail:field_value_hash["mail"], 
+					git:field_value_hash["git"]
+	end
 
 	def validate
 		self.git and
@@ -53,7 +86,7 @@ class Student
 		end 
 		
 		if telegram != nil then
-			self.telegram =  telegram
+			self.telegram = telegram
 		end	
 		
 		if mail != nil then
@@ -61,15 +94,16 @@ class Student
 		end
 	end
 	
+	# исправить ужас
 	def to_s
-		id = Student.field_string "Ид", self.id
-		surname = Student.field_string "Фамилия", self.surname
-		first_name = Student.field_string "Имя", self.first_name
-		mid_name = Student.field_string "Отчество", self.mid_name
-		phone = Student.field_string "Телефон", self.phone
-		telegram = Student.field_string "Телеграм", self.telegram
-		mail = Student.field_string "Мейл", self.mail
-		git = Student.field_string "Гит", self.git
+		id = Student.pretty_represent "Ид", self.id
+		surname = Student.pretty_represent "Фамилия", self.surname
+		first_name = Student.pretty_represent "Имя", self.first_name
+		mid_name = Student.pretty_represent "Отчество", self.mid_name
+		phone = Student.pretty_represent "Телефон", self.phone
+		telegram = Student.pretty_represent "Телеграм", self.telegram
+		mail = Student.pretty_represent "Мейл", self.mail
+		git = Student.pretty_represent "Гит", self.git
 		
 		full_name = Student.join_with_comma [surname, first_name, mid_name]
 		phone_and_tg = Student.join_with_comma [phone, telegram]
@@ -78,10 +112,25 @@ class Student
 		[id, full_name, phone_and_tg, mail_and_git].compact.join "\n"
 	end
 	
+	# исправить ужас
+	def inspect
+		id = inspect_represent :id
+		surname = inspect_represent :surname
+		first_name = inspect_represent :first_name
+		mid_name = inspect_represent :mid_name
+		phone = inspect_represent :phone
+		telegram = inspect_represent :telegram
+		mail = inspect_represent :mail
+		git = inspect_represent :git
+
+		[id, surname, first_name, mid_name, phone, telegram, mail, git].compact.join ","
+	end
 	
 	private
 	
 	def check_correctness field, value, correct, err_string, nil_expected = true
+		field = "@#{field}".to_sym
+
 		if value == nil then
 			if nil_expected then
 				instance_variable_set field, nil
@@ -126,9 +175,19 @@ class Student
 		result.empty? ? nil : result  
 	end
 
-	def self.field_string prompt, field
-		if field != nil then
-			"#{prompt}: #{field}"
+	def self.pretty_represent field_prompt, value
+		if value != nil then
+			"#{field_prompt}: #{value}"
 		end
 	end
+
+
+	# исправить ужас
+	def inspect_represent field
+		value = instance_variable_get "@#{field}".to_sym
+
+		if value != nil then
+			"#{field}:\{#{value}\}"
+		end
+	end 
 end
