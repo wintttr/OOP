@@ -16,6 +16,8 @@ puts c.inspect, $/
 
 puts
 
-puts (Student.construct_from_string a.inspect), $/
-puts (Student.construct_from_string b.inspect), $/
-puts (Student.construct_from_string c.inspect), $/
+puts (Student.string_ctor a.inspect), $/
+puts (Student.string_ctor b.inspect), $/
+puts (Student.string_ctor c.inspect), $/
+
+puts Student.string_ctor "surname:{a},first_name:{b},last_name:{c}"

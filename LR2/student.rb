@@ -4,6 +4,12 @@ end
 class FormatError < RuntimeError 
 end
 
+class FieldDoesntExistError < RuntimeError
+	def initialize(field)
+		super "Field #{field} doesn't exist."
+	end
+end
+
 class Student
     attr_accessor :id, :git
     attr_reader :surname, :first_name, :mid_name
@@ -48,7 +54,7 @@ class Student
     end
 
 	# исправить ужас
-	def self.construct_from_string str
+	def self.string_ctor str
 		fields = str.split(/,/)
 		field_init_re = /^(.+):\{(.+)\}$/
 		field_value_hash = {}
@@ -59,7 +65,12 @@ class Student
 				raise FormatError
 			end
 
-			matches = field.match field_init_re 
+			matches = field.match field_init_re
+			
+			if not Student.all_fields.include? matches[1] then 
+				raise FieldDoesntExistError, matches[1]
+			end 
+
 			field_value_hash[matches[1]] = matches[2]
 		end
 
@@ -128,6 +139,13 @@ class Student
 	
 	private
 	
+	def self.all_fields
+		[
+			"id", "surname", "first_name", "mid_name",
+			"phone", "telegram", "mail", "git"
+		]
+	end
+
 	def check_correctness field, value, correct, err_string, nil_expected = true
 		field = "@#{field}".to_sym
 
@@ -180,7 +198,6 @@ class Student
 			"#{field_prompt}: #{value}"
 		end
 	end
-
 
 	# исправить ужас
 	def inspect_represent field
