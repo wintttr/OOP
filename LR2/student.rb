@@ -57,21 +57,21 @@ class Student
 	def self.string_ctor str
 		fields = str.split(/,/)
 		field_init_re = /^(.+):\{(.+)\}$/
-		field_value_hash = {}
+
+		# проверяем, все ли поля соответствуют определённому формату
+		unless fields.all? { |field| field =~ field_init_re } then
+			raise FormatError
+		end
 
 		# исправить ужас
-		fields.each do |field|
-			if not (field =~ field_init_re) then
-				raise FormatError
-			end
-
+		field_value_hash = fields.to_h do |field|
 			matches = field.match field_init_re
 			
 			if not Student.all_fields.include? matches[1] then 
 				raise FieldDoesntExistError, matches[1]
 			end 
 
-			field_value_hash[matches[1].to_sym] = matches[2]
+			[matches[1].to_sym, matches[2]]
 		end
 		
 		Student.new **field_value_hash
