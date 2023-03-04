@@ -114,18 +114,8 @@ class Student
 		[id, full_name, phone_and_tg, mail_and_git].compact.join "\n"
 	end
 	
-	# исправить ужас
 	def inspect
-		id = inspect_represent :id
-		surname = inspect_represent :surname
-		first_name = inspect_represent :first_name
-		mid_name = inspect_represent :mid_name
-		phone = inspect_represent :phone
-		telegram = inspect_represent :telegram
-		mail = inspect_represent :mail
-		git = inspect_represent :git
-
-		[id, surname, first_name, mid_name, phone, telegram, mail, git].compact.join ","
+		Student.all_fields.map{|field| inspect_represent field.to_sym}.compact.join ","
 	end
 	
 	private
