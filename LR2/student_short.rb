@@ -29,7 +29,7 @@ class StudentShort < BasicStudent
 	
 	# Конструктор объекта из строки
 	def self.string_ctor(id, str)
-		r = StudentShort.string_ctor_impl str, :hash_ctor
+		r = StudentShort.string_ctor_impl str, StudentShort.method(:hash_ctor)
 		r.id = id
 		r
 	end

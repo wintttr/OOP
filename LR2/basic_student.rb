@@ -35,7 +35,7 @@ class BasicStudent
 			[matches[1].to_sym, matches[2]]
 		end
 		
-		eval("self.#{ctor} **field_value_hash")
+		ctor.call **field_value_hash
 	end
 	
 	# Сериализуем (о какое слово знаю!) объект в формате "field:{value},..."

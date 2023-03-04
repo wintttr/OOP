@@ -54,7 +54,7 @@ class Student < BasicStudent
 	
 	# Конструктор объекта из строки
 	def self.string_ctor str
-		Student.string_ctor_impl str, :new
+		Student.string_ctor_impl str, Student.method(:new)
 	end
 
 	def validate
