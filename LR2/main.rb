@@ -1,4 +1,5 @@
 require_relative "student"
+require_relative "student_short"
 
 a = Student.new surname: "Курбатский", first_name: "Владимир", mid_name: "Александрович", git: "SeemerGG", phone: "+79181234567"
 b = Student.new surname: "Мищенко", first_name: "Александр", mid_name: "Николаевич", id: 1
@@ -19,3 +20,9 @@ puts
 puts (Student.string_ctor a.inspect), $/
 puts (Student.string_ctor b.inspect), $/
 puts (Student.string_ctor c.inspect), $/
+
+puts
+
+puts (StudentShort.new a), $/
+puts (StudentShort.new b), $/
+puts (StudentShort.new c), $/
