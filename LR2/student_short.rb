@@ -11,6 +11,7 @@ end
 class StudentShort < BasicStudent
 	attr_reader :id, :surname_initials, :git, :contact
 	
+	# Конструктор объекта StudentShort из объекта Student
 	def initialize(student)
 		self.id = student.id
 		self.surname_initials = "#{student.surname} #{student.first_name[0]}.#{student.mid_name[0]}."
@@ -18,6 +19,7 @@ class StudentShort < BasicStudent
 		self.contact = [student.mail, student.phone, student.telegram].compact[0]
 	end
 	
+	# Конструктор объекта из хэша
 	def hash_ctor(id:,surname_initials:,git:,contact:)
 		self.id = id
 		self.surname_initials = surname_initials
@@ -25,6 +27,7 @@ class StudentShort < BasicStudent
 		self.contact = contact
 	end
 	
+	# Конструктор объекта из строки
 	def self.string_ctor(id, str)
 		r = StudentShort.string_ctor_impl str, :hash_ctor
 		r.id = id

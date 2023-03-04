@@ -37,12 +37,16 @@ class BasicStudent
 		
 		eval("self.#{ctor} **field_value_hash")
 	end
-
+	
+	# Сериализуем (о какое слово знаю!) объект в формате "field:{value},..."
 	def inspect
 		self.class.all_fields.map{|field| inspect_represent field.to_sym}.compact.join ","
 	end
 
 	protected
+	
+	# Создаёт сеттер, которые проверяет value на условие correct
+	# если условие не выполняется, кидает исключение с текстом err_string
 	def check_correctness field, value, correct, err_string, nil_expected = true
 		field = "@#{field}".to_sym
 
@@ -65,7 +69,8 @@ class BasicStudent
 		result = str_arr.compact.join(", ")
 		result.empty? ? nil : result  
 	end
-
+	
+	
 	def self.pretty_represent field_prompt, value
 		if value != nil then
 			"#{field_prompt}: #{value}"

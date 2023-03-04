@@ -52,6 +52,7 @@ class Student < BasicStudent
 		self.git = git
     end
 	
+	# Конструктор объекта из строки
 	def self.string_ctor str
 		Student.string_ctor_impl str, :new
 	end
@@ -95,6 +96,7 @@ class Student < BasicStudent
 	
 	
 	private
+	# Массив всех полей класса
 	def self.all_fields
 		[
 			"id", "surname", "first_name", "mid_name",
