@@ -21,12 +21,12 @@ class StudentShort < BasicStudent
 	
 	# Конструктор объекта StudentShort из объекта Student
 	def self.student_ctor(student)
-		options = {}
-		
-		options[:id] = student.id
-		options[:surname_initials] = "#{student.surname} #{student.first_name[0]}.#{student.mid_name[0]}."
-		options[:git] = student.git
-		options[:contact] = [student.mail, student.phone, student.telegram].compact[0]
+		options = {
+			:id => student.id,
+			:surname_initials => "#{student.surname} #{student.first_name[0]}.#{student.mid_name[0]}.",
+			:git => student.git,
+			:contact => [student.mail, student.phone, student.telegram].compact[0]
+		}
 		
 		self.new **options
 	end
@@ -40,7 +40,7 @@ class StudentShort < BasicStudent
 			:surname_initials => obj.surname_initials,
 			:git => obj.git,
 			:contact => obj.contact
-			}
+		}
 		
 		self.new **options
 	end
