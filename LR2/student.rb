@@ -1,18 +1,6 @@
 require_relative "basic_student"
 require_relative "field_re"
 
-class NilError < RuntimeError 
-end
-
-class FormatError < RuntimeError 
-end
-
-class FieldDoesntExistError < RuntimeError
-	def initialize(field)
-		super "Field #{field} doesn't exist."
-	end
-end
-
 class Student < BasicStudent
     attr_accessor :id
     attr_reader :surname, :first_name, :mid_name
@@ -49,9 +37,13 @@ class Student < BasicStudent
     def initialize(surname:, first_name:, mid_name:, id:nil, phone:nil, telegram:nil, mail:nil, git:nil)
         self.id = id
 
-		self.surname = surname.capitalize
-		self.first_name = first_name.capitalize
-		self.mid_name = mid_name.capitalize
+		self.surname = surname
+		self.first_name = first_name
+		self.mid_name = mid_name
+		
+		self.surname.capitalize!
+		self.first_name.capitalize!
+		self.mid_name.capitalize!
 
 		self.phone = phone
 		self.mail = mail

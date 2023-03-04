@@ -1,7 +1,10 @@
-class NilError < RuntimeError 
+class NilError < RuntimeError
+	def initialize field
+		super "Field #{field} can't be nil"
+	end
 end
 
-class FormatError < RuntimeError 
+class FormatError < RuntimeError
 end
 
 class FieldDoesntExistError < RuntimeError
@@ -47,7 +50,7 @@ class BasicStudent
 			if nil_expected then
 				instance_variable_set field, nil
 			else
-				raise NilError
+				raise NilError, field
 			end
 		elsif correct.call value then
         	instance_variable_set field, value
