@@ -31,12 +31,25 @@ class StudentShort < BasicStudent
 		self.new **options
 	end
 	
-	# Конструктор объекта из строки
-	def self.string_ctor(id, str)
+	# Конструктор объекта из id и строки
+	def self.id_string_ctor(id, str)
+		obj = self.string_ctor str
+		
+		options = {
+			:id => obj.id,
+			:surname_initials => obj.surname_initials,
+			:git => obj.git,
+			:contact => obj.contact
+		}
+		
+		self.new **options
+	end
+	
+	def self.string_ctor str
 		obj = StudentShort.string_ctor_impl str, StudentShort.method(:new)
 		
 		options = {
-			:id => id, 
+			:id => obj.id, 
 			:surname_initials => obj.surname_initials,
 			:git => obj.git,
 			:contact => obj.contact
