@@ -15,8 +15,34 @@ class FieldDoesntExistError < RuntimeError
 	end
 end
 
+class FileDoesntExistError < IOError
+end
+
 class BasicStudent
 	include CheckCorrectnessSetter
+	
+	def self.read_from_txt file_path
+		stud_list = []
+		
+		unless FileTest::exist? file_path then
+			raise FileDoesntExistError
+		end
+		
+		File.readlines(file_path).each do |line|
+			unless line.empty? then
+				stud_list.append self.string_ctor line
+			end
+		end
+		
+	end
+	
+	def self.write_to_txt file_path, stud_list
+		File.open file_path, "w" do |file|
+			stud_list.each do |student|
+				file.puts student.inspect
+			end
+		end
+	end
 	
 	# смирился с тем, что ужас неисправим
 	def self.string_ctor_impl str, ctor
