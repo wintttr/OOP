@@ -1,3 +1,4 @@
+require_relative "basic_student"
 require_relative "student"
 
 class ContactDoesntExistError < RuntimeError
@@ -6,7 +7,7 @@ class ContactDoesntExistError < RuntimeError
 	end
 end
 
-class StudentShort
+class StudentShort < BasicStudent
 	attr_reader :id, :surname_initials, :git, :contact
 	
 	def initialize(student)
@@ -16,10 +17,17 @@ class StudentShort
 		self.contact = [student.mail, student.phone, student.telegram].compact[0]
 	end
 	
-	def string_ctor(id, str)
-		student = Student.string_ctor str
-		stud_short = StudentShort.new student
-		stud_short.id = id
+	def ctor(id:,surname_initials:,git:,contact:)
+		self.id = id
+		self.surname_initials = surname_initials
+		self.git = git
+		self.contact = contact
+	end
+	
+	def self.string_ctor(id, str)
+		r = StudentShort.string_ctor_impl str, :ctor
+		r.id = id
+		r
 	end
 	
 	def to_s
@@ -33,17 +41,12 @@ class StudentShort
 		[id, surname_initials, git_and_contact].compact.join "\n"
 	end
 	
-	def self.join_with_comma str_arr
-		result = str_arr.compact.join(", ")
-		result.empty? ? nil : result  
-	end
-	
-	def self.pretty_represent field_prompt, value
-		if value != nil then
-			"#{field_prompt}: #{value}"
-		end
-	end
-	
 	private
+	def all_fields
+		[
+			"id", "surname_initials", "git", "contact"
+		]
+	end
+	
 	attr_writer :id, :surname_initials, :git, :contact
 end
