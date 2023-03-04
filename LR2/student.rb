@@ -7,31 +7,31 @@ class Student < BasicStudent
     attr_reader :phone, :telegram, :mail, :git
 	
 	def surname= value
-		check_correctness :surname, value, lambda {|x| FieldRE.name_correct? x}, "Wrong student name format", false
+		check_correctness :surname, value, FieldRE.method(:name_correct?), "Wrong student name format", false
 	end
 	
 	def first_name= value
-		check_correctness :first_name, value, lambda {|x| FieldRE.name_correct? x}, "Wrong student name format", false
+		check_correctness :first_name, value, FieldRE.method(:name_correct?), "Wrong student name format", false
 	end
 	
 	def mid_name= value
-		check_correctness :mid_name, value, lambda {|x| FieldRE.name_correct? x}, "Wrong student name format", false
+		check_correctness :mid_name, value, FieldRE.method(:name_correct?), "Wrong student name format", false
 	end
 	
 	def phone= value
-		check_correctness :phone, value, lambda {|x| FieldRE.phone_correct? x}, "#{value} - wrong phone format"
+		check_correctness :phone, value, FieldRE.method(:phone_correct?), "#{value} - wrong phone format"
 	end
 	
 	def git= value
-		check_correctness :git, value, lambda{|x| FieldRE.git_correct? x}, "Wrong git format"
+		check_correctness :git, value, FieldRE.method(:git_correct?), "Wrong git format"
 	end
 	
 	def telegram= value
-		check_correctness :telegram, value, lambda {|x| FieldRE.telegram_correct? x}, "#{value} - wrong telegram nickname format"
+		check_correctness :telegram, value, FieldRE.method(:telegram_correct?), "#{value} - wrong telegram nickname format"
 	end
 	
 	def mail= value
-		check_correctness :mail, value, lambda {|x| FieldRE.email_correct? x}, "#{value} - wrong mail format"
+		check_correctness :mail, value, FieldRE.method(:email_correct?), "#{value} - wrong mail format"
 	end
 
     def initialize(surname:, first_name:, mid_name:, id:nil, phone:nil, telegram:nil, mail:nil, git:nil)
