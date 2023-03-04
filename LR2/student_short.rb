@@ -1,5 +1,6 @@
 require_relative "basic_student"
 require_relative "student"
+require_relative "field_re"
 
 class ContactDoesntExistError < RuntimeError
 	def initialize
@@ -12,12 +13,12 @@ class StudentShort < BasicStudent
 	
 	def initialize(student)
 		self.id = student.id
-		self.surname_initials = "#{student.surname} #{student.first_name[0]}. #{student.mid_name[0]}"
+		self.surname_initials = "#{student.surname} #{student.first_name[0]}.#{student.mid_name[0]}."
 		self.git = student.git
 		self.contact = [student.mail, student.phone, student.telegram].compact[0]
 	end
 	
-	def ctor(id:,surname_initials:,git:,contact:)
+	def hash_ctor(id:,surname_initials:,git:,contact:)
 		self.id = id
 		self.surname_initials = surname_initials
 		self.git = git
@@ -25,7 +26,7 @@ class StudentShort < BasicStudent
 	end
 	
 	def self.string_ctor(id, str)
-		r = StudentShort.string_ctor_impl str, :ctor
+		r = StudentShort.string_ctor_impl str, :hash_ctor
 		r.id = id
 		r
 	end
@@ -48,5 +49,17 @@ class StudentShort < BasicStudent
 		]
 	end
 	
-	attr_writer :id, :surname_initials, :git, :contact
+	attr_writer :id
+	
+	def surname_initials= value
+		check_correctness :surname_initials, value, lambda{|x| FieldRE.surname_in_correct? x}, "Wrong surname with initials format", false
+	end
+	
+	def git= value
+		check_correctness :git, value, lambda{|x| FieldRE.git_correct? x}, "Wrong git format", false
+	end
+	
+	def contact= value
+		check_correctness :contact, value, lambda{|x| FieldRE.contact_correct? x}, "Wrong contact format", false
+	end
 end

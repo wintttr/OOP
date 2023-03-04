@@ -24,5 +24,3 @@ puts (Student.string_ctor c.inspect), $/
 puts
 
 puts (StudentShort.new a), $/
-puts (StudentShort.new b), $/
-puts (StudentShort.new c), $/
