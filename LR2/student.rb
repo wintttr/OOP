@@ -53,7 +53,7 @@ class Student
 		self.git = git
     end
 
-	# исправить ужас
+	# смирился с тем, что ужас неисправим
 	def self.string_ctor str
 		fields = str.split(/,/)
 		field_init_re = /^(.+):\{(.+)\}$/
@@ -63,7 +63,7 @@ class Student
 			raise FormatError
 		end
 
-		# исправить ужас
+		# смирился с тем, что ужас неисправим
 		field_value_hash = fields.to_h do |field|
 			matches = field.match field_init_re
 			
@@ -96,7 +96,7 @@ class Student
 		end
 	end
 	
-	# исправить ужас
+	# смирился с тем, что ужас неисправим
 	def to_s
 		id = Student.pretty_represent "Ид", self.id
 		surname = Student.pretty_represent "Фамилия", self.surname
