@@ -180,9 +180,9 @@ class Student
 		end
 	end
 
-	# исправить ужас
+	# ... не знаю
 	def inspect_represent field
-		value = instance_variable_get "@#{field}".to_sym
+		value = eval("self.#{field}")
 
 		if value != nil then
 			"#{field}:\{#{value}\}"
