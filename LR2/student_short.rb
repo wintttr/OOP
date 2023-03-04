@@ -12,7 +12,7 @@ class StudentShort < BasicStudent
 	attr_reader :id, :surname_initials, :git, :contact
 	
 	# Конструктор объекта из хэша
-	def initialize(id:,surname_initials:,git:,contact:)
+	def initialize(id:nil,surname_initials:,git:,contact:)
 		self.id = id
 		self.surname_initials = surname_initials
 		self.git = git
@@ -63,12 +63,7 @@ class StudentShort < BasicStudent
 		]
 	end
 	
-	def id= value
-		if value == nil then
-			raise NilError, :id
-		end
-		@id = value
-	end
+	attr_writer :id
 	
 	def surname_initials= value
 		check_correctness :surname_initials, value, FieldRE.method(:surname_in_correct?), "Wrong surname with initials format", false
