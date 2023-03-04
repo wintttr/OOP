@@ -63,7 +63,12 @@ class StudentShort < BasicStudent
 		]
 	end
 	
-	attr_writer :id
+	def id= value
+		if value == nil then
+			raise NilError, :id
+		end
+		@id = value
+	end
 	
 	def surname_initials= value
 		check_correctness :surname_initials, value, FieldRE.method(:surname_in_correct?), "Wrong surname with initials format", false
