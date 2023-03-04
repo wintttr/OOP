@@ -1,3 +1,5 @@
+require_relative "check_correctness_setter"
+
 class NilError < RuntimeError
 	def initialize field
 		super "Field #{field} can't be nil"
@@ -14,6 +16,8 @@ class FieldDoesntExistError < RuntimeError
 end
 
 class BasicStudent
+	include CheckCorrectnessSetter
+	
 	# смирился с тем, что ужас неисправим
 	def self.string_ctor_impl str, ctor
 		fields = str.split(/,/)
@@ -44,24 +48,6 @@ class BasicStudent
 	end
 
 	protected
-	
-	# Создаёт сеттер, которые проверяет value на условие correct
-	# если условие не выполняется, кидает исключение с текстом err_string
-	def check_correctness field, value, correct, err_string, nil_expected = true
-		field = "@#{field}".to_sym
-
-		if value == nil then
-			if nil_expected then
-				instance_variable_set field, nil
-			else
-				raise NilError, field
-			end
-		elsif correct.call value then
-        	instance_variable_set field, value
-		else
-			raise ArgumentError, err_string
-		end
-	end
 
 	# Соединяет строки из массива запятой, пропуская элементы содержащие nil
 	# Если итоговая строка пустая, возвращает nil
