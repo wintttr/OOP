@@ -33,29 +33,14 @@ class StudentShort < BasicStudent
 	
 	# Конструктор объекта из id и строки
 	def self.id_string_ctor(id, str)
-		obj = self.string_ctor str
-		
-		options = {
-			:id => id,
-			:surname_initials => obj.surname_initials,
-			:git => obj.git,
-			:contact => obj.contact
-		}
+		options = self.get_field_value_hash str
+		options["id"] = id
 		
 		self.new **options
 	end
 	
 	def self.string_ctor str
-		obj = StudentShort.string_ctor_impl str, StudentShort.method(:new)
-		
-		options = {
-			:id => obj.id, 
-			:surname_initials => obj.surname_initials,
-			:git => obj.git,
-			:contact => obj.contact
-		}
-		
-		self.new **options
+		StudentShort.string_ctor_impl str, StudentShort.method(:new)
 	end
 	
 	def to_s

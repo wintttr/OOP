@@ -44,8 +44,20 @@ class BasicStudent
 		end
 	end
 	
+	# Сериализуем (о какое слово знаю!) объект в формате "field:{value},..."
+	def inspect
+		self.inspect_impl self.class.all_fields
+	end
+
+	protected
 	# смирился с тем, что ужас неисправим
 	def self.string_ctor_impl str, ctor
+		field_value_hash = self.get_field_value_hash str
+		
+		ctor.call **field_value_hash
+	end
+	
+	def self.get_field_value_hash str
 		fields = str.split(/,/)
 		field_init_re = /^(.+):\{(.+)\}$/
 
@@ -64,16 +76,8 @@ class BasicStudent
 
 			[matches[1].to_sym, matches[2]]
 		end
-		
-		ctor.call **field_value_hash
 	end
 	
-	# Сериализуем (о какое слово знаю!) объект в формате "field:{value},..."
-	def inspect
-		self.inspect_impl self.class.all_fields
-	end
-
-	protected
 	def self.contact_type contact
 		if FieldRE.phone_correct? contact then "phone"
 		elsif FieldRE.email_correct? contact then "email"
