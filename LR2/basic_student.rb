@@ -101,7 +101,7 @@ class BasicStudent
 
 	# ... не знаю
 	def inspect_represent field
-		value = eval("self.#{field}")
+		value = (self.method field).call
 
 		if value != nil then
 			"#{field}:\{#{value}\}"
