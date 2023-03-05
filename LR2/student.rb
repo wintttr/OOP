@@ -52,6 +52,18 @@ class Student < BasicStudent
 		self.git = git
     end
 	
+	def surname_initials
+		"#{self.surname} #{self.first_name[0]}.#{self.mid_name[0]}."
+	end
+	
+	def contact
+		[self.email, self.phone, self.telegram].compact.first
+	end
+	
+	def get_info
+		self.inspect_impl ["surname_initials", "git", "contact"]
+	end
+	
 	# Конструктор объекта из строки
 	def self.string_ctor str
 		Student.string_ctor_impl str, Student.method(:new)

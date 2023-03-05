@@ -23,9 +23,9 @@ class StudentShort < BasicStudent
 	def self.student_ctor(student)
 		options = {
 			:id => student.id,
-			:surname_initials => "#{student.surname} #{student.first_name[0]}.#{student.mid_name[0]}.",
+			:surname_initials => student.surname_initials,
 			:git => student.git,
-			:contact => [student.email, student.phone, student.telegram].compact[0]
+			:contact => student.contact
 		}
 		
 		self.new **options
@@ -63,10 +63,11 @@ class StudentShort < BasicStudent
 		surname_initials = StudentShort.pretty_represent "Фамилия И.О.", self.surname_initials
 		git = StudentShort.pretty_represent "Гит", self.git
 		contact = StudentShort.pretty_represent "Контакт", self.contact
+		contact_type = StudentShort.pretty_represent "Тип контакта", (self.class.contact_type self.contact)
 		
 		git_and_contact = StudentShort.join_with_comma [git, contact]
 
-		[id, surname_initials, git_and_contact].compact.join "\n"
+		[id, surname_initials, git_and_contact, contact_type].compact.join "\n"
 	end
 	
 	private

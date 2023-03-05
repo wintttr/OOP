@@ -23,7 +23,12 @@ puts (Student.string_ctor c.inspect), $/
 
 puts
 
+puts a.get_info
+
+puts 
+
 s_short = StudentShort.student_ctor a
 
 puts (s_short), $/
-puts (StudentShort.string_ctor 10, s_short.inspect), $/
+puts s_short.inspect, $/
+puts (StudentShort.string_ctor s_short.inspect), $/

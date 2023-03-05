@@ -70,11 +70,21 @@ class BasicStudent
 	
 	# Сериализуем (о какое слово знаю!) объект в формате "field:{value},..."
 	def inspect
-		self.class.all_fields.map{|field| inspect_represent field.to_sym}.compact.join ","
+		self.inspect_impl self.class.all_fields
 	end
 
 	protected
-
+	def self.contact_type contact
+		if FieldRE.phone_correct? contact then "phone"
+		elsif FieldRE.email_correct? contact then "email"
+		elsif FieldRE.telegram_correct? contact then "telegram"
+		end
+	end
+	
+	def inspect_impl fields
+		fields.map{|field| inspect_represent field.to_sym}.compact.join ","
+	end
+	
 	# Соединяет строки из массива запятой, пропуская элементы содержащие nil
 	# Если итоговая строка пустая, возвращает nil
 	def self.join_with_comma str_arr
