@@ -36,7 +36,7 @@ class StudentShort < BasicStudent
 		obj = self.string_ctor str
 		
 		options = {
-			:id => obj.id,
+			:id => id,
 			:surname_initials => obj.surname_initials,
 			:git => obj.git,
 			:contact => obj.contact
