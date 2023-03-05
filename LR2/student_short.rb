@@ -12,7 +12,7 @@ class StudentShort < BasicStudent
 	attr_reader :id, :surname_initials, :git, :contact
 	
 	# Конструктор объекта из хэша
-	def initialize(id:nil,surname_initials:,git:,contact:)
+	def initialize(id:, surname_initials:, git:, contact:)
 		self.id = id
 		self.surname_initials = surname_initials
 		self.git = git
@@ -34,7 +34,7 @@ class StudentShort < BasicStudent
 	# Конструктор объекта из id и строки
 	def self.id_string_ctor(id, str)
 		options = self.get_field_value_hash str
-		options["id"] = id
+		options[:id] = id
 		
 		self.new **options
 	end
