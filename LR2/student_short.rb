@@ -25,7 +25,7 @@ class StudentShort < BasicStudent
 			:id => student.id,
 			:surname_initials => "#{student.surname} #{student.first_name[0]}.#{student.mid_name[0]}.",
 			:git => student.git,
-			:contact => [student.mail, student.phone, student.telegram].compact[0]
+			:contact => [student.email, student.phone, student.telegram].compact[0]
 		}
 		
 		self.new **options

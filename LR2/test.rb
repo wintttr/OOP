@@ -65,5 +65,5 @@ test telegrams, :telegram
 puts
 
 puts "Тест имейла"
-test emails, :mail
+test emails, :email
 puts
