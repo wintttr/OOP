@@ -1,5 +1,5 @@
 require_relative "basic_student"
-require_relative "field_re"
+require_relative "exceptions"
 
 class Student < BasicStudent
     attr_accessor :id

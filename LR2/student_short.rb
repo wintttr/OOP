@@ -1,12 +1,6 @@
 require_relative "basic_student"
 require_relative "student"
-require_relative "field_re"
-
-class ContactDoesntExistError < RuntimeError
-	def initialize
-		super "Contact not found"
-	end
-end
+require_relative "exceptions"
 
 class StudentShort < BasicStudent
 	attr_reader :id, :surname_initials, :git, :contact
