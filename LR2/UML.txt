@@ -1,0 +1,73 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+class BasicStudent {
+	{static} + read_from_txt (file_path)
+	{static} + write_to_txt (file_path, stud_list)
+	
+	{static} # string_ctor_impl (str, ctor)
+	{static} # get_field_value_hash (str)
+	{static} # contact_type (contact)
+	{static} # join_with_comma (str_arr)
+	{static} # pretty_represent (field_prompt, value)
+	{static} # inspect_represent (field)
+		
+	{static} # name_correct? (name)
+	{static} # phone_correct? (phone)
+	{static} # telegram_correct? (tg)
+	{static} # email_correct? (email)
+	{static} # git_correct? (git)
+	{static} # surname_in_correct? (surname_initials)
+	{static} # contact_correct? (contact)
+	
+	{method} + inspect ()
+	{method} # inspect_impl (fields)
+	
+}
+
+class Student {
+	{field} + id
+	{field} + surname
+	{field} + first_name
+	{field} + mid_name
+	{field} + phone
+	{field} + telegram
+	{field} + email
+	{field} + git
+	
+	{static} + initialize(surname:, first_name:, mid_name:, id:nil, phone:nil, telegram:nil, email:nil, git:nil)
+	{static} + string_ctor(str)
+	{static} - all_fields()
+	
+	{method} + surname_initials()
+	{method} + contact()
+	{method} + get_info()
+	{method} + validate()
+	{method} + set_contacts(phone: nil, telegram: nil, email: nil)
+	{method} + to_s()
+}
+
+class ShortStudent {
+	{field} + id
+	{field} + surname_initials
+	{field} + git
+	{field} + contact
+	
+	{method} - id=
+	{method} - surname_initials=
+	{method} - git=
+	{method} - contact=
+	
+	{static} + student_ctor(student)
+	{static} + id_string_ctor(id, str)
+	{static} + string_ctor(str)
+	{static} - all_fields()
+	
+	{method} + to_s()
+}
+
+Student <|-- BasicStudent
+ShortStudent <|-- BasicStudent
+Student <.. ShortStudent
+
+@enduml
