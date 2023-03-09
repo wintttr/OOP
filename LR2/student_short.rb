@@ -65,14 +65,14 @@ class StudentShort < BasicStudent
 	attr_writer :id
 	
 	def surname_initials= value
-		check_correctness :surname_initials, value, FieldRE.method(:surname_in_correct?), "Wrong surname with initials format", false
+		check_correctness :surname_initials, value, self.class.method(:surname_in_correct?), "Wrong surname with initials format", false
 	end
 	
 	def git= value
-		check_correctness :git, value, FieldRE.method(:git_correct?), "Wrong git format", false
+		check_correctness :git, value, self.class.method(:git_correct?), "Wrong git format", false
 	end
 	
 	def contact= value
-		check_correctness :contact, value, FieldRE.method(:contact_correct?), "Wrong contact format", false
+		check_correctness :contact, value, self.class.method(:contact_correct?), "Wrong contact format", false
 	end
 end
