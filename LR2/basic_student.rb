@@ -48,8 +48,8 @@ class BasicStudent
 	
 	class << self
 		protected
-		def new(**args)
-			super(**args)
+		def new *wargs, **kwargs
+			super *wargs, **kwargs
 		end
 	end
 	
