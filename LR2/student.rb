@@ -2,18 +2,19 @@ require_relative "basic_student"
 require_relative "exceptions"
 
 class Student < BasicStudent
-    attr_reader :id, :surname, :first_name, :mid_name
-    attr_reader :phone, :telegram, :email, :git
+    attr_reader :surname, :first_name, :mid_name
+    attr_reader :phone, :telegram, :email
 	
-	checked_writer :id, self.method(:id_correct?)
 	checked_writer :surname, self.method(:name_correct?), false
 	checked_writer :first_name, self.method(:name_correct?), false
 	checked_writer :mid_name, self.method(:name_correct?), false
 	checked_writer :phone, self.method(:phone_correct?)
-	checked_writer :git, self.method(:git_correct?)
 	checked_writer :telegram, self.method(:telegram_correct?)
 	checked_writer :email, self.method(:email_correct?)
 	
+	public :id, :git, :"id=", :"git="
+	
+	public_class_method :new
 	
     def initialize(surname:, first_name:, mid_name:, id:nil, phone:nil, telegram:nil, email:nil, git:nil)
         self.id = id

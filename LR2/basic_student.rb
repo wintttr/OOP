@@ -4,7 +4,6 @@ require_relative "exceptions"
 class BasicStudent
 	extend CheckCorrectnessWriter
 	
-	
 	def self.read_from_txt file_path
 		stud_list = []
 		
@@ -45,8 +44,15 @@ class BasicStudent
 		git_exists? and contact_exists?
 	end
 
-
 	protected
+	
+	class << self
+		protected
+		def new(**args)
+			super(**args)
+		end
+	end
+	
 	# смирился с тем, что ужас неисправим
 	def self.string_ctor_impl str, ctor
 		field_value_hash = self.get_field_value_hash str
@@ -155,4 +161,10 @@ class BasicStudent
 	def self.contact_correct? contact
 		[ (self.phone_correct? contact), (self.telegram_correct? contact), (self.email_correct? contact) ].one? {|x| x != nil}
 	end
+	
+	# ГЕТТЕРЫ И СЕТТЕРЫ
+	
+	attr_reader :id, :git
+	checked_writer :id, self.method(:id_correct?)
+	checked_writer :git, self.method(:git_correct?)
 end

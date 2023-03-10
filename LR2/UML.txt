@@ -1,9 +1,15 @@
 @startuml
 skinparam classAttributeIconSize 0
 
-class BasicStudent {
+abstract class BasicStudent {
+	{field} # id
+	{field} # git
+	
+	-- Публичные методы класса --
 	{static} + read_from_txt (file_path)
 	{static} + write_to_txt (file_path, stud_list)
+	
+	-- Защищённые методы класса --
 	
 	{static} # string_ctor_impl (str, ctor)
 	{static} # get_field_value_hash (str)
@@ -20,9 +26,16 @@ class BasicStudent {
 	{static} # surname_in_correct? (surname_initials)
 	{static} # contact_correct? (contact)
 	
-	{method} + inspect ()
-	{method} # inspect_impl (fields)
+	-- Публичные методы объекта -- 
 	
+	{method} + git_exists?()
+	{method} + contact_exists?()
+	{method} + validate()
+	{method} + inspect()
+	
+	-- Защищённые методы объекта --
+	
+	{method} # inspect_impl(fields)
 }
 
 class Student {
@@ -35,39 +48,56 @@ class Student {
 	{field} + email
 	{field} + git
 	
+	-- Конструкторы --
+	
 	{static} + initialize(surname:, first_name:, mid_name:, id:nil, phone:nil, telegram:nil, email:nil, git:nil)
 	{static} + string_ctor(str)
+	
+	--
+	
 	{static} - all_fields()
+	
+	--
 	
 	{method} + surname_initials()
 	{method} + contact()
 	{method} + get_info()
-	{method} + validate()
 	{method} + set_contacts(phone: nil, telegram: nil, email: nil)
 	{method} + to_s()
 }
 
 class ShortStudent {
+	-- Геттеры --
 	{field} + id
 	{field} + surname_initials
 	{field} + git
 	{field} + contact
 	
+	-- Сеттеры --
+	
 	{method} - id=
 	{method} - surname_initials=
 	{method} - git=
 	{method} - contact=
+
+	-- Конструкторы --
 	
+	{static} - initialize(id:, surname_initials:, git:, contact:)
 	{static} + student_ctor(student)
 	{static} + id_string_ctor(id, str)
 	{static} + string_ctor(str)
+	
+	--
+	
 	{static} - all_fields()
+	
+	--
 	
 	{method} + to_s()
 }
 
-Student <|-- BasicStudent
-ShortStudent <|-- BasicStudent
+Student --|> BasicStudent
+ShortStudent --|> BasicStudent
 Student <.. ShortStudent
 
 @enduml

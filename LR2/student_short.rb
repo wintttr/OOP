@@ -3,15 +3,11 @@ require_relative "student"
 require_relative "exceptions"
 
 class StudentShort < BasicStudent
-	attr_reader :id, :surname_initials, :git, :contact
+	attr_reader :surname_initials, :contact
+	public :id, :git
+	private :"id=", :"git="
 	
-	# Конструктор объекта из хэша
-	def initialize(id:, surname_initials:, git:, contact:)
-		self.id = id
-		self.surname_initials = surname_initials
-		self.git = git
-		self.contact = contact
-	end
+	public_class_method :new
 	
 	# Конструктор объекта StudentShort из объекта Student
 	def self.student_ctor(student)
@@ -50,14 +46,20 @@ class StudentShort < BasicStudent
 	end
 	
 	private
+	# Конструктор объекта из хэша
+	def initialize(id:, surname_initials:, git:, contact:)
+		self.id = id
+		self.surname_initials = surname_initials
+		self.git = git
+		self.contact = contact
+	end
+	
 	def self.all_fields
 		[
 			"id", "surname_initials", "git", "contact"
 		]
 	end
 	
-	checked_writer :id, self.method(:id_correct?), false
 	checked_writer :surname_initials, self.method(:surname_in_correct?), false
-	checked_writer :git, self.method(:git_correct?), false
 	checked_writer :contact, self.method(:contact_correct?), false
 end
