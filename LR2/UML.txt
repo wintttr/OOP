@@ -1,5 +1,6 @@
 @startuml
 skinparam classAttributeIconSize 0
+skinparam dpi 300
 
 abstract class BasicStudent {
 	{field} # id
@@ -26,14 +27,14 @@ abstract class BasicStudent {
 	{static} # surname_in_correct? (surname_initials)
 	{static} # contact_correct? (contact)
 	
-	-- Публичные методы объекта -- 
+	-- Публичные методы --
 	
 	{method} + git_exists?()
 	{method} + contact_exists?()
 	{method} + validate()
 	{method} + inspect()
 	
-	-- Защищённые методы объекта --
+	-- Защищённые методы --
 	
 	{method} # inspect_impl(fields)
 }
