@@ -1,8 +1,8 @@
-require_relative "check_correctness_setter"
+require_relative "check_correctness_writer"
 require_relative "exceptions"
 
 class BasicStudent
-	include CheckCorrectnessSetter
+	extend CheckCorrectnessWriter
 	
 	def self.read_from_txt file_path
 		stud_list = []

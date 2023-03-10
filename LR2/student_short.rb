@@ -58,15 +58,7 @@ class StudentShort < BasicStudent
 	
 	attr_writer :id
 	
-	def surname_initials= value
-		check_correctness :surname_initials, value, self.class.method(:surname_in_correct?), "Wrong surname with initials format", false
-	end
-	
-	def git= value
-		check_correctness :git, value, self.class.method(:git_correct?), "Wrong git format", false
-	end
-	
-	def contact= value
-		check_correctness :contact, value, self.class.method(:contact_correct?), "Wrong contact format", false
-	end
+	checked_writer :surname_initials, self.method(:surname_in_correct?), false
+	checked_writer :git, self.method(:git_correct?), false
+	checked_writer :contact, self.method(:contact_correct?), false
 end

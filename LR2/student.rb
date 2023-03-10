@@ -6,34 +6,15 @@ class Student < BasicStudent
     attr_reader :surname, :first_name, :mid_name
     attr_reader :phone, :telegram, :email, :git
 	
-	def surname= value
-		check_correctness :surname, value, self.class.method(:name_correct?), "Wrong student name format", false
-	end
+	checked_writer :surname, self.method(:name_correct?), false
+	checked_writer :first_name, self.method(:name_correct?), false
+	checked_writer :mid_name, self.method(:name_correct?), false
+	checked_writer :phone, self.method(:phone_correct?)
+	checked_writer :git, self.method(:git_correct?)
+	checked_writer :telegram, self.method(:telegram_correct?)
+	checked_writer :email, self.method(:email_correct?)
 	
-	def first_name= value
-		check_correctness :first_name, value, self.class.method(:name_correct?), "Wrong student name format", false
-	end
 	
-	def mid_name= value
-		check_correctness :mid_name, value, self.class.method(:name_correct?), "Wrong student name format", false
-	end
-	
-	def phone= value
-		check_correctness :phone, value, self.class.method(:phone_correct?), "#{value} - wrong phone format"
-	end
-	
-	def git= value
-		check_correctness :git, value, self.class.method(:git_correct?), "Wrong git format"
-	end
-	
-	def telegram= value
-		check_correctness :telegram, value, self.class.method(:telegram_correct?), "#{value} - wrong telegram nickname format"
-	end
-	
-	def email= value
-		check_correctness :email, value, self.class.method(:email_correct?), "#{value} - wrong mail format"
-	end
-
     def initialize(surname:, first_name:, mid_name:, id:nil, phone:nil, telegram:nil, email:nil, git:nil)
         self.id = id
 
