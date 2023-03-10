@@ -8,9 +8,17 @@ class Student < BasicStudent
 	checked_writer :surname, self.method(:name_correct?), false
 	checked_writer :first_name, self.method(:name_correct?), false
 	checked_writer :mid_name, self.method(:name_correct?), false
-	checked_writer :phone, self.method(:phone_correct?)
 	checked_writer :telegram, self.method(:telegram_correct?)
 	checked_writer :email, self.method(:email_correct?)
+	
+	def phone= value
+		if value.nil? then # do nothing
+		elsif Student.phone_correct? value then
+			@phone = value.delete "+ ()-"
+		else
+			raise ArgumentError, "#{value} - wrong format for field phone"
+		end
+	end
 	
 	public :id, :git, :"id=", :"git="
 	

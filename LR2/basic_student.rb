@@ -131,7 +131,8 @@ class BasicStudent
 	# Проверка номера телефона на корректность
 	def self.phone_correct? phone
 		phone_number_re = /^(\+\d|8) ?(\(\d{3}\)|\d{3}) ?\d{3}-?\d{2}-?\d{2}$/
-		phone =~ phone_number_re
+		simple_number_re = /^\d{11}$/
+		phone =~ phone_number_re or phone =~ simple_number_re
 	end
 
 	# Проверка телеграма на корректность
