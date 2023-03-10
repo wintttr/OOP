@@ -1,6 +1,6 @@
 class ContactDoesntExistError < RuntimeError
 	def initialize
-		super "Contact not found"
+		super "No contact found"
 	end
 end
 
@@ -11,6 +11,9 @@ class NilError < RuntimeError
 end
 
 class FormatError < RuntimeError
+	def initialize field
+		super "Format error occured while processing the string: \"#{field}\""
+	end
 end
 
 class FieldDoesntExistError < RuntimeError
@@ -20,4 +23,7 @@ class FieldDoesntExistError < RuntimeError
 end
 
 class FileDoesntExistError < IOError
+	def initialize file
+		super "File #{file} doesn't exist"
+	end
 end

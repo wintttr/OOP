@@ -8,7 +8,7 @@ class BasicStudent
 		stud_list = []
 		
 		unless FileTest::exist? file_path then
-			raise FileDoesntExistError
+			raise FileDoesntExistError, file_path
 		end
 		
 		File.readlines(file_path).each do |line|
@@ -65,10 +65,10 @@ class BasicStudent
 		field_init_re = /^(.+):\{(.+)\}$/
 
 		# проверяем, все ли поля соответствуют определённому формату
-		unless fields.all? { |field| field =~ field_init_re } then
-			raise FormatError
+		if fail_string = fields.filter { |field| not(field =~ field_init_re) }.first then
+			raise FormatError, fail_string
 		end
-
+		
 		# смирился с тем, что ужас неисправим
 		field_value_hash = fields.to_h do |field|
 			matches = field.match field_init_re
