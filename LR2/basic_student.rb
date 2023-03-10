@@ -4,6 +4,7 @@ require_relative "exceptions"
 class BasicStudent
 	extend CheckCorrectnessWriter
 	
+	
 	def self.read_from_txt file_path
 		stud_list = []
 		
@@ -31,6 +32,19 @@ class BasicStudent
 	def inspect
 		self.inspect_impl self.class.all_fields
 	end
+	
+	def git_exists?
+		return self.git != nil
+	end
+	
+	def contact_exists?
+		[self.phone, self.telegram, self.email].compact.count > 0
+	end
+	
+	def validate
+		git_exists? and contact_exists?
+	end
+
 
 	protected
 	# смирился с тем, что ужас неисправим
@@ -95,6 +109,13 @@ class BasicStudent
 		end
 	end 
 	
+	# ПРОВЕРОЧКИ
+	# Проверка ида на корректность
+	def self.id_correct? id
+		id_re = /^\d+$/
+		id.to_s =~ id_re
+	end
+	
 	# Проверка имени на корректность
 	def self.name_correct? name
 		name_re = /^[а-яА-Я]+$/
@@ -121,7 +142,8 @@ class BasicStudent
 	
 	# Проверка гита на корректность
 	def self.git_correct? git
-		true # когда-нибудь тут появится нормальная проверка...
+		git_re = /^[a-zA-Z0-9]([a-zA-Z0-9]|-(?!-))+[a-zA-Z0-9]$/
+		git =~ git_re
 	end
 	
 	# Проверка фамилии и инициалов на корректность

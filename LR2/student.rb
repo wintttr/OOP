@@ -2,10 +2,10 @@ require_relative "basic_student"
 require_relative "exceptions"
 
 class Student < BasicStudent
-    attr_accessor :id
-    attr_reader :surname, :first_name, :mid_name
+    attr_reader :id, :surname, :first_name, :mid_name
     attr_reader :phone, :telegram, :email, :git
 	
+	checked_writer :id, self.method(:id_correct?)
 	checked_writer :surname, self.method(:name_correct?), false
 	checked_writer :first_name, self.method(:name_correct?), false
 	checked_writer :mid_name, self.method(:name_correct?), false
@@ -48,11 +48,6 @@ class Student < BasicStudent
 	# Конструктор объекта из строки
 	def self.string_ctor str
 		Student.string_ctor_impl str, Student.method(:new)
-	end
-
-	def validate
-		self.git and
-		[self.phone, self.telegram, self.email].compact.count > 0
 	end
 
 	def set_contacts (phone:nil, telegram:nil, email:nil)

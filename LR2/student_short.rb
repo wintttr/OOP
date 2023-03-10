@@ -56,8 +56,7 @@ class StudentShort < BasicStudent
 		]
 	end
 	
-	attr_writer :id
-	
+	checked_writer :id, self.method(:id_correct?), false
 	checked_writer :surname_initials, self.method(:surname_in_correct?), false
 	checked_writer :git, self.method(:git_correct?), false
 	checked_writer :contact, self.method(:contact_correct?), false
