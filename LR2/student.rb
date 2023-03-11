@@ -5,23 +5,19 @@ class Student < BasicStudent
     attr_reader :surname, :first_name, :mid_name
     attr_reader :phone, :telegram, :email
 	
-	checked_writer :surname, self.method(:name_correct?), false
-	checked_writer :first_name, self.method(:name_correct?), false
-	checked_writer :mid_name, self.method(:name_correct?), false
+	def self.preprocess_phone value
+		new_value = value.delete "+ ()-"
+		new_value[0] = "7" if new_value[0] == "8"
+		
+		new_value
+	end
+	
+	checked_writer :surname, self.method(:name_correct?), nil_expected: false, preprocess: lambda {|x| x.capitalize}
+	checked_writer :first_name, self.method(:name_correct?), nil_expected: false, preprocess: lambda {|x| x.capitalize}
+	checked_writer :mid_name, self.method(:name_correct?), nil_expected: false, preprocess: lambda {|x| x.capitalize}
+	checked_writer :phone, self.method(:phone_correct?), preprocess: self.method(:preprocess_phone)
 	checked_writer :telegram, self.method(:telegram_correct?)
 	checked_writer :email, self.method(:email_correct?)
-	
-	def phone= value
-		if value.nil? then # do nothing
-		elsif Student.phone_correct? value then
-			value.delete! "+ ()-"
-			value[0] = "7" if value[0] == "8"
-			
-			@phone = value
-		else
-			raise ArgumentError, "#{value} - wrong format for field phone"
-		end
-	end
 	
 	public :id, :git, :"id=", :"git="
 	
@@ -34,10 +30,6 @@ class Student < BasicStudent
 		self.first_name = first_name
 		self.mid_name = mid_name
 		
-		self.surname.capitalize!
-		self.first_name.capitalize!
-		self.mid_name.capitalize!
-
 		self.phone = phone
 		self.email = email
 		self.telegram = telegram
