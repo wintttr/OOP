@@ -48,8 +48,8 @@ class BasicStudent
 	
 	class << self
 		protected
-		def new *wargs, **kwargs
-			super *wargs, **kwargs
+		def new(*wargs, **kwargs)
+			super(*wargs, **kwargs)
 		end
 	end
 	
@@ -57,7 +57,7 @@ class BasicStudent
 	def self.string_ctor_impl str, ctor
 		field_value_hash = self.get_field_value_hash str
 		
-		ctor.call **field_value_hash
+		ctor.call(**field_value_hash)
 	end
 	
 	def self.get_field_value_hash str
@@ -70,7 +70,7 @@ class BasicStudent
 		end
 		
 		# смирился с тем, что ужас неисправим
-		field_value_hash = fields.to_h do |field|
+		fields.to_h do |field|
 			matches = field.match field_init_re
 			
 			unless self.all_fields.include? matches[1] then 

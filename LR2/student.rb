@@ -62,7 +62,7 @@ class Student < BasicStudent
 		Student.string_ctor_impl str, Student.method(:new)
 	end
 
-	def set_contacts (phone:nil, telegram:nil, email:nil)
+	def set_contacts(phone:nil, telegram:nil, email:nil)
 		if phone != nil then
 			self.phone = phone
 		end 

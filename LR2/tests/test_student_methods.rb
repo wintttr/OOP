@@ -3,14 +3,14 @@ require "student.rb"
 
 class TestStudentMethods < Minitest::Test
 	def self.get_test_student other
-		Student.new surname: "Точно", first_name: "Правильное", mid_name: "Имя", **other
+		Student.new(surname: "Точно", first_name: "Правильное", mid_name: "Имя", **other)
 	end
 	
 	### Универсальный тест
 	
 	def universal_pair_test pair_array, tested_method
 		pair_array.each do |pair|
-			test_student = self.class.get_test_student **(pair[0])
+			test_student = self.class.get_test_student(**(pair[0]))
 			
 			assert_equal pair[1], test_student.method(tested_method).call
 		end
