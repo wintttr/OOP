@@ -60,6 +60,6 @@ class StudentShort < BasicStudent
 		]
 	end
 	
-	checked_writer :surname_initials, self.method(:surname_in_correct?), false
-	checked_writer :contact, self.method(:contact_correct?), false
+	checked_writer :surname_initials, self.method(:surname_in_correct?), nil_expected: false
+	checked_writer :contact, self.method(:contact_correct?), nil_expected: false
 end
