@@ -14,7 +14,10 @@ class Student < BasicStudent
 	def phone= value
 		if value.nil? then # do nothing
 		elsif Student.phone_correct? value then
-			@phone = value.delete "+ ()-"
+			value.delete! "+ ()-"
+			value[0] = "7" if value[0] == "8"
+			
+			@phone = value
 		else
 			raise ArgumentError, "#{value} - wrong format for field phone"
 		end
