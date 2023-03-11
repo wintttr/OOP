@@ -50,6 +50,30 @@ class TestStudentSetters < Minitest::Test
 		setter_test :mid_name, self.class.correct_names, self.class.incorrect_names
 	end
 	
+	### Тест на capitalize
+	
+	def self.correct_name_pairs
+		[
+			["вЛаДиМир", "Владимир"],
+			["роман", "Роман"],
+			["александР", "Александр"]
+		]
+	end
+	
+	def test_name_setter_capitalize
+		test_student = self.class.get_test_student
+		
+		self.class.correct_name_pairs.each do |pair|
+			test_student.surname = pair[0]
+			test_student.first_name = pair[0]
+			test_student.mid_name = pair[0]
+			
+			assert_equal pair[1], test_student.surname
+			assert_equal pair[1], test_student.first_name
+			assert_equal pair[1], test_student.mid_name
+		end
+	end
+	
 	### Тест сеттера гита
 	
 	def self.correct_gits
