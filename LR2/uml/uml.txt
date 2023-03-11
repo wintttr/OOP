@@ -3,6 +3,7 @@ skinparam classAttributeIconSize 0
 skinparam dpi 300
 
 abstract class BasicStudent {
+	-- Поля --
 	{field} # id
 	{field} # git
 	
@@ -18,7 +19,7 @@ abstract class BasicStudent {
 	{static} # join_with_comma (str_arr)
 	{static} # pretty_represent (field_prompt, value)
 	{static} # inspect_represent (field)
-		
+
 	{static} # name_correct? (name)
 	{static} # phone_correct? (phone)
 	{static} # telegram_correct? (tg)
@@ -27,19 +28,20 @@ abstract class BasicStudent {
 	{static} # surname_in_correct? (surname_initials)
 	{static} # contact_correct? (contact)
 	
-	-- Публичные методы --
+	-- Публичные методы объекта --
 	
 	{method} + git_exists?()
 	{method} + contact_exists?()
 	{method} + validate()
 	{method} + inspect()
 	
-	-- Защищённые методы --
+	-- Защищённые методы объекта --
 	
 	{method} # inspect_impl(fields)
 }
 
 class Student {
+	-- Поля --
 	{field} + id
 	{field} + surname
 	{field} + first_name
@@ -54,11 +56,11 @@ class Student {
 	{static} + initialize(surname:, first_name:, mid_name:, id:nil, phone:nil, telegram:nil, email:nil, git:nil)
 	{static} + string_ctor(str)
 	
-	--
+	-- Статические методы --
 	
 	{static} - all_fields()
 	
-	--
+	-- Методы объекта --
 	
 	{method} + surname_initials()
 	{method} + contact()
@@ -88,15 +90,20 @@ class ShortStudent {
 	{static} + id_string_ctor(id, str)
 	{static} + string_ctor(str)
 	
-	--
+	-- Статические методы --
 	
 	{static} - all_fields()
 	
-	--
+	-- Методы объекта --
 	
 	{method} + to_s()
 }
 
+interface CheckCorrectnessWriter {
+	{method} + checked_writer(field, correct, nil_expected: true, preprocess: lambda {|x| x})
+}
+
+BasicStudent ..|> CheckCorrectnessWriter
 Student --|> BasicStudent
 ShortStudent --|> BasicStudent
 Student <.. ShortStudent
