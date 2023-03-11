@@ -1,0 +1,1 @@
+require_relative "test_student_setters"

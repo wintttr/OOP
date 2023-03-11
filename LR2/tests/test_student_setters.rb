@@ -12,7 +12,12 @@ class TestStudentSetters < Minitest::Test
 		test_student = self.class.get_test_student
 		
 		correct_array.each do |name|
-			test_student.method(:"#{field}=").call name
+			begin
+				test_student.method(:"#{field}=").call name
+			rescue 
+				assert false, "Error with value #{name}"
+			end
+			
 			assert true
 		end
 		
