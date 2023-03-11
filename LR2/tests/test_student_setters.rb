@@ -92,6 +92,29 @@ class TestStudentSetters < Minitest::Test
 		setter_test :phone, self.class.correct_phones, self.class.incorrect_phones
 	end
 	
+	### Доп. тест сеттера телефона
+	
+	def self.correct_phone_pairs
+		[ 	
+			["+79255508819", "79255508819"],
+			["+7(925)550-88-19", "79255508819"],
+			["8(925)5508819", "79255508819"],
+			["+7 (925) 550-88-19", "79255508819"],
+			["79255508819", "79255508819"]
+		]
+	end
+	
+	def test_phone_setter_modification
+		test_student = self.class.get_test_student
+		
+		self.class.correct_phone_pairs.each do |pair|
+			test_student.phone = pair[0]
+			
+			assert_equal test_student.phone, pair[1]
+		end
+	end
+	
+	
 	### Тест сеттера мейла
 	
 	def self.correct_emails
