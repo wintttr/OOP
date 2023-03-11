@@ -110,7 +110,7 @@ class TestStudentSetters < Minitest::Test
 		self.class.correct_phone_pairs.each do |pair|
 			test_student.phone = pair[0]
 			
-			assert_equal test_student.phone, pair[1]
+			assert_equal pair[1], test_student.phone
 		end
 	end
 	
