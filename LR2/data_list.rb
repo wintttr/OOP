@@ -1,12 +1,24 @@
+require_relative "check_correctness_writer"
+
 class DataList
-	attr_accessor :array
+	extend CheckCorrectnessWriter
+	
+	attr_reader :array
+	checked_writer :array, lambda {|arr| arr.size > 0}, nil_expected: false, preprocess: lambda{|arr| arr.zip(Array.new arr.size, false)}
+	
+	protected :array, :"array="
 	
 	def initialize arr
-		self.array = arr.zip(Array.new arr.size, false)
+		self.array = arr
 	end
 	
 	def select num
 		self.array[num][1] = true
+	end
+	
+	# Наверное, такой метод должен быть
+	def unselect
+		self.array.each {|x| x[1] = false}
 	end
 	
 	def get_selected
@@ -15,7 +27,7 @@ class DataList
 			.map {|x| x[0].id}
 	end
 	
-	def get_names
+	def self.get_names
 		# not implemented yet
 	end
 	
