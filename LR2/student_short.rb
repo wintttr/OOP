@@ -45,6 +45,12 @@ class StudentShort < BasicStudent
 		[id, surname_initials, git_and_contact, contact_type].compact.join "\n"
 	end
 	
+	def self.all_fields
+		[
+			"id", "surname_initials", "git", "contact"
+		]
+	end
+	
 	private
 	# Конструктор объекта из хэша
 	def initialize(id:, surname_initials:, git:, contact:)
@@ -52,12 +58,6 @@ class StudentShort < BasicStudent
 		self.surname_initials = surname_initials
 		self.git = git
 		self.contact = contact
-	end
-	
-	def self.all_fields
-		[
-			"id", "surname_initials", "git", "contact"
-		]
 	end
 	
 	checked_writer :surname_initials, self.method(:surname_in_correct?), nil_expected: false

@@ -58,7 +58,7 @@ class Student {
 	
 	-- Статические методы --
 	
-	{static} - all_fields()
+	{static} + all_fields()
 	
 	-- Методы объекта --
 	
@@ -92,7 +92,7 @@ class ShortStudent {
 	
 	-- Статические методы --
 	
-	{static} - all_fields()
+	{static} + all_fields()
 	
 	-- Методы объекта --
 	
