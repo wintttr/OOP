@@ -99,6 +99,23 @@ class ShortStudent {
 	{method} + to_s()
 }
 
+class DataTable { 
+	{field} - array
+	
+	{method} + get(x, y)
+	{method} + cols()
+	{method} + rows()
+}
+
+class DataList { 
+	{field} - array
+	
+	{method} + select(num)
+	{method} + get_selected()
+	{method} + get_names()
+	{method} + get_data()
+}
+
 interface CheckCorrectnessWriter {
 	{method} + checked_writer(field, correct, nil_expected: true, preprocess: lambda {|x| x})
 }
