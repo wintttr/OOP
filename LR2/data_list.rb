@@ -8,6 +8,13 @@ class DataList
 	
 	protected :array, :"array="
 	
+	class << self
+		protected
+		def new(*wargs, **kwargs)
+			super(*wargs, **kwargs)
+		end
+	end
+	
 	def initialize arr
 		self.array = arr
 	end
