@@ -38,9 +38,6 @@ abstract class BasicStudent {
 	-- Защищённые методы объекта --
 	
 	{method} # inspect_impl(fields)
-	
-	-- Итератор --
-	{method} + each {|field, value|}
 }
 
 class Student {
@@ -123,7 +120,6 @@ interface CheckCorrectnessWriter {
 	{method} + checked_writer(field, correct, nil_expected: true, preprocess: lambda {|x| x})
 }
 
-interface Enumerable {}
 
 BasicStudent ..|> CheckCorrectnessWriter
 BasicStudent ..|> Enumerable
