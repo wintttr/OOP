@@ -45,13 +45,13 @@ class StudentShort < BasicStudent
 		[id, surname_initials, git_and_contact, contact_type].compact.join "\n"
 	end
 	
+	private
 	def self.all_fields
 		[
 			"id", "surname_initials", "git", "contact"
 		]
 	end
 	
-	private
 	# Конструктор объекта из хэша
 	def initialize(id:, surname_initials:, git:, contact:)
 		self.id = id

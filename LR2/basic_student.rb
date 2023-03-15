@@ -3,6 +3,7 @@ require_relative "exceptions"
 
 class BasicStudent
 	extend CheckCorrectnessWriter
+	include Enumerable
 	
 	def self.read_from_txt file_path
 		stud_list = []
@@ -162,6 +163,13 @@ class BasicStudent
 	def self.contact_correct? contact
 		[ (self.phone_correct? contact), (self.telegram_correct? contact), (self.email_correct? contact) ].one? {|x| x != nil}
 	end
+	
+	
+	def each
+		self.class.all_fields
+					.each { |x| yield x.to_sym, self.method(x.to_sym).call}
+	end
+	
 	
 	# ГЕТТЕРЫ И СЕТТЕРЫ
 	

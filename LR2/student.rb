@@ -86,6 +86,7 @@ class Student < BasicStudent
 		[id, full_name, phone_and_tg, email_and_git].compact.join "\n"
 	end
 	
+	private
 	# Массив всех полей класса
 	def self.all_fields
 		[
