@@ -120,6 +120,8 @@ interface CheckCorrectnessWriter {
 	{method} + checked_writer(field, correct, nil_expected: true, preprocess: lambda {|x| x})
 }
 
+interface Enumerable {}
+
 
 BasicStudent ..|> CheckCorrectnessWriter
 BasicStudent ..|> Enumerable
