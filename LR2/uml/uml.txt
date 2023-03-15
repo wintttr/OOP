@@ -38,6 +38,9 @@ abstract class BasicStudent {
 	-- Защищённые методы объекта --
 	
 	{method} # inspect_impl(fields)
+	
+	-- Итератор --
+	{method} + each{|field, value|}
 }
 
 class Student {
@@ -99,21 +102,40 @@ class ShortStudent {
 	{method} + to_s()
 }
 
-class DataTable { 
+class DataTable {
 	{field} - array
 	
+	-- Конструктор --
+	{static} + initialize (array)
+	
+	-- Публичные методы --
 	{method} + get(x, y)
 	{method} + cols()
 	{method} + rows()
+	
+	-- Приватные статические методы --
+	{static} - check_array (arr)
 }
 
-class DataList { 
-	{field} - array
+abstract class DataList { 
+	{field} # array
 	
+	-- Конструктор --
+	{static} # initialize(arr)
+	
+	-- Публичные методы --
 	{method} + select(num)
+	{method} + unselect()
 	{method} + get_selected()
-	{method} + get_names()
+	
+	-- Абстрактные методы --
 	{method} + get_data()
+	{static} + get_names()
+}
+
+class DataListStudentShort {
+	{method} + get_data()
+	{static} + get_names()
 }
 
 interface CheckCorrectnessWriter {
@@ -122,12 +144,17 @@ interface CheckCorrectnessWriter {
 
 interface Enumerable {}
 
-
 BasicStudent ..|> CheckCorrectnessWriter
+DataTable ..|> CheckCorrectnessWriter
+DataList ..|> CheckCorrectnessWriter
+
 BasicStudent ..|> Enumerable
 
 Student --|> BasicStudent
 ShortStudent --|> BasicStudent
 Student <.. ShortStudent
+
+DataListStudentShort --|> DataList
+DataList ..> DataTable
 
 @enduml
