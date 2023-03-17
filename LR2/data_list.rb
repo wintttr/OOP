@@ -35,10 +35,16 @@ class DataList
 	end
 	
 	def self.get_names
-		# not implemented yet
+		["№"] | self.get_names_impl
 	end
 	
 	def get_data
-		# not implemented yet
+		arr = Array.new
+		
+		get_data_impl.each_with_index do |obj, index|
+			arr.append ([index] + obj)
+		end
+		
+		DataTable.new arr
 	end
 end
