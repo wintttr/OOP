@@ -44,13 +44,6 @@ class BasicStudentsFile
 		obj_array.append obj
 	end
 	
-	def get_index id
-		index = obj_array.find_index {|item| item.id == id}
-		
-		if index == nil then raise ObjectNotFound, id end
-		
-		index
-	end
 	
 	def get_obj id
 		index = get_index id
@@ -81,5 +74,14 @@ class BasicStudentsFile
 	
 	def get_students_count
 		obj_array.size
+	end
+	
+	private
+	def get_index id
+		index = obj_array.find_index {|item| item.id == id}
+		
+		if index == nil then raise ObjectNotFound, id end
+		
+		index
 	end
 end
