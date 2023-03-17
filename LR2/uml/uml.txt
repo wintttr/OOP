@@ -146,6 +146,50 @@ interface CheckCorrectnessWriter {
 	{method} + checked_writer(field, correct, nil_expected: true, preprocess: lambda {|x| x})
 }
 
+abstract BasicStudentsFile {
+	-- Конструктор --
+	{static} + initialize()
+	
+	-- Методы --
+	{method} + read_all_objects(file)
+	{method} + write_all_objects(file)
+	{method} + add_obj(obj)
+	{method} + upd_obj(id, obj)
+	{method} + del_obj(id)
+	{method} + get_k_n_student_short_list(k, n)
+	{method} + sort_si()
+	{method} + get_students_count()
+	
+	-- Приватные методы --
+	{method} - get_index(id)
+	
+	-- Абстрактные методы --
+	{static} - parse(str)
+	{static} - esrap(data_array)
+}
+
+class StudentsListTXT {
+	-- Переопределённые методы --
+	{static} - parse(str)
+	{static} - esrap(data_array)
+	
+	-- Приватные методы --
+	{static} - str_to_obj(str)
+	{static} - obj_to_str(obj)
+}
+
+class StudentsListJSON {
+	-- Переопределённые методы --
+	{static} - parse(str)
+	{static} - esrap(data_array)
+}
+
+class StudentsListYAML {
+	-- Переопределённые методы --
+	{static} - parse(str)
+	{static} - esrap(data_array)
+}
+
 interface Enumerable {}
 
 BasicStudent ..|> CheckCorrectnessWriter
@@ -156,9 +200,16 @@ BasicStudent ..|> Enumerable
 
 Student --|> BasicStudent
 ShortStudent --|> BasicStudent
-Student <.. ShortStudent
+ShortStudent ..> Student 
 
 DataListStudentShort --|> DataList
 DataList ..> DataTable
+
+BasicStudentsFile ..> Student
+BasicStudentsFile ..> DataList
+
+StudentsListTXT --|> BasicStudentsFile
+StudentsListJSON --|> BasicStudentsFile
+StudentsListYAML --|> BasicStudentsFile
 
 @enduml
