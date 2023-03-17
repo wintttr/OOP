@@ -18,7 +18,7 @@ class StudentShort < BasicStudent
 			:contact => student.contact
 		}
 		
-		self.new **options
+		self.new(**options)
 	end
 	
 	# Конструктор объекта из id и строки
@@ -26,7 +26,7 @@ class StudentShort < BasicStudent
 		options = self.get_field_value_hash str
 		options[:id] = id
 		
-		self.new **options
+		self.new(**options)
 	end
 	
 	def self.string_ctor str
