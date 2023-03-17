@@ -6,6 +6,13 @@ require_relative "data_list_student_short"
 class BasicStudentsFile
 	attr_accessor :obj_array
 	
+	class << self
+		protected
+		def new(*wargs, **kwargs)
+			super(*wargs, **kwargs)
+		end
+	end
+	
 	def initialize
 		self.obj_array = []
 	end

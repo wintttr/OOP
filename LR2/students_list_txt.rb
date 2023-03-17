@@ -2,6 +2,8 @@ require_relative "basic_students_file"
 
 
 class StudentsListTXT < BasicStudentsFile
+	public_class_method :new
+
 	private
 	def self.parse str
 		str.each_line.map do |line|
