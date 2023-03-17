@@ -20,10 +20,20 @@ class DataTable
 	end
 	
 	private
-	def self.check_array arr
-		arr.size > 0 and
-		arr.each_cons(2){ |sub_arr| sub_arr[0].size == sub_arr[1].size }
+	def self.check_subarrays_size_equality arr
+	  arr.each_cons(2) do |sub_arr|
+		if sub_arr[0].size != sub_arr[1].size then
+		  return false
+		end
+	  end
+	  
+	  true
 	end
+  
+	def self.check_array arr
+	  arr.size > 0 and self.check_subarrays_size_equality arr
+	end 
+	
 	
 	attr_reader :array
 	checked_writer :array, self.method(:check_array), nil_expected: false
