@@ -27,3 +27,9 @@ class FileDoesntExistError < IOError
 		super "File #{file} doesn't exist"
 	end
 end
+
+class ObjectNotFound < RuntimeError
+	def initialize id
+		super "Object with id #{id} not found"
+	end
+end
