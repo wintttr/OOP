@@ -63,7 +63,7 @@ class StudentsListTXT
 		obj_array.sort_by! {|obj| obj.surname_initials}
 	end
 	
-	def get_student_short_count
+	def get_students_count
 		obj_array.size
 	end
 	
