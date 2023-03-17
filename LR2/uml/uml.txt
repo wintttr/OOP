@@ -128,14 +128,18 @@ abstract class DataList {
 	{method} + unselect()
 	{method} + get_selected()
 	
-	-- Абстрактные методы --
+	-- Шаблонные методы --
 	{method} + get_data()
 	{static} + get_names()
+	
+	-- МЕТОДЫ КОТОРЫЕ ОЧЕНЬ НАДО РЕАЛИЗОВАТЬ В ПОТОМКАХ --
+	{method} - get_data_impl()
+	{static} - get_names_impl()
 }
 
 class DataListStudentShort {
-	{method} + get_data()
-	{static} + get_names()
+	{method} - get_data_impl()
+	{static} - get_names_impl()
 }
 
 interface CheckCorrectnessWriter {
