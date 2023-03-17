@@ -10,13 +10,27 @@ class BasicStudentsFile
 		self.obj_array = []
 	end
 	
-	# Потом паттерн стратегия изучу и напишу нормально 
 	def read_all_objects file
-		# implement in child
+		file_str = File.read(file)
+		
+		data_hash = self.parse(file_str)
+		
+		obj_array = data_hash.map do |obj_hash|
+			Student.new(**obj_hash)
+		end
 	end
 	
 	def write_all_objects file
-		# implement in child
+		data_hash = array.map do |obj|
+			obj.map do |field, value|
+				field => value
+			end
+		end
+		
+		File.open(file) do |f|
+			# esrap - это parse наоборот...
+			f.puts(self.esrap(data_hash))
+		end
 	end
 	
 	def add_obj obj
@@ -60,14 +74,5 @@ class BasicStudentsFile
 	
 	def get_students_count
 		obj_array.size
-	end
-	
-	protected
-	def str_to_obj str
-		Student.string_ctor str
-	end
-	
-	def obj_to_str obj
-		Student.inspect obj
 	end
 end
