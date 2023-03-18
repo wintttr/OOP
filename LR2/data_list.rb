@@ -4,8 +4,14 @@ class DataList
 	extend CheckCorrectnessWriter
 	
 	attr_reader :array
-	checked_writer :array, lambda {|arr| arr.size > 0}, nil_expected: false, preprocess: lambda{|arr| arr.zip(Array.new arr.size, false)}
 	
+	def self.check_array arr
+		arr.size > 0 and arr.all? { |obj| obj.class == self.stored_class }
+	end
+	
+	checked_writer :array, self.method(:check_array), nil_expected: false, preprocess: lambda{|arr| arr.zip(Array.new arr.size, false)}
+	
+	private_class_method :check_array
 	protected :array, :"array="
 	
 	class << self

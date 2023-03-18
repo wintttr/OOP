@@ -6,6 +6,10 @@ class DataListStudentShort < DataList
 	public_class_method :new
 	
 	private
+	def self.stored_class
+		StudentShort.class
+	end
+	
 	def self.get_names_impl
 		StudentShort.all_fields - ["id"]
 	end
