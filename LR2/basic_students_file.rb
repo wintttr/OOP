@@ -28,7 +28,7 @@ class BasicStudentsFile
 	end
 	
 	def write_all_objects file
-		data_hash = array.map do |obj|
+		data_hash = obj_array.map do |obj|
 			obj.map do |field, value|
 				field => value
 			end
