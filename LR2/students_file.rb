@@ -2,32 +2,20 @@ require_relative "student"
 require_relative "exceptions"
 require_relative "data_list_student_short"
 
-
-class BasicStudentsFile
-	attr_accessor :obj_array
-	
-	class << self
-		protected
-		def new(*wargs, **kwargs)
-			super(*wargs, **kwargs)
-		end
-	end
-	
-	def initialize
-		self.obj_array = []
-	end
-	
-	def read_all_objects file
+class BasicReader
+	def self.read_objects file
 		file_str = File.read(file)
 		
 		data_hash = self.parse(file_str)
 		
-		obj_array = data_hash.map do |obj_hash|
+		data_hash.map do |obj_hash|
 			Student.new(**obj_hash)
 		end
 	end
-	
-	def write_all_objects file
+end
+
+class BasicWriter
+	def self.write_objects array, file
 		data_hash = array.map do |obj|
 			obj.map do |field, value|
 				field => value
@@ -38,6 +26,22 @@ class BasicStudentsFile
 			# esrap - это parse наоборот...
 			f.puts(self.esrap(data_hash))
 		end
+	end
+end
+
+class StudentsFile
+	attr_accessor :obj_array
+	
+	def initialize
+		self.obj_array = []
+	end
+	
+	def read_all_objects reader, file
+		obj_array = reader.read_objects file
+	end
+	
+	def write_all_objects writer, file
+		writer.write_objects obj_array, file
 	end
 	
 	def add_obj obj

@@ -146,13 +146,13 @@ interface CheckCorrectnessWriter {
 	{method} + checked_writer(field, correct, nil_expected: true, preprocess: lambda {|x| x})
 }
 
-abstract BasicStudentsFile {
+abstract StudentsFile {
 	-- Конструктор --
 	{static} + initialize()
 	
 	-- Методы --
-	{method} + read_all_objects(file)
-	{method} + write_all_objects(file)
+	{method} + read_all_objects(reader, file)
+	{method} + write_all_objects(writer, file)
 	{method} + add_obj(obj)
 	{method} + upd_obj(id, obj)
 	{method} + del_obj(id)
@@ -162,31 +162,55 @@ abstract BasicStudentsFile {
 	
 	-- Приватные методы --
 	{method} - get_index(id)
-	
-	-- Абстрактные методы --
-	{static} - parse(str)
-	{static} - esrap(data_array)
 }
 
-class StudentsListTXT {
+class BasicReader {
+	{method} + read_objects(file)
+	
+	-- Абстрактные методы --
+	{method} - parse(str)
+}
+
+class BasicWriter {
+	{method} + write_objects(array, file)
+	
+	-- Абстрактные методы --
+	{method} - esrap(data_array)
+}
+
+class TXTReader {
 	-- Переопределённые методы --
 	{static} - parse(str)
-	{static} - esrap(data_array)
 	
 	-- Приватные методы --
 	{static} - str_to_obj(str)
+}
+
+class TXTWriter {
+	-- Переопределённые методы --
+	{static} - esrap(data_array)
+	
+	-- Приватные методы --
 	{static} - obj_to_str(obj)
 }
 
-class StudentsListJSON {
+class JSONReader {
 	-- Переопределённые методы --
 	{static} - parse(str)
+}
+
+class JSONWriter {
+	-- Переопределённые методы --
 	{static} - esrap(data_array)
 }
 
-class StudentsListYAML {
+class YAMLReader {
 	-- Переопределённые методы --
 	{static} - parse(str)
+}
+
+class YAMLWriter {
+	-- Переопределённые методы --
 	{static} - esrap(data_array)
 }
 
@@ -205,11 +229,18 @@ ShortStudent ..> Student
 DataListStudentShort --|> DataList
 DataList ..> DataTable
 
-BasicStudentsFile ..> Student
-BasicStudentsFile ..> DataList
+StudentsFile ..> Student
+StudentsFile ..> DataList
+StudentsFile ..> BasicReader
+StudentsFile ..> BasicWriter
 
-StudentsListTXT --|> BasicStudentsFile
-StudentsListJSON --|> BasicStudentsFile
-StudentsListYAML --|> BasicStudentsFile
+TXTReader --|> BasicReader
+TXTWriter --|> BasicWriter
+
+JSONReader --|> BasicReader
+JSONWriter --|> BasicWriter
+
+YAMLReader --|> BasicReader
+YAMLWriter --|> BasicWriter
 
 @enduml
