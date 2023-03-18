@@ -21,13 +21,9 @@ class DataTable
 	
 	private
 	def self.check_subarrays_size_equality arr
-	  arr.each_cons(2) do |sub_arr|
-		if sub_arr[0].size != sub_arr[1].size then
-		  return false
-		end
+	  arr.each_cons(2).all? do |sub_arr|
+		sub_arr[0].size == sub_arr[1].size
 	  end
-	  
-	  true
 	end
   
 	def self.check_array arr
