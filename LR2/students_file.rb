@@ -4,7 +4,7 @@ require_relative "data_list_student_short"
 
 class BasicReader
 	def self.read_objects file
-		file_str = File.read(file)
+		file_str = file.read()
 		
 		data_hash = self.parse(file_str)
 		
@@ -22,10 +22,8 @@ class BasicWriter
 			end
 		end
 		
-		File.open(file) do |f|
-			# esrap - это parse наоборот...
-			f.puts(self.esrap(data_hash))
-		end
+		# esrap - это parse наоборот...
+		file.puts(self.esrap(data_hash))
 	end
 end
 
@@ -37,11 +35,15 @@ class StudentsFile
 	end
 	
 	def read_all_objects reader, file
-		obj_array = reader.read_objects file
+		File.open(file) do |f|
+			obj_array = reader.read_objects f
+		end
 	end
 	
 	def write_all_objects writer, file
-		writer.write_objects obj_array, file
+		File.open(file) do |f|
+			writer.write_objects obj_array, f
+		end
 	end
 	
 	def add_obj obj
