@@ -3,10 +3,17 @@ require "check_correctness_writer.rb"
 class DataList
 	extend CheckCorrectnessWriter
 	
+	attr_accessor :stored_class
 	attr_reader :array
 	
 	def self.check_array arr
-		arr.size > 0 and arr.each_cons(2).all? { |obj| obj[0].class == obj[1].class }
+		flag = arr.size > 0 and arr.each_cons(2).all? { |obj| obj[0].class == obj[1].class}
+		
+		if self.stored_class != nil then 
+			return stored == arr.first.class and flag
+		else
+			return flag
+		end
 	end
 	
 	checked_writer :array, self.method(:check_array), nil_expected: false, preprocess: lambda{|arr| arr.zip(Array.new arr.size, false)}
@@ -23,6 +30,7 @@ class DataList
 	
 	def initialize arr
 		self.array = arr
+		self.stored_class = arr.first.class
 	end	
 	
 	def select num
