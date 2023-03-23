@@ -23,7 +23,7 @@ class DataList
 	
 	def initialize arr
 		self.array = arr
-	end
+	end	
 	
 	def select num
 		self.array[num][1] = true
@@ -40,8 +40,8 @@ class DataList
 			.map {|x| x[0].id}
 	end
 	
-	def self.get_names
-		["№"] | self.get_names_impl
+	def get_names
+		["№"] | get_names_impl
 	end
 	
 	def get_data
