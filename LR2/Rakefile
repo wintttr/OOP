@@ -1,8 +1,10 @@
 require "rake/testtask"
 
+directories = [".", "./data_list", "./student", "./students_list"]
+
 desc "Запускаем тесты"
 Rake::TestTask.new(:test) do |t|
-	t.libs << "."
+	t.libs << directories
 	t.test_files = FileList['tests/**/test_*.rb']
 end
 
@@ -14,8 +16,6 @@ end
 
 desc "Запускаем main.rb"
 task :run do |t|
-	directories = [".", "./data_list", "./student", "./students_list"]
-	
 	dir_string = directories.map{|s| "-I#{s}"}.join(" ")
 	
 	system "ruby #{dir_string} main.rb"
