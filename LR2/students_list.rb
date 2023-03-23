@@ -2,7 +2,7 @@ require_relative "student"
 require_relative "exceptions"
 require_relative "data_list_student_short"
 
-class BasicReader
+class BasicReaderWriter
 	def self.read_objects file
 		file_str = file.read()
 		
@@ -12,9 +12,7 @@ class BasicReader
 			Student.new(**obj_hash)
 		end
 	end
-end
-
-class BasicWriter
+	
 	def self.write_objects array, file
 		data_hash = array.map do |obj|
 			obj.map do |field, value|
@@ -27,7 +25,7 @@ class BasicWriter
 	end
 end
 
-class StudentsFile
+class StudentsList
 	attr_accessor :obj_array
 	
 	def initialize

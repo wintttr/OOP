@@ -1,20 +1,15 @@
 require "json"
 
-require_relative "basic_students_file"
+require_relative "students_list"
 
-class JSONReader < BasicReader
+class JSONReaderWriter < BasicReaderWriter
 	public_class_method :new
 
 	private
 	def self.parse str
 		JSON.parse str
 	end
-end
 	
-class JSONWriter < BasicWriter
-	public_class_method :new
-
-	private
 	def self.esrap data_array
 		JSON.pretty_generate(data_array)
 	end
