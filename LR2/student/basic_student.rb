@@ -54,11 +54,11 @@ class BasicStudent
 		end
 	end
 	
-	# смирился с тем, что ужас неисправим
-	def self.string_ctor_impl str, ctor
+	# Конструктор объекта из строки
+	def self.string_ctor str
 		field_value_hash = self.get_field_value_hash str
 		
-		ctor.call(**field_value_hash)
+		self.new(**field_value_hash)
 	end
 	
 	def self.get_field_value_hash str

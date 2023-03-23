@@ -48,11 +48,6 @@ class Student < BasicStudent
 	def get_info
 		self.inspect_impl ["surname_initials", "git", "contact"]
 	end
-	
-	# Конструктор объекта из строки
-	def self.string_ctor str
-		Student.string_ctor_impl str, Student.method(:new)
-	end
 
 	def set_contacts(phone:nil, telegram:nil, email:nil)
 		if phone != nil then

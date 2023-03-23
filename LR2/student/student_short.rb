@@ -29,10 +29,6 @@ class StudentShort < BasicStudent
 		self.new(**options)
 	end
 	
-	def self.string_ctor str
-		StudentShort.string_ctor_impl str, StudentShort.method(:new)
-	end
-	
 	def to_s
 		id = StudentShort.pretty_represent "Ид", self.id
 		surname_initials = StudentShort.pretty_represent "Фамилия И.О.", self.surname_initials
