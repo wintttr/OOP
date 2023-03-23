@@ -164,53 +164,34 @@ abstract StudentsFile {
 	{method} - get_index(id)
 }
 
-class BasicReader {
+abstract BasicReaderWriter {
 	{method} + read_objects(file)
-	
-	-- Абстрактные методы --
-	{method} - parse(str)
-}
-
-class BasicWriter {
 	{method} + write_objects(array, file)
 	
 	-- Абстрактные методы --
+	{method} - parse(str)
 	{method} - esrap(data_array)
 }
 
-class TXTReader {
+class TXTReaderWriter {
 	-- Переопределённые методы --
 	{static} - parse(str)
+	{static} - esrap(data_array)
 	
 	-- Приватные методы --
 	{static} - str_to_obj(str)
-}
-
-class TXTWriter {
-	-- Переопределённые методы --
-	{static} - esrap(data_array)
-	
-	-- Приватные методы --
 	{static} - obj_to_str(obj)
 }
 
-class JSONReader {
+class JSONReaderWriter {
 	-- Переопределённые методы --
 	{static} - parse(str)
-}
-
-class JSONWriter {
-	-- Переопределённые методы --
 	{static} - esrap(data_array)
 }
 
-class YAMLReader {
+class YAMLReaderWriter {
 	-- Переопределённые методы --
 	{static} - parse(str)
-}
-
-class YAMLWriter {
-	-- Переопределённые методы --
 	{static} - esrap(data_array)
 }
 
@@ -231,16 +212,12 @@ DataList ..> DataTable
 
 StudentsFile ..> Student
 StudentsFile ..> DataList
-StudentsFile ..> BasicReader
-StudentsFile ..> BasicWriter
+StudentsFile ..> BasicReaderWriter
 
-TXTReader --|> BasicReader
-TXTWriter --|> BasicWriter
+TXTReaderWriter --|> BasicReaderWriter
 
-JSONReader --|> BasicReader
-JSONWriter --|> BasicWriter
+JSONReaderWriter --|> BasicReaderWriter
 
-YAMLReader --|> BasicReader
-YAMLWriter --|> BasicWriter
+YAMLReaderWriter --|> BasicReaderWriter
 
 @enduml
