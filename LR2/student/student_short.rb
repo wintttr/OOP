@@ -1,6 +1,6 @@
-require_relative "basic_student"
-require_relative "student"
-require_relative "exceptions"
+require "basic_student.rb"
+require "student.rb"
+require "exceptions.rb"
 
 class StudentShort < BasicStudent
 	attr_reader :surname_initials, :contact

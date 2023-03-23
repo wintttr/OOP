@@ -1,5 +1,5 @@
-require_relative "student"
-require_relative "student_short"
+require "student.rb"
+require "student_short.rb"
 
 a = Student.new id: 10, surname: "Курбатский", first_name: "Владимир", mid_name: "Александрович", git: "SeemerGG", phone: "+79181234567"
 b = Student.new surname: "Мищенко", first_name: "Александр", mid_name: "Николаевич", id: 1

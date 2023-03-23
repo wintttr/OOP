@@ -1,4 +1,4 @@
-require_relative "check_correctness_writer"
+require "check_correctness_writer.rb"
 
 class DataTable
 	extend CheckCorrectnessWriter

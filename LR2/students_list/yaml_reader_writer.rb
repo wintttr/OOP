@@ -1,6 +1,6 @@
 require "YAML"
 
-require_relative "students_list"
+require "students_list.rb"
 
 class YAMLReaderWriter < BasicReaderWriter
 	public_class_method :new

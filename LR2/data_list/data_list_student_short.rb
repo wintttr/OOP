@@ -1,6 +1,6 @@
-require_relative "data_list"
-require_relative "data_table"
-require_relative "student_short"
+require "data_list.rb"
+require "data_table.rb"
+require "student_short.rb"
 
 class DataListStudentShort < DataList
 	public_class_method :new

@@ -1,5 +1,5 @@
-require_relative "check_correctness_writer"
-require_relative "exceptions"
+require "check_correctness_writer.rb"
+require "exceptions.rb"
 
 class BasicStudent
 	extend CheckCorrectnessWriter

@@ -1,4 +1,4 @@
-require_relative "students_list"
+require "students_list.rb"
 
 
 class TXTReaderWriter < BasicReaderWriter

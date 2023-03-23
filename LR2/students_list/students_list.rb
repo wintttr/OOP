@@ -1,6 +1,6 @@
-require_relative "student"
-require_relative "exceptions"
-require_relative "data_list_student_short"
+require "student.rb"
+require "exceptions.rb"
+require "data_list_student_short.rb"
 
 class BasicReaderWriter
 	def self.read_objects file

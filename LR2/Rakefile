@@ -1,11 +1,22 @@
 require "rake/testtask"
 
+desc "Запускаем тесты"
 Rake::TestTask.new(:test) do |t|
 	t.libs << "."
 	t.test_files = FileList['tests/**/test_*.rb']
 end
 
+desc "Генерируем UML"
 task :uml,[:plant_uml_path, :uml_path] do |t, args|
 	args.with_defaults(:plant_uml_path => "/mnt/c/plantuml/plantuml.jar", :uml_path => "./uml/uml.txt")
 	system "java -DPLANTUML_LIMIT_SIZE=8192 -jar #{args.plant_uml_path} -charset \"UTF-8\" #{args.uml_path}"
+end
+
+desc "Запускаем main.rb"
+task :run do |t|
+	directories = [".", "./data_list", "./student", "./students_list"]
+	
+	dir_string = directories.map{|s| "-I#{s}"}.join(" ")
+	
+	system "ruby #{dir_string} main.rb"
 end

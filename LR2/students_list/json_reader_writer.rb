@@ -1,6 +1,6 @@
 require "json"
 
-require_relative "students_list"
+require "students_list.rb"
 
 class JSONReaderWriter < BasicReaderWriter
 	public_class_method :new
