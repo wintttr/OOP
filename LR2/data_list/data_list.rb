@@ -6,7 +6,7 @@ class DataList
 	attr_reader :array
 	
 	def self.check_array arr
-		arr.size > 0 and arr.all? { |obj| obj.class == self.stored_class }
+		arr.size > 0 and arr.each_cons(2).all? { |obj| obj[0].class == obj[1].class }
 	end
 	
 	checked_writer :array, self.method(:check_array), nil_expected: false, preprocess: lambda{|arr| arr.zip(Array.new arr.size, false)}
