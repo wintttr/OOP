@@ -3,6 +3,13 @@ require "exceptions.rb"
 require "data_list_student_short.rb"
 
 class BasicReaderWriter
+	class << self
+		protected
+		def new(*wargs, **kwargs)
+			super(*wargs, **kwargs)
+		end
+	end
+
 	def self.read_objects file
 		file_str = file.read()
 		
