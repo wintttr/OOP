@@ -1,5 +1,5 @@
 module Parser
-	def self.get_field_value_hash str
+	def self.parse str
 		fields = str.split(/,/)
 		field_init_re = /^(.+):\{(.+)\}$/
 

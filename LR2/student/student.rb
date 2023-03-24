@@ -46,7 +46,11 @@ class Student < BasicStudent
 	end
 	
 	def get_info
-		self.inspect_impl ["surname_initials", "git", "contact"]
+		fields = [:surname_initials, :git, :contact]
+		
+		field_value_hash = self.hash_from_fields(fields)
+		
+		Parser.unparse(field_value_hash)
 	end
 
 	def set_contacts(phone:nil, telegram:nil, email:nil)
@@ -84,8 +88,8 @@ class Student < BasicStudent
 	# Массив всех полей класса
 	def self.all_fields
 		[
-			"id", "surname", "first_name", "mid_name",
-			"phone", "telegram", "email", "git"
+			:id, :surname, :first_name, :mid_name,
+			:phone, :telegram, :email, :git
 		]
 	end
 end

@@ -30,7 +30,8 @@ class BasicStudent
 	
 	# Сериализуем (о какое слово знаю!) объект в формате "field:{value},..."
 	def inspect
-		self.inspect_impl self.class.all_fields
+		field_value_hash = self.hash_from_fields(self.class.all_fields)
+		Parser.unparse field_value_hash
 	end
 	
 	def git_exists?
@@ -54,9 +55,15 @@ class BasicStudent
 		end
 	end
 	
+	def hash_from_fields fields
+		fields.to_h { |field_sym|
+			[field_sym, self.method(field_sym).call]
+		}
+	end
+	
 	# Конструктор объекта из строки
 	def self.string_ctor str
-		field_value_hash = Parser.get_field_value_hash str
+		field_value_hash = Parser.parse str
 		
 		self.new(**field_value_hash)
 	end
@@ -68,10 +75,6 @@ class BasicStudent
 		end
 	end
 	
-	def inspect_impl fields
-		fields.map{|field| self.inspect_represent field.to_sym}.compact.join ","
-	end
-	
 	# Соединяет строки из массива запятой, пропуская элементы содержащие nil
 	# Если итоговая строка пустая, возвращает nil
 	def self.join_with_comma str_arr
@@ -79,21 +82,11 @@ class BasicStudent
 		result.empty? ? nil : result  
 	end
 	
-	
 	def self.pretty_represent field_prompt, value
 		if value != nil then
 			"#{field_prompt}: #{value}"
 		end
 	end
-
-	# ... не знаю
-	def inspect_represent field
-		value = (self.method field).call
-
-		if value != nil then
-			"#{field}:\{#{value}\}"
-		end
-	end 
 	
 	# ПРОВЕРОЧКИ
 	# Проверка ида на корректность

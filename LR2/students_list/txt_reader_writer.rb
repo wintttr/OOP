@@ -7,7 +7,7 @@ class TXTReaderWriter < BasicReaderWriter
 	private
 	def self.parse str
 		str.each_line.map do |line|
-			Parser.get_field_value_hash line
+			Parser.parse line
 		end
 	end
 	

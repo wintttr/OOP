@@ -23,7 +23,7 @@ class StudentShort < BasicStudent
 	
 	# Конструктор объекта из id и строки
 	def self.id_string_ctor(id, str)
-		options = Parser.get_field_value_hash str
+		options = Parser.parse str
 		options[:id] = id
 		
 		self.new(**options)
@@ -44,7 +44,7 @@ class StudentShort < BasicStudent
 	
 	def self.all_fields
 		[
-			"id", "surname_initials", "git", "contact"
+			:id, :surname_initials, :git, :contact
 		]
 	end
 	
