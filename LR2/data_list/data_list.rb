@@ -61,13 +61,13 @@ class DataList
 	end
 	
 	def get_names
-		["№"] | get_names_impl
+		["№"] | self.get_names_impl
 	end
 	
 	def get_data
 		arr = Array.new
 		
-		get_data_impl.each_with_index do |obj, index|
+		self.get_data_impl.each_with_index do |obj, index|
 			arr.append ([index] + obj)
 		end
 		

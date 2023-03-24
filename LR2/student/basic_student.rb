@@ -19,7 +19,6 @@ class BasicStudent
 				stud_list.append self.string_ctor line
 			end
 		end
-		
 	end
 	
 	def self.write_to_txt file_path, stud_list
@@ -44,7 +43,7 @@ class BasicStudent
 	end
 	
 	def validate
-		git_exists? and contact_exists?
+		self.git_exists? and self.contact_exists?
 	end
 
 	protected
@@ -71,7 +70,7 @@ class BasicStudent
 	end
 	
 	def inspect_impl fields
-		fields.map{|field| inspect_represent field.to_sym}.compact.join ","
+		fields.map{|field| self.inspect_represent field.to_sym}.compact.join ","
 	end
 	
 	# Соединяет строки из массива запятой, пропуская элементы содержащие nil
