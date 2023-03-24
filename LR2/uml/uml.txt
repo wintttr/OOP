@@ -140,7 +140,6 @@ abstract class DataList {
 	{static} - get_names_impl()
 	
 	-- Приватные методы класса --
-	{static} - elements_equal?(array)
 	{static} - elements_equal_to?(array, el)
 	
 	-- Приватные методы объекта --
