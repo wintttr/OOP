@@ -16,7 +16,9 @@ module Parser
 	end
 	
 	def self.unparse data_hash
-		data_hash.map { |k, v|
+		data_hash.filter{ |k, v|
+			not v.nil? 
+		}.map { |k, v|
 			"#{k}:\{#{v}\}"
 		}.join(",")
 	end
