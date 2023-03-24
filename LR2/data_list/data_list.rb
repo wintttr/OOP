@@ -6,7 +6,7 @@ class DataList
 	attr_accessor :stored_class
 	attr_reader :array
 	
-	protected
+	private
 	def self.elements_equal? array
 		array.each_cons(2).all? { |obj| obj[0] == obj[1] }
 	end 
@@ -16,8 +16,8 @@ class DataList
 	end
 	
 	def check_array arr
-		classes_equal = self.class.elements_equal?(arr.map{|obj| obj.class})
-		classes_equal_stored = self.class.elements_equal_to?(arr.map{|obj| obj.class}, self.stored_class)
+		classes_equal = DataList.elements_equal?(arr.map{|obj| obj.class})
+		classes_equal_stored = DataList.elements_equal_to?(arr.map{|obj| obj.class}, self.stored_class)
 		
 		not arr.nil? and not arr.empty? and classes_equal and classes_equal_stored
 	end
@@ -31,7 +31,6 @@ class DataList
 		end
 	end
 	
-	private :check_array
 	protected :array, :"array="
 	protected :stored_class, :"stored_class="
 	
