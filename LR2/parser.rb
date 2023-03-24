@@ -9,10 +9,10 @@ module Parser
 		end
 		
 		# смирился с тем, что ужас неисправим
-		fields.to_h do |field|
+		fields.map { |field|
 			matches = field.match field_init_re
 			[matches[1].to_sym, matches[2]]
-		end
+		}.to_h
 	end
 	
 	def self.unparse data_hash
