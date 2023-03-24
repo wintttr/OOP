@@ -8,25 +8,25 @@ abstract class BasicStudent {
 	{field} # git
 	
 	-- Публичные методы класса --
-	{static} + read_from_txt (file_path)
-	{static} + write_to_txt (file_path, stud_list)
+	{static} + read_from_txt(file_path)
+	{static} + write_to_txt(file_path, stud_list)
 	
 	-- Защищённые методы класса --
 	
-	{static} # string_ctor_impl (str, ctor)
-	{static} # get_field_value_hash (str)
-	{static} # contact_type (contact)
-	{static} # join_with_comma (str_arr)
-	{static} # pretty_represent (field_prompt, value)
-	{static} # inspect_represent (field)
+	{static} # string_ctor(str)
+	{static} # get_field_value_hash(str)
+	{static} # contact_type(contact)
+	{static} # join_with_comma(str_arr)
+	{static} # pretty_represent(field_prompt, value)
+	{static} # inspect_represent(field)
 
-	{static} # name_correct? (name)
-	{static} # phone_correct? (phone)
-	{static} # telegram_correct? (tg)
-	{static} # email_correct? (email)
-	{static} # git_correct? (git)
-	{static} # surname_in_correct? (surname_initials)
-	{static} # contact_correct? (contact)
+	{static} # name_correct?(name)
+	{static} # phone_correct?(phone)
+	{static} # telegram_correct?(tg)
+	{static} # email_correct?(email)
+	{static} # git_correct?(git)
+	{static} # surname_in_correct?(surname_initials)
+	{static} # contact_correct?(contact)
 	
 	-- Публичные методы объекта --
 	
@@ -57,11 +57,13 @@ class Student {
 	-- Конструкторы --
 	
 	{static} + initialize(surname:, first_name:, mid_name:, id:nil, phone:nil, telegram:nil, email:nil, git:nil)
-	{static} + string_ctor(str)
 	
-	-- Статические методы --
-	
+	-- Публичные методы класса --
+
 	{static} + all_fields()
+	
+	-- Приватные методы класса --
+	{static} - preprocess_phone(value)
 	
 	-- Методы объекта --
 	
@@ -70,6 +72,7 @@ class Student {
 	{method} + get_info()
 	{method} + set_contacts(phone: nil, telegram: nil, email: nil)
 	{method} + to_s()
+	
 }
 
 class ShortStudent {
@@ -89,9 +92,9 @@ class ShortStudent {
 	-- Конструкторы --
 	
 	{static} - initialize(id:, surname_initials:, git:, contact:)
-	{static} + student_ctor(student)
+	
 	{static} + id_string_ctor(id, str)
-	{static} + string_ctor(str)
+	{static} + student_ctor(student)
 	
 	-- Статические методы --
 	
@@ -106,15 +109,16 @@ class DataTable {
 	{field} - array
 	
 	-- Конструктор --
-	{static} + initialize (array)
+	{static} + initialize(array)
 	
 	-- Публичные методы --
 	{method} + get(x, y)
 	{method} + cols()
 	{method} + rows()
 	
-	-- Приватные статические методы --
-	{static} - check_array (arr)
+	-- Приватные методы класса --
+	{static} - check_array(arr)
+	{static} - check_subarrays_size_equality(arr)
 }
 
 abstract class DataList { 
@@ -135,6 +139,13 @@ abstract class DataList {
 	-- МЕТОДЫ КОТОРЫЕ ОЧЕНЬ НАДО РЕАЛИЗОВАТЬ В ПОТОМКАХ --
 	{method} - get_data_impl()
 	{static} - get_names_impl()
+	
+	-- Приватные методы класса --
+	{static} - elements_equal?(array)
+	{static} - elements_equal_to?(array, el)
+	
+	-- Приватные методы объекта --
+	{method} - check_array(arr)
 }
 
 class DataListStudentShort {
@@ -142,11 +153,8 @@ class DataListStudentShort {
 	{static} - get_names_impl()
 }
 
-interface CheckCorrectnessWriter {
-	{method} + checked_writer(field, correct, nil_expected: true, preprocess: lambda {|x| x})
-}
 
-abstract StudentsFile {
+abstract StudentsList {
 	-- Конструктор --
 	{static} + initialize()
 	
@@ -177,10 +185,6 @@ class TXTReaderWriter {
 	-- Переопределённые методы --
 	{static} - parse(str)
 	{static} - esrap(data_array)
-	
-	-- Приватные методы --
-	{static} - str_to_obj(str)
-	{static} - obj_to_str(obj)
 }
 
 class JSONReaderWriter {
@@ -197,11 +201,21 @@ class YAMLReaderWriter {
 
 interface Enumerable {}
 
+interface CheckCorrectnessWriter {
+	{method} + checked_writer(field, correct, nil_expected: true, preprocess: lambda {|x| x})
+}
+
+interface Parser {
+	{static} + get_field_value_hash(str)
+	{static} + unparse(data_hash)
+}
+
 BasicStudent ..|> CheckCorrectnessWriter
 DataTable ..|> CheckCorrectnessWriter
 DataList ..|> CheckCorrectnessWriter
 
 BasicStudent ..|> Enumerable
+BasicStudent ..|> Parser
 
 Student --|> BasicStudent
 ShortStudent --|> BasicStudent
@@ -210,11 +224,12 @@ ShortStudent ..> Student
 DataListStudentShort --|> DataList
 DataList ..> DataTable
 
-StudentsFile ..> Student
-StudentsFile ..> DataList
-StudentsFile ..> BasicReaderWriter
+StudentsList ..> Student
+StudentsList ..> DataList
+StudentsList ..> BasicReaderWriter
 
 TXTReaderWriter --|> BasicReaderWriter
+TXTReaderWriter ..|> Parser
 
 JSONReaderWriter --|> BasicReaderWriter
 
