@@ -6,6 +6,7 @@ class DataList
 	attr_accessor :stored_class
 	attr_reader :array
 	
+	protected
 	def self.elements_equal? array
 		array.each_cons(2).all? { |obj| obj[0] == obj[1] }
 	end 
@@ -21,6 +22,7 @@ class DataList
 		not arr.nil? and not arr.empty? and classes_equal and classes_equal_stored
 	end
 	
+	public
 	def array= value
 		if self.check_array value then
 			@array = value.zip(Array.new value.size, false)
@@ -30,7 +32,6 @@ class DataList
 	end
 	
 	private :check_array
-	private_class_method :elements_equal?, :elements_equal_to?
 	protected :array, :"array="
 	protected :stored_class, :"stored_class="
 	
