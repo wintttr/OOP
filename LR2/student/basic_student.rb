@@ -5,7 +5,6 @@ require "exceptions.rb"
 class BasicStudent
 	extend CheckCorrectnessWriter
 	include Enumerable
-	include Parser
 	
 	def self.read_from_txt file_path
 		stud_list = []
