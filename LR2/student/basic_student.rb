@@ -1,9 +1,11 @@
 require "check_correctness_writer.rb"
+require "parser.rb"
 require "exceptions.rb"
 
 class BasicStudent
 	extend CheckCorrectnessWriter
 	include Enumerable
+	include Parser
 	
 	def self.read_from_txt file_path
 		stud_list = []
@@ -56,30 +58,9 @@ class BasicStudent
 	
 	# Конструктор объекта из строки
 	def self.string_ctor str
-		field_value_hash = self.get_field_value_hash str
+		field_value_hash = Parser.get_field_value_hash str
 		
 		self.new(**field_value_hash)
-	end
-	
-	def self.get_field_value_hash str
-		fields = str.split(/,/)
-		field_init_re = /^(.+):\{(.+)\}$/
-
-		# проверяем, все ли поля соответствуют определённому формату
-		if fail_string = fields.filter { |field| not(field =~ field_init_re) }.first then
-			raise FormatError, fail_string
-		end
-		
-		# смирился с тем, что ужас неисправим
-		fields.to_h do |field|
-			matches = field.match field_init_re
-			
-			unless self.all_fields.include? matches[1] then 
-				raise FieldDoesntExistError, matches[1]
-			end 
-
-			[matches[1].to_sym, matches[2]]
-		end
 	end
 	
 	def self.contact_type contact

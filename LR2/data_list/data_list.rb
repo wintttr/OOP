@@ -6,20 +6,32 @@ class DataList
 	attr_accessor :stored_class
 	attr_reader :array
 	
-	def self.check_array arr
-		flag = arr.size > 0 and arr.each_cons(2).all? { |obj| obj[0].class == obj[1].class}
+	def self.elements_equal? array
+		array.each_cons(2).all? { |obj| obj[0] == obj[1] }
+	end 
+	
+	def self.elements_equal_to? array, el
+		array.all? { |obj| obj == el }
+	end
+	
+	def check_array arr
+		classes_equal = self.class.elements_equal?(arr.map{|obj| obj.class})
+		classes_equal_stored = self.class.elements_equal_to?(arr.map{|obj| obj.class}, self.stored_class)
 		
-		if self.stored_class != nil then 
-			return stored == arr.first.class and flag
+		not arr.nil? and not arr.empty? and classes_equal and classes_equal_stored
+	end
+	
+	def array= value
+		if self.check_array value then
+			@array = value.zip(Array.new value.size, false)
 		else
-			return flag
+			raise ArgumentError, "Wrong array class"
 		end
 	end
 	
-	checked_writer :array, self.method(:check_array), nil_expected: false, preprocess: lambda{|arr| arr.zip(Array.new arr.size, false)}
-	
-	private_class_method :check_array
+	private :check_array
 	protected :array, :"array="
+	protected :stored_class, :"stored_class="
 	
 	class << self
 		protected
@@ -29,8 +41,8 @@ class DataList
 	end
 	
 	def initialize arr
-		self.array = arr
 		self.stored_class = arr.first.class
+		self.array = arr
 	end	
 	
 	def select num
