@@ -14,4 +14,10 @@ module Parser
 			[matches[1].to_sym, matches[2]]
 		end
 	end
+	
+	def self.unparse data_hash
+		data_hash.map { |k, v|
+			"#{k}:\{#{v}\}"
+		}.join(",")
+	end
 end
