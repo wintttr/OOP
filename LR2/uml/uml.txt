@@ -14,11 +14,10 @@ abstract class BasicStudent {
 	-- Защищённые методы класса --
 	
 	{static} # string_ctor(str)
-	{static} # get_field_value_hash(str)
+	{static} # hash_from_fields(fields)
 	{static} # contact_type(contact)
 	{static} # join_with_comma(str_arr)
 	{static} # pretty_represent(field_prompt, value)
-	{static} # inspect_represent(field)
 
 	{static} # name_correct?(name)
 	{static} # phone_correct?(phone)
@@ -75,7 +74,7 @@ class Student {
 	
 }
 
-class ShortStudent {
+class StudentShort {
 	-- Геттеры --
 	{field} + id
 	{field} + surname_initials
@@ -206,7 +205,7 @@ interface CheckCorrectnessWriter {
 }
 
 interface Parser {
-	{static} + get_field_value_hash(str)
+	{static} + parse(str)
 	{static} + unparse(data_hash)
 }
 
@@ -218,8 +217,8 @@ BasicStudent ..|> Enumerable
 BasicStudent ..|> Parser
 
 Student --|> BasicStudent
-ShortStudent --|> BasicStudent
-ShortStudent ..> Student 
+StudentShort --|> BasicStudent
+StudentShort ..> Student 
 
 DataListStudentShort --|> DataList
 DataList ..> DataTable
