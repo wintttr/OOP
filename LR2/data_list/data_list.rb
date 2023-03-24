@@ -3,43 +3,16 @@ require "check_correctness_writer.rb"
 class DataList
 	extend CheckCorrectnessWriter
 	
+	# Геттеры/сеттеры
 	attr_accessor :stored_class
 	attr_reader :array
-	
-	private
-	def self.elements_equal? array
-		array.each_cons(2).all? { |obj| obj[0] == obj[1] }
-	end 
-	
-	def self.elements_equal_to? array, el
-		array.all? { |obj| obj == el }
-	end
-	
-	def check_array arr
-		classes_equal = DataList.elements_equal?(arr.map{|obj| obj.class})
-		classes_equal_stored = DataList.elements_equal_to?(arr.map{|obj| obj.class}, self.stored_class)
-		
-		not arr.nil? and not arr.empty? and classes_equal and classes_equal_stored
-	end
-	
-	public
-	def array= value
-		if self.check_array value then
-			@array = value.zip(Array.new value.size, false)
-		else
-			raise ArgumentError, "Wrong array class"
-		end
-	end
-	
+	checked_writer :array, :check_array, nil_expected: false, preprocess: lambda {|arr| arr.zip(Array.new arr.size, false)}
+
 	protected :array, :"array="
 	protected :stored_class, :"stored_class="
 	
-	class << self
-		protected
-		def new(*wargs, **kwargs)
-			super(*wargs, **kwargs)
-		end
-	end
+	
+	# Публичные методы
 	
 	def initialize arr
 		self.stored_class = arr.first.class
@@ -73,5 +46,26 @@ class DataList
 		end
 		
 		DataTable.new arr
+	end
+	
+	# Защищённые методы
+	
+	protected
+	
+	class << self
+		protected
+		def new(*wargs, **kwargs)
+			super(*wargs, **kwargs)
+		end
+	end
+	
+	def self.elements_equal_to? array, el
+		array.all? { |obj| obj == el }
+	end
+	
+	def check_array arr
+		classes_equal_stored = DataList.elements_equal_to?(arr.map{|obj| obj.class}, self.stored_class)
+		
+		not arr.empty? and classes_equal_stored
 	end
 end

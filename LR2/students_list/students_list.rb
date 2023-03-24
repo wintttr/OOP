@@ -33,6 +33,7 @@ class BasicReaderWriter
 end
 
 class StudentsList
+	# Геттеры и сеттеры
 	attr_accessor :obj_array
 	
 	def initialize

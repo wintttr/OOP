@@ -2,6 +2,10 @@ require "check_correctness_writer.rb"
 
 class DataTable
 	extend CheckCorrectnessWriter
+	
+	# Геттеры и сеттеры
+	attr_reader :array
+	checked_writer :array, :check_array, nil_expected: false
 
 	def initialize arr
 		self.array = Array.new arr
@@ -28,9 +32,5 @@ class DataTable
   
 	def self.check_array arr
 	  arr.size > 0 and self.check_subarrays_size_equality arr
-	end 
-	
-	
-	attr_reader :array
-	checked_writer :array, self.method(:check_array), nil_expected: false
+	end
 end

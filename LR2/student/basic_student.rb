@@ -6,6 +6,11 @@ class BasicStudent
 	extend CheckCorrectnessWriter
 	include Enumerable
 	
+	# Геттеры и сеттеры
+	attr_reader :id, :git
+	checked_writer :id, :id_correct?
+	checked_writer :git, :git_correct?
+	
 	def self.read_from_txt file_path
 		stud_list = []
 		
@@ -138,12 +143,7 @@ class BasicStudent
 	
 	def each
 		self.class.all_fields
-					.each { |x| yield x.to_sym, self.method(x.to_sym).call}
+			.each { |x| yield x.to_sym, self.method(x.to_sym).call}
 	end
 	
-	# ГЕТТЕРЫ И СЕТТЕРЫ
-	
-	attr_reader :id, :git
-	checked_writer :id, self.method(:id_correct?)
-	checked_writer :git, self.method(:git_correct?)
 end

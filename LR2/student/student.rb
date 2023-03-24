@@ -2,25 +2,19 @@ require "basic_student.rb"
 require "exceptions.rb"
 
 class Student < BasicStudent
+	# Геттеры и сеттеры
     attr_reader :surname, :first_name, :mid_name
     attr_reader :phone, :telegram, :email
 	
-	def self.preprocess_phone value
-		new_value = value.delete "+ ()-"
-		new_value[0] = "7" if new_value[0] == "8"
-		
-		new_value
-	end
+	checked_writer :surname, :name_correct?, nil_expected: false, preprocess: lambda {|x| x.capitalize}
+	checked_writer :first_name, :name_correct?, nil_expected: false, preprocess: lambda {|x| x.capitalize}
+	checked_writer :mid_name, :name_correct?, nil_expected: false, preprocess: lambda {|x| x.capitalize}
+	checked_writer :phone, :phone_correct?, preprocess: lambda {|phone| self.preprocess_phone phone}
+	checked_writer :telegram, :telegram_correct?
+	checked_writer :email, :email_correct?
 	
-	checked_writer :surname, self.method(:name_correct?), nil_expected: false, preprocess: lambda {|x| x.capitalize}
-	checked_writer :first_name, self.method(:name_correct?), nil_expected: false, preprocess: lambda {|x| x.capitalize}
-	checked_writer :mid_name, self.method(:name_correct?), nil_expected: false, preprocess: lambda {|x| x.capitalize}
-	checked_writer :phone, self.method(:phone_correct?), preprocess: self.method(:preprocess_phone)
-	checked_writer :telegram, self.method(:telegram_correct?)
-	checked_writer :email, self.method(:email_correct?)
-	
+	# Допиливание настроек приватности
 	public :id, :git, :"id=", :"git="
-	private_class_method :preprocess_phone
 	public_class_method :new
 	
     def initialize(surname:, first_name:, mid_name:, id:nil, phone:nil, telegram:nil, email:nil, git:nil)
@@ -91,5 +85,13 @@ class Student < BasicStudent
 			:id, :surname, :first_name, :mid_name,
 			:phone, :telegram, :email, :git
 		]
+	end
+	
+	private
+	def self.preprocess_phone value
+		new_value = value.delete "+ ()-"
+		new_value[0] = "7" if new_value[0] == "8"
+		
+		new_value
 	end
 end
