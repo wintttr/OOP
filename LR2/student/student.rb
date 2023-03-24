@@ -20,7 +20,7 @@ class Student < BasicStudent
 	checked_writer :email, self.method(:email_correct?)
 	
 	public :id, :git, :"id=", :"git="
-	
+	private_class_method :preprocess_phone
 	public_class_method :new
 	
     def initialize(surname:, first_name:, mid_name:, id:nil, phone:nil, telegram:nil, email:nil, git:nil)

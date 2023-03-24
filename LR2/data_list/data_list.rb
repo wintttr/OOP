@@ -30,6 +30,7 @@ class DataList
 	end
 	
 	private :check_array
+	private_class_method :elements_equal?, :elements_equal_to?
 	protected :array, :"array="
 	protected :stored_class, :"stored_class="
 	
