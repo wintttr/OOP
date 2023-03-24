@@ -143,7 +143,6 @@ class BasicStudent
 	
 	def each
 		self.class.all_fields
-			.each { |x| yield x.to_sym, self.method(x.to_sym).call}
+			.each { |x| yield x, self.method(x).call}
 	end
-	
 end
