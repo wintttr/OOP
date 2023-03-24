@@ -22,9 +22,9 @@ class BasicReaderWriter
 	
 	def self.write_objects array, file
 		data_hash = array.map do |obj|
-			obj.map do |field, value|
-				field => value
-			end
+			obj.map{ |field, value|
+				[field, value]
+			}.to_h
 		end
 		
 		# esrap - это parse наоборот...
@@ -41,57 +41,59 @@ class StudentsList
 	
 	def read_all_objects reader, file
 		File.open(file) do |f|
-			obj_array = reader.read_objects f
+			self.obj_array = reader.read_objects f
 		end
 	end
 	
 	def write_all_objects writer, file
-		File.open(file) do |f|
-			writer.write_objects obj_array, f
+		File.open(file, "w") do |f|
+			writer.write_objects self.obj_array, f
 		end
 	end
 	
 	def add_obj obj
-		obj_array.append obj
+		self.obj_array.append obj
 	end
 	
 	
 	def get_obj id
-		index = get_index id
-		obj_array[index]
+		index = self.get_index id
+		self.obj_array[index]
 	end
 	
 	
 	def upd_obj id, obj
-		index = get_index id
-		obj_array[index] = obj
+		index = self.get_index id
+		self.obj_array[index] = obj
 	end
 	
 	def del_obj id
-		index = get_index id
-		obj_array.delete_at index
+		index = self.get_index id
+		self.obj_array.delete_at index
 	end
 	
 	def get_k_n_student_short_list k, n
-		k_n_objs = obj_array[k...(k+n)]
+		k_n_objs = self.obj_array[k...(k+n)]
 		k_n_objs.map! { |obj| StudentShort.student_ctor obj }
 		
 		DataListStudentShort.new k_n_objs
 	end
 	
 	def sort_si
-		obj_array.sort_by! {|obj| obj.surname_initials}
+		self.obj_array.sort_by! {|obj| obj.surname_initials}
 	end
 	
 	def get_students_count
-		obj_array.size
+		self.obj_array.size
 	end
 	
 	private
 	def get_index id
-		index = obj_array.find_index {|item| item.id == id}
+		index = self.obj_array.find_index {|item| item.id == id}
 		
-		if index == nil then raise ObjectNotFound, id end
+		if index.nil? then 
+			raise ObjectNotFound, id 
+		end
 		
 		index
 	end
