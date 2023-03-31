@@ -7,6 +7,9 @@ class DBReaderWriter < BasicReaderWriter
 	attr_accessor :db_table
 	attr_accessor :db_client
 	
+	private :db_table, :"db_table="
+	private :db_client, :"db_client="
+	
 	def initialize(table:, **kwargs)
 		self.db_table = table
 		self.db_client = Mysql2::Client.new(**kwargs)

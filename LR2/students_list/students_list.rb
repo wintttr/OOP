@@ -22,6 +22,8 @@ end
 class BasicFileReaderWriter < BasicReaderWriter
 	attr_accessor :file_path
 	
+	private :file_path, :"file_path="
+	
 	class << self
 		protected
 		def new(*wargs, **kwargs)
