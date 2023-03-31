@@ -20,3 +20,10 @@ task :run do |t|
 	
 	system "ruby #{dir_string} main.rb"
 end
+
+desc "Проверяем работу sql"
+task :sql_test do |t|
+	dir_string = directories.map{|s| "-I#{s}"}.join(" ")
+	
+	system "ruby #{dir_string} sql_test.rb"
+end
