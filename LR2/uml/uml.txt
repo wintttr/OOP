@@ -152,13 +152,13 @@ class DataListStudentShort {
 }
 
 
-abstract StudentsList {
+class StudentsList {
 	-- Конструктор --
 	{static} + initialize()
 	
 	-- Методы --
-	{method} + read_all_objects(reader, file)
-	{method} + write_all_objects(writer, file)
+	{method} + read_all_objects(reader)
+	{method} + write_all_objects(writer)
 	{method} + add_obj(obj)
 	{method} + upd_obj(id, obj)
 	{method} + del_obj(id)
@@ -171,12 +171,37 @@ abstract StudentsList {
 }
 
 abstract BasicReaderWriter {
-	{method} + read_objects(file)
-	{method} + write_objects(array, file)
+	{method} + read_objects()
+	{method} + write_objects(hashes_array)
+}
+
+class DBReaderWriter {
+	-- Поля --
+	{field} - db_table
+	{field} - db_client
 	
-	-- Абстрактные методы --
-	{method} - parse(str)
-	{method} - esrap(data_array)
+	-- Конструктор --
+	{static} + initialize(table:, **kwargs)
+	
+	-- Методы --
+	{method} + read_objects_impl()
+	{method} + write_objects_impl(hashes_array)
+}
+
+abstract BasicFileReaderWriter {
+	-- Поля --
+	{field} - file_path
+	
+	-- Конструктор --
+	{static} # initialize(file_path)
+	
+	-- Методы --
+	{method} + read_objects_impl()
+	{method} + write_objects_impl(hashes_array)
+	
+	-- Абстрактные методы класса --
+	{static} - parse(str)
+	{static} - esrap(data_array)
 }
 
 class TXTReaderWriter {
@@ -226,11 +251,13 @@ StudentsList ..> Student
 StudentsList ..> DataList
 StudentsList ..> BasicReaderWriter
 
-TXTReaderWriter --|> BasicReaderWriter
+DBReaderWriter --|> BasicReaderWriter
+BasicFileReaderWriter --|> BasicReaderWriter
+
+TXTReaderWriter --|> BasicFileReaderWriter
 TXTReaderWriter ..|> Parser
 
-JSONReaderWriter --|> BasicReaderWriter
-
-YAMLReaderWriter --|> BasicReaderWriter
+JSONReaderWriter --|> BasicFileReaderWriter
+YAMLReaderWriter --|> BasicFileReaderWriter
 
 @enduml
