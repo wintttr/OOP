@@ -2,7 +2,7 @@ require "json"
 
 require "students_list.rb"
 
-class JSONReaderWriter < BasicReaderWriter
+class JSONReaderWriter < BasicFileReaderWriter
 	public_class_method :new
 
 	private

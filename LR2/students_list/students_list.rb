@@ -9,26 +9,44 @@ class BasicReaderWriter
 			super(*wargs, **kwargs)
 		end
 	end
+	
+	def read_objects
+		read_objects_impl
+	end
+	
+	def write_objects hashes_array
+		write_objects_impl hashes_array
+	end
+end
 
-	def self.read_objects file
-		file_str = file.read()
-		
-		data_hash = self.parse(file_str)
-		
-		data_hash.map do |obj_hash|
-			Student.new(**obj_hash)
+class BasicFileReaderWriter < BasicReaderWriter
+	attr_accessor :file_path
+	
+	class << self
+		protected
+		def new(*wargs, **kwargs)
+			super(*wargs, **kwargs)
 		end
 	end
 	
-	def self.write_objects array, file
-		data_hash = array.map do |obj|
-			obj.map{ |field, value|
-				[field, value]
-			}.to_h
+	def initialize(file_path)
+		self.file_path = file_path
+	end
+	
+	def read_objects_impl
+		file_str = File.open(self.file_path, "r") do |file|
+			file.read()
 		end
 		
-		# esrap - это parse наоборот...
-		file.puts(self.esrap(data_hash))
+		self.class.parse(file_str)
+	end
+	
+	
+	def write_objects_impl hashes_array
+		File.open(self.file_path, "w") do |file|
+			# esrap - это parse наоборот...
+			file.puts(self.class.esrap(hashes_array))
+		end
 	end
 end
 
@@ -40,16 +58,20 @@ class StudentsList
 		self.obj_array = []
 	end
 	
-	def read_all_objects reader, file
-		File.open(file) do |f|
-			self.obj_array = reader.read_objects f
-		end
+	def read_all_objects reader
+		hashes_array = reader.read_objects
+		
+		self.obj_array = Array.new hashes_array.map {|h| Student.new(**h)}
 	end
 	
-	def write_all_objects writer, file
-		File.open(file, "w") do |f|
-			writer.write_objects self.obj_array, f
+	def write_all_objects writer
+		hashes_array = self.obj_array.map do |obj|
+			obj.to_h do |field, value| 
+				[field, value] 
+			end
 		end
+	
+		writer.write_objects hashes_array
 	end
 	
 	def add_obj obj

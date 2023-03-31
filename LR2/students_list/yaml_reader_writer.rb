@@ -2,7 +2,7 @@ require "YAML"
 
 require "students_list.rb"
 
-class YAMLReaderWriter < BasicReaderWriter
+class YAMLReaderWriter < BasicFileReaderWriter
 	public_class_method :new
 
 	private

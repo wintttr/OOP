@@ -1,9 +1,9 @@
 require "students_list.rb"
 require "parser.rb"
 
-class TXTReaderWriter < BasicReaderWriter
+class TXTReaderWriter < BasicFileReaderWriter
 	public_class_method :new
-
+	
 	private
 	def self.parse str
 		str.each_line.map do |line|
