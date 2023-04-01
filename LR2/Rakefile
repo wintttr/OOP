@@ -1,6 +1,6 @@
 require "rake/testtask"
 
-directories = [".", "./data_list", "./student", "./students_list"]
+directories = [".", "./data_list", "./student", "./students_list", "./sql"]
 
 desc "Запускаем тесты"
 Rake::TestTask.new(:test) do |t|
