@@ -223,6 +223,7 @@ class YAMLReaderWriter {
 }
 
 interface Enumerable {}
+interface Singleton {}
 
 interface CheckCorrectnessWriter {
 	{method} + checked_writer(field, correct, nil_expected: true, preprocess: lambda {|x| x})
@@ -232,6 +233,16 @@ interface Parser {
 	{static} + parse(str)
 	{static} + unparse(data_hash)
 }
+
+class DBSingleton {
+	-- Геттер --
+	{method} + db_client
+
+	-- Сеттер --
+	{method} - db_client
+}
+
+DBSingleton ..|> Singleton
 
 BasicStudent ..|> CheckCorrectnessWriter
 DataTable ..|> CheckCorrectnessWriter
@@ -255,7 +266,7 @@ DBReaderWriter --|> BasicReaderWriter
 BasicFileReaderWriter --|> BasicReaderWriter
 
 TXTReaderWriter --|> BasicFileReaderWriter
-TXTReaderWriter ..|> Parser
+TXTReaderWriter ..> Parser
 
 JSONReaderWriter --|> BasicFileReaderWriter
 YAMLReaderWriter --|> BasicFileReaderWriter
