@@ -1,4 +1,5 @@
 require "check_correctness_writer.rb"
+require "data_table.rb"
 
 class DataList
 	extend CheckCorrectnessWriter

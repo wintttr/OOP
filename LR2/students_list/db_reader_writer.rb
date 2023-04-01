@@ -1,5 +1,4 @@
 require "mysql2"
-require "students_list.rb"
 
 class DBReaderWriter < BasicReaderWriter
 	public_class_method :new
