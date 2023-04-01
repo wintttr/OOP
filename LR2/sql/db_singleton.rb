@@ -1,9 +1,8 @@
 require "mysql2"
-require "singleton"
 
 class DBSingleton
-	include Singleton
-	
+	private_class_method :new
+
 	attr_accessor :db_client
 	private :"db_client="
 	
@@ -11,5 +10,11 @@ class DBSingleton
 		self.db_client = Mysql2::Client.new(host: "localhost", 
 											username: "wintttr", 
 											database: "studentsdb")
+	end
+
+	@instance = new
+	
+	def self.instance
+		@instance
 	end
 end
