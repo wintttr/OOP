@@ -181,7 +181,7 @@ class DBReaderWriter {
 	{field} - db_client
 	
 	-- Конструктор --
-	{static} + initialize(table:, **kwargs)
+	{static} + initialize(table:, db:)
 	
 	-- Методы --
 	{method} + read_objects_impl()
@@ -223,7 +223,6 @@ class YAMLReaderWriter {
 }
 
 interface Enumerable {}
-interface Singleton {}
 
 interface CheckCorrectnessWriter {
 	{method} + checked_writer(field, correct, nil_expected: true, preprocess: lambda {|x| x})
@@ -235,14 +234,18 @@ interface Parser {
 }
 
 class DBSingleton {
+	-- Поля экземпляра класса --
+	{field} - @instance
+	
+	-- Методы класса --
+	{static} + instance
+	
 	-- Геттер --
 	{method} + db_client
 
 	-- Сеттер --
 	{method} - db_client
 }
-
-DBSingleton ..|> Singleton
 
 BasicStudent ..|> CheckCorrectnessWriter
 DataTable ..|> CheckCorrectnessWriter
