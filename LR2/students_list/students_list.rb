@@ -77,6 +77,7 @@ class StudentsList
 	end
 	
 	def add_obj obj
+		obj.id = self.make_new_id
 		self.obj_array.append obj
 	end
 	
@@ -97,11 +98,17 @@ class StudentsList
 		self.obj_array.delete_at index
 	end
 	
-	def get_k_n_student_short_list k, n
-		k_n_objs = self.obj_array[k...(k+n)]
+	def get_k_n_student_short_list(k, n, data_list:nil)
+		k_n_objs = self.obj_array[k*n...(k*n + n)]
 		k_n_objs.map! { |obj| StudentShort.student_ctor obj }
 		
-		DataListStudentShort.new k_n_objs
+		return_list = DataListStudentShort.new k_n_objs
+		
+		unless data_list.nil? then
+			data_list.array = return_list
+		end
+		
+		return_list
 	end
 	
 	def sort_si
@@ -113,6 +120,10 @@ class StudentsList
 	end
 	
 	private
+	def make_new_id
+		self.obj_array.max { |obj| obj.id } + 1
+	end
+	
 	def get_index id
 		index = self.obj_array.find_index {|item| item.id == id}
 		
