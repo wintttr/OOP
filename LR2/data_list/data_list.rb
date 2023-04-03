@@ -9,7 +9,7 @@ class DataList
 	attr_reader :array
 	checked_writer :array, :check_array, nil_expected: false, preprocess: lambda {|arr| arr.zip(Array.new arr.size, false)}
 
-	protected :array, :"array="
+	public :array, :"array="
 	protected :stored_class, :"stored_class="
 	
 	
