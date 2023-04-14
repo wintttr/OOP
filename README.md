@@ -1,4 +1,4 @@
 # OOP
 Буду тут лабы по паттернам проектирования выкладывать.
 
-![image](https://user-images.githubusercontent.com/85644131/227216240-90dfae23-fca9-4a8a-8a8a-7e00b4fd92ca.png)
+<img src="https://user-images.githubusercontent.com/85644131/231908821-e2fe1a70-e304-44a4-afab-aa95e6475521.png" alt="ruby" width="75%">
