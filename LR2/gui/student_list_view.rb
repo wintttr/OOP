@@ -1,4 +1,4 @@
-require "main_window.rb"
+require "student_main_window.rb"
 
 class StudentListView
 	attr_accessor :window, :controller
@@ -7,10 +7,8 @@ class StudentListView
 		self.controller = controller_class.new(self)
 		
 		app = FXApp.new 
-		StudentMainWindow.new(app)
+		self.window = StudentMainWindow.new(app)
 		app.create 
 		app.run 
 	end
-	
-	
 end
