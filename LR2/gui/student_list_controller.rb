@@ -11,10 +11,14 @@ class StudentListController
 		
 		self.list.read_all_objects JSONReaderWriter.new "json_for_test.json"
 		
-		self.dlss = self.list.get_k_n_student_short_list 0, self.view.window.class.table_row_count
+		self.dlss = self.list.get_k_n_student_short_list 0, self.view.class.table_row_count
 		self.dlss.view = self.view
 		
-		self.view.set_table_pages self.list.size
+		self.view.page_count = (self.list.size.to_f / self.view.class.table_row_count).ceil
+	end
+	
+	def sort
+		self.list.sort_si
 	end
 	
 	def refresh_data page_number, row_count
