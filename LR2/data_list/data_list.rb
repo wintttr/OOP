@@ -7,14 +7,13 @@ class DataList
 	# Геттеры/сеттеры
 	attr_accessor :stored_class
 	attr_reader :array
+	
 	checked_writer :array, :check_array, nil_expected: false, preprocess: lambda {|arr| arr.zip(Array.new arr.size, false)}
 
 	public :"array="
-	protected :stored_class, :"stored_class="
-	private :array
+	protected :stored_class, :"stored_class=", :array
 	
 	# Публичные методы
-	
 	def initialize arr
 		self.stored_class = arr.first.class
 		self.array = arr

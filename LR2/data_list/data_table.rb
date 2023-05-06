@@ -20,7 +20,11 @@ class DataTable
 	end
 	
 	def cols
-		self.array[0].size
+		if(self.rows > 0)
+			self.array[0].size
+		else
+			nil
+		end 
 	end
 	
 	private
