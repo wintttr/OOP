@@ -2,11 +2,20 @@ require 'fox16'
 include Fox 
 
 class StudentMainWindow < FXMainWindow
-	attr_accessor :add_button, :chg_button, :del_button, :upd_button
-	attr_accessor :table
+	private
+	attr_accessor :add_button, :chg_button, :del_button, :upd_button, :refresh, :page_count_label
+	attr_writer :cur_page
+
+	public
+	attr_reader :cur_page
+	attr_accessor :table, :page_count
 	
-	# Говнокод, потом уберу
-	attr_accessor :row_number
+	def page_count= value
+		@page_count = value
+		self.page_count_label.text = value.to_s
+	end
+	
+	def self.table_row_count; 10 end
 	
 	def handle_list_box_command index, listbox, field
 		item_text = listbox.getItemText(index)
@@ -84,12 +93,9 @@ class StudentMainWindow < FXMainWindow
 	
 	def add_table frame
 		self.table = FXTable.new(frame, :opts => LAYOUT_FILL)
-		self.table.setTableSize(10, 4)
+		self.table.setTableSize(self.class.table_row_count, 4)
 		
-		self.table.setColumnText(0, "№")
-		self.table.setColumnText(1, "Фамилия И. О.")
-		self.table.setColumnText(2, "Контакт")
-		self.table.setColumnText(3, "Гит")
+		
 		
 		self.table.editable = false
 		
@@ -108,6 +114,14 @@ class StudentMainWindow < FXMainWindow
 				self.del_button.disable
 			end
 		end
+		
+		self.table.columnHeader.connect(SEL_COMMAND) do |table, _, index|
+			if(index == 1)
+				puts "Сортировка"
+			else
+				puts "Сортировочки пока нет..."
+			end
+		end
 	end
 	
 	def add_crud_buttons frame
@@ -120,18 +134,43 @@ class StudentMainWindow < FXMainWindow
 		self.del_button.disable
 	end
 	
-	def add_row col_array
-		table.setItem(self.row_number, 0, FXTableItem.new(col_array[0]))
-		table.setItem(self.row_number, 1, FXTableItem.new(col_array[1]))
-		table.setItem(self.row_number, 2, FXTableItem.new(col_array[2]))
-		table.setItem(self.row_number, 3, FXTableItem.new(col_array[3]))
+	def add_lcr_buttons frame
+		left_button = FXButton.new(frame, "<<")
+		cur_label = FXLabel.new(frame, self.cur_page.to_s)
+		FXLabel.new(frame, "/")
+		self.page_count_label = FXLabel.new(frame, self.page_count.to_s)
+		right_button = FXButton.new(frame, ">>")
 		
-		self.row_number += 1
+		left_button.connect(SEL_COMMAND) do
+			if(self.cur_page > 1) 
+				self.cur_page -= 1
+				cur_label.text = self.cur_page.to_s
+				self.refresh.call
+			end
+		end
+		
+		right_button.connect(SEL_COMMAND) do
+			if(self.cur_page < self.page_count) 
+				self.cur_page += 1
+				cur_label.text = self.cur_page.to_s
+				self.refresh.call
+			end
+		end
 	end
 	
-	def initialize(app)
-		super(app, "StudentListView" , :width => 910, :height => 450)
-		self.row_number = 0
+	def set_table_headers arr
+		self.table.setColumnText(0, "№")
+		
+		arr.each_with_index { |value, index|
+			self.table.setColumnText(index+1, value)
+		}
+	end
+	
+	def initialize(app, refresh)
+		super(app, "StudentListView" , :width => 550, :height => 500)
+		
+		self.cur_page = 1
+		self.refresh = refresh
 		
 		# Фамилия Имя Отчество?
 		hFrame1 = FXHorizontalFrame.new(self)
@@ -161,9 +200,13 @@ class StudentMainWindow < FXMainWindow
 		
 		self.add_table hFrame6
 		
-		# Кнопочки
+		# Перелистываем страницы
 		hFrame7 = FXHorizontalFrame.new(self, opts: LAYOUT_FILL_X)
-		add_crud_buttons hFrame7
+		add_lcr_buttons hFrame7
+		
+		# Кнопочки
+		hFrame8 = FXHorizontalFrame.new(self, opts: LAYOUT_FILL_X)
+		add_crud_buttons hFrame8
 	end
 	
 	def create
