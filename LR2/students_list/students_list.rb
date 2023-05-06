@@ -11,7 +11,12 @@ class BasicReaderWriter
 	end
 	
 	def read_objects
-		read_objects_impl
+		h = read_objects_impl
+		h.map do |arr|
+			arr.to_h do |f, v|
+				[f.to_sym, v]
+			end
+		end
 	end
 	
 	def write_objects hashes_array
@@ -60,6 +65,10 @@ class StudentsList
 		self.obj_array = []
 	end
 	
+	def size
+		self.obj_array.size
+	end
+	
 	def read_all_objects reader
 		hashes_array = reader.read_objects
 		
@@ -72,7 +81,7 @@ class StudentsList
 				[field, value] 
 			end
 		end
-	
+		
 		writer.write_objects hashes_array
 	end
 	
@@ -102,13 +111,13 @@ class StudentsList
 		k_n_objs = self.obj_array[k*n...(k*n + n)]
 		k_n_objs.map! { |obj| StudentShort.student_ctor obj }
 		
-		return_list = DataListStudentShort.new k_n_objs
+		return_list = k_n_objs
 		
 		unless data_list.nil? then
 			data_list.array = return_list
 		end
 		
-		return_list
+		DataListStudentShort.new return_list
 	end
 	
 	def sort_si
@@ -121,7 +130,9 @@ class StudentsList
 	
 	private
 	def make_new_id
-		self.obj_array.max { |obj| obj.id } + 1
+		if self.obj_array.size == 0 then return 1 end
+		
+		self.obj_array.max { |obj| if not obj.nil? then obj.id else 0 end}.id + 1
 	end
 	
 	def get_index id

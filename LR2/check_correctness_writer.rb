@@ -16,7 +16,7 @@ module CheckCorrectnessWriter
 				if nil_expected then
 					instance_variable_set field_sym, nil
 				else
-					raise NilError, field
+					raise NilError, field.to_sym
 				end
 			elsif correct_method.call value then
 				instance_variable_set field_sym, preprocess.call(value)
