@@ -12,4 +12,5 @@ insert into students(surname, first_name, mid_name, phone, email, telegram, git)
 ('Сергеев', 'Александр', 'Платонович', '+7 (523) 882-0062', 'hbalderstone6@symantec.com', '@kluisetti6', 'mpitman6'),
 ('Морозова', 'Татьяна', 'Андреевна', '+7 (691) 615-6822', 'ldimatteo7@t.co', '@ejonczyk7', 'vsirmon7'),
 ('Яковлев', 'Николай', 'Владимирович', '+7 (955) 275-4443', 'rschukert8@1und1.de', '@dcapaldo8', 'ecreek8'),
-('Куликов', 'Николай', 'Матвеевич', '+7 (743) 504-5274', 'rtetsall9@cnbc.com', '@kstorks9', 'spardue9');
+('Куликов', 'Николай', 'Матвеевич', '+7 (743) 504-5274', 'rtetsall9@cnbc.com', '@kstorks9', 'spardue9'),
+('Якухнов', 'Роман', 'Андреевич', '+7 (799) 544-5434', 'redmag@gmail.com', '@RedMaG1', 'RedMag02');
