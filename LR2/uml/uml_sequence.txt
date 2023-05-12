@@ -1,0 +1,53 @@
+@startuml
+main.rb -> StudentListView : new
+StudentListView -> FXApp : new
+StudentListView <-- FXApp
+
+StudentListView -> StudentMainWindow : new(app)
+StudentListView <-- StudentMainWindow
+
+StudentListView -> StudentListController : new(self)
+
+StudentListController -> StudentList : new
+StudentListController <-- StudentList
+
+StudentListController -> StudentList : read_all_objects
+StudentList -> DBReaderWriter : read_objects
+StudentList <-- DBReaderWriter
+StudentListController <-- StudentList
+
+StudentListController -> StudentList : get_k_n_student_short_list
+StudentList -> DLSS : new
+StudentList <-- DLSS
+StudentListController <-- StudentList
+
+StudentListController -> DLSS: add_observer(View) 
+StudentListController <-- DLSS
+
+StudentListView <-- StudentListController
+StudentListView -> StudentListView : refresh
+StudentListView -> StudentListController : refresh_data
+
+StudentListController -> StudentList : get_k_n_student_short
+StudentListController <-- StudentList
+
+StudentListController -> DLSS: notify
+
+StudentListView <- DLSS: set_table_params
+StudentListView --> DLSS
+
+StudentListView <- DLSS : set_table_data
+StudentListView --> DLSS
+
+StudentListController <-- DLSS
+StudentListView <-- StudentListController
+
+StudentListView -> FXApp : create
+StudentListView <-- FXApp
+StudentListView -> FXApp : run
+StudentListView <-- FXApp
+
+main.rb <-- StudentListView
+
+
+@enduml
