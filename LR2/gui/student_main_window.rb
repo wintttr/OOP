@@ -6,13 +6,13 @@ class StudentMainWindow < FXMainWindow
 	attr_writer :add_button, :chg_button, :del_button, :upd_button
 	attr_writer :go_left_button, :go_right_button
 	attr_writer :page_count_label, :cur_page_label
-	attr_writer :table
+	attr_writer :table, :tabBook
 	
 	public
 	attr_reader :add_button, :chg_button, :del_button, :upd_button
 	attr_reader :go_left_button, :go_right_button
 	attr_reader :page_count_label, :cur_page_label
-	attr_reader :table
+	attr_reader :table, :tabBook
 	
 	def handle_list_box_command index, listbox, field
 		item_text = listbox.getItemText(index)
@@ -95,42 +95,52 @@ class StudentMainWindow < FXMainWindow
 	end
 	
 	def initialize(app)
-		super(app, "StudentListView" , :width => 550, :height => 500)
+		super(app, "StudentListView" , :width => 650, :height => 500)
+		
+		self.tabBook = FXTabBook.new(self)
+		tabFrame1 = FXTabItem.new(self.tabBook, "Вкладка 1", nil)
+		vFrame1 = FXVerticalFrame.new(self.tabBook)
+		
+		tabFrame2 = FXTabItem.new(self.tabBook, "Вкладка 2", nil)
+		vFrame2 = FXVerticalFrame.new(self.tabBook)
+		
+		tabFrame3 = FXTabItem.new(self.tabBook, "Вкладка 3", nil)
+		vFrame3 = FXVerticalFrame.new(self.tabBook)
 		
 		# Фамилия Имя Отчество?
-		hFrame1 = FXHorizontalFrame.new(self)
+		hFrame1 = FXHorizontalFrame.new(vFrame1)
 		self.add_name_field hFrame1
 		
 		# Гит
 		self.add_git_field hFrame1
 		
 		# Мыло
-		hFrame2 = FXHorizontalFrame.new(self)
+		hFrame2 = FXHorizontalFrame.new(vFrame1)
 		self.add_email_field hFrame2
 		
 		# Телефон
-		hFrame3 = FXHorizontalFrame.new(self)
+		hFrame3 = FXHorizontalFrame.new(vFrame1)
 		self.add_phone_field hFrame3
 		
 		# Телеграм
-		hFrame4 = FXHorizontalFrame.new(self)
+		hFrame4 = FXHorizontalFrame.new(vFrame1)
 		self.add_tg_field hFrame4
 		
 		# Табличка
-		hFrame5 = FXHorizontalFrame.new(self)
+		hFrame5 = FXHorizontalFrame.new(vFrame1)
 		FXLabel.new(hFrame5, "Таблица")
 		
-		hFrame6 = FXHorizontalFrame.new(self, opts: LAYOUT_FILL_X | LAYOUT_FIX_HEIGHT)
+		hFrame6 = FXHorizontalFrame.new(vFrame1, opts: LAYOUT_FILL_X | LAYOUT_FIX_HEIGHT)
 		hFrame6.height = 230
 		
 		self.add_table hFrame6
 		
 		# Перелистываем страницы
-		hFrame7 = FXHorizontalFrame.new(self, opts: LAYOUT_FILL_X)
+		hFrame7 = FXHorizontalFrame.new(vFrame1, opts: LAYOUT_FILL_X)
 		add_lcr_buttons hFrame7
 		
 		# Кнопочки
-		hFrame8 = FXHorizontalFrame.new(self, opts: LAYOUT_FILL_X)
+		hFrame8 = FXHorizontalFrame.new(vFrame1, opts: LAYOUT_FILL_X)
 		add_crud_buttons hFrame8
 	end
 	

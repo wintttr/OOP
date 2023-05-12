@@ -48,6 +48,14 @@ class StudentListView
 		end
 	end
 	
+	def set_tab_book_handler
+		window.tabBook.connect(SEL_COMMAND) do |sender, selector, data|
+			if(sender.current == 0) then
+				self.refresh reload: true
+			end
+		end
+	end
+	
 	def sort
 		self.controller.sort
 		self.refresh
@@ -63,19 +71,11 @@ class StudentListView
 	end
 	
 	def cur_page= value
-		if(value > self.page_count or value < 1)
-			raise Exception, "Page #{value} not in interval [1, #{self.page_count}]"
-		end
-		
 		@cur_page = value
 		self.window.cur_page_label.text = self.cur_page.to_s
 	end
 	
 	def page_count= value
-		if(value < 1)
-			raise Exception, "Page count must be positive"
-		end
-		
 		@page_count = value
 		self.window.page_count_label.text = self.page_count.to_s
 	end
@@ -119,7 +119,6 @@ class StudentListView
 	def erase_table
 		for i in 0...self.window.table.numRows
 			for j in 0...self.window.table.numColumns
-				puts "#{i}, #{j}"
 				self.window.table.setItemText(i, j, "")
 			end
 		end
@@ -140,24 +139,37 @@ class StudentListView
 		end
 	end
 	
-	def refresh
-		self.controller.refresh_data self.cur_page - 1, self.class.table_row_count
+	def refresh reload: false
+		begin
+			if(reload) then
+				self.cur_page = 1
+			end
+			
+			self.controller.refresh_data self.cur_page - 1, self.class.table_row_count, reload: reload
+		rescue ViewError => ve
+			FXMessageBox.error self.window, MBOX_OK, "Error", ve.to_s
+		end
 	end
 	
 	def initialize
-		app = FXApp.new
+		begin
+			app = FXApp.new
 		
-		self.window = StudentMainWindow.new(app)
-		self.controller = StudentListController.new(self)
+			self.window = StudentMainWindow.new(app)
+			
+			self.set_table_handlers
+			self.set_lcr_handlers
+			self.set_tab_book_handler
+			self.cur_page = 1
+			
+			app.create
 		
-		self.set_table_handlers
-		self.set_lcr_handlers
-		
-		self.cur_page = 1
-		
-		self.refresh
-		
-		app.create 
-		app.run
+			self.controller = StudentListController.new(self)
+			self.refresh
+			app.run
+		rescue ViewError => ve
+			FXMessageBox.error self.window, MBOX_OK, "Error", ve.to_s
+			exit
+		end
 	end
 end
