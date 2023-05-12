@@ -19,10 +19,8 @@ class DataListStudentShort < DataList
 	end
 	
 	def get_data_impl
-		arr = self.array.map do |student|
+		self.array.map do |student|
 			student[0].filter{|field, value| field != :id}.map{|field, value| value}
 		end
-		puts arr
-		arr
 	end
 end
