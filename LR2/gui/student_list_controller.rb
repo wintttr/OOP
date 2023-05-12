@@ -10,7 +10,7 @@ class StudentListController
 		self.view = view
 		self.list = StudentsList.new
 		
-		self.list.read_all_objects DBReaderWriter.new "students", DBSingleton.instance
+		self.list.read_all_objects DBReaderWriter.new table: "students", db: DBSingleton.instance.db_client
 		
 		self.dlss = self.list.get_k_n_student_short_list 0, self.view.class.table_row_count
 		self.dlss.view = self.view
