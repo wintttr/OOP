@@ -4,11 +4,6 @@ require "student_list_controller.rb"
 class StudentListView
 	attr_accessor :window, :controller, :list
 	
-	attr_reader :cur_page
-	attr_reader :page_count
-	
-	def self.table_row_count; 10 end
-	
 	def set_table_params(column_names, whole_entities_count)
 		self.window.table.setTableSize(whole_entities_count, 4)
 		self.window.set_table_headers column_names
@@ -59,62 +54,20 @@ class StudentListView
 	def sort
 		self.controller.sort
 		self.refresh
-		self.cur_page = 1
-	end
-	
-	def last_page?
-		self.cur_page >= self.page_count
-	end
-	
-	def first_page?
-		self.cur_page <= 1
-	end
-	
-	def cur_page= value
-		@cur_page = value
-		self.window.cur_page_label.text = self.cur_page.to_s
-	end
-	
-	def page_count= value
-		@page_count = value
-		self.window.page_count_label.text = self.page_count.to_s
-	end
-	
-	def next_page
-		flag = !self.last_page?
-		
-		if flag
-			self.cur_page += 1
-			self.refresh
-		else
-			self.cur_page = self.page_count
-		end
-		
-		return flag
-	end
-	
-	def prev_page
-		flag = !self.first_page?
-	
-		if flag
-			self.cur_page -= 1
-			self.refresh
-		else
-			self.cur_page = 1
-		end
-		
-		return flag
 	end
 	
 	def set_lcr_handlers
 		self.window.go_left_button.connect(SEL_COMMAND) do
-			self.prev_page
+			self.controller.prev_page
+			self.refresh
 		end
 		
 		self.window.go_right_button.connect(SEL_COMMAND) do
-			self.next_page
+			self.controller.next_page
+			self.refresh
 		end
 	end
+	
 	
 	def erase_table
 		for i in 0...self.window.table.numRows
@@ -141,11 +94,10 @@ class StudentListView
 	
 	def refresh reload: false
 		begin
-			if(reload) then
-				self.cur_page = 1
-			end
+			self.controller.refresh_data reload: reload
 			
-			self.controller.refresh_data self.cur_page - 1, self.class.table_row_count, reload: reload
+			self.window.page_count_label.text = self.controller.page_count.to_s 
+			self.window.cur_page_label.text = self.controller.cur_page.to_s 
 		rescue ViewError => ve
 			FXMessageBox.error self.window, MBOX_OK, "Error", ve.to_s
 		end
@@ -160,7 +112,6 @@ class StudentListView
 			self.set_table_handlers
 			self.set_lcr_handlers
 			self.set_tab_book_handler
-			self.cur_page = 1
 			
 			app.create
 		

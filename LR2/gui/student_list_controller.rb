@@ -10,16 +10,56 @@ class StudentListController
 		DBReaderWriter.new table: "students", db: DBSingleton.instance.db_client
 	end
 	
+	def table_row_count; 10 end
+	
+	def last_page? page
+		page >= self.page_count
+	end
+	
+	def first_page? page
+		page <= 1
+	end
+	
+	def cur_page
+		if @cur_page.nil? then @cur_page = 1 end
+		
+		@cur_page
+	end
+	
+	def page_count
+		if not self.list.nil? then
+			(self.list.size.to_f / self.table_row_count).ceil
+		else
+			0
+		end
+	end
+	
+	def cur_page= value
+		if last_page? value then 
+			@cur_page = self.page_count
+		elsif first_page? value then
+			@cur_page = 1
+		else
+			@cur_page = value
+		end
+	end
+	
+	def next_page
+		self.cur_page += 1
+	end
+	
+	def prev_page
+		self.cur_page -= 1
+	end
+	
 	def initialize view
 		self.view = view
 		self.list = StudentsList.new
 		
 		self.load_list self.default_readerwriter
+		self.dlss = self.list.get_k_n_student_short_list 0, self.table_row_count
 		
-		self.dlss = self.list.get_k_n_student_short_list 0, self.view.class.table_row_count
 		self.dlss.view = self.view
-		
-		self.view.page_count = (self.list.size.to_f / self.view.class.table_row_count).ceil
 	end
 	
 	def sort
@@ -34,12 +74,12 @@ class StudentListController
 		end
 	end
 	
-	def refresh_data page_number, row_count, reload: false
+	def refresh_data reload: false
 		if(reload) then
 			self.load_list self.default_readerwriter
 		end
 	
-		self.list.get_k_n_student_short_list page_number, row_count, data_list: dlss
+		self.list.get_k_n_student_short_list self.cur_page - 1, self.table_row_count, data_list: dlss
 	
 		self.dlss.notify
 	end
