@@ -1,3 +1,11 @@
+class ReadError < RuntimeError; end
+
+class ViewError < RuntimeError
+	def initialize error
+		super error
+	end
+end
+
 class ContactDoesntExistError < RuntimeError
 	def initialize
 		super "No contact found"
