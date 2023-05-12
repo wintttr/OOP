@@ -70,9 +70,12 @@ class StudentsList
 	end
 	
 	def read_all_objects reader
-		hashes_array = reader.read_objects
-		
-		self.obj_array = Array.new hashes_array.map {|h| Student.new(**h)}
+		begin
+			hashes_array = reader.read_objects
+			self.obj_array = Array.new hashes_array.map {|h| Student.new(**h)}
+		rescue
+			raise ReadError
+		end
 	end
 	
 	def write_all_objects writer
