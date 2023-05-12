@@ -2,7 +2,7 @@ require "student_main_window.rb"
 require "student_list_controller.rb"
 
 class StudentListView
-	attr_accessor :window, :controller, :list
+	attr_accessor :window, :controller
 	
 	def set_table_params(column_names, whole_entities_count)
 		self.window.table.setTableSize(whole_entities_count, 4)

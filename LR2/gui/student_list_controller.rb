@@ -53,6 +53,7 @@ class StudentListController
 	end
 	
 	def initialize view
+		# Спроси зачем
 		self.view = view
 		self.list = StudentsList.new
 		
