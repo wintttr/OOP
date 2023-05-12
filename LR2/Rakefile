@@ -8,11 +8,21 @@ Rake::TestTask.new(:test) do |t|
 	t.test_files = FileList['tests/**/test_*.rb']
 end
 
-desc "Генерируем UML"
-task :uml,[:plant_uml_path, :uml_path] do |t, args|
-	args.with_defaults(:plant_uml_path => "/mnt/c/plantuml/plantuml.jar", :uml_path => "./uml/uml.txt")
-	system "java -DPLANTUML_LIMIT_SIZE=8192 -jar #{args.plant_uml_path} -charset \"UTF-8\" #{args.uml_path}"
+desc "Генерируем конкретный UML"
+task :uml,[:uml_path] do |t, args|
+	plant_uml_path = "/mnt/c/plantuml/plantuml.jar"
+	
+	system "java -Djava.awt.headless=true -DPLANTUML_LIMIT_SIZE=8192 -jar #{plant_uml_path} -charset \"UTF-8\" #{args[:uml_path]}"
 end
+
+desc "Генерируем все UML"
+task :all_uml do
+	Dir["./uml/*.txt"].each do |file|
+		Rake::Task[:uml].execute uml_path: file
+		puts "#{file} done"
+	end
+end
+
 
 desc "Запускаем main.rb"
 task :run do |t|
