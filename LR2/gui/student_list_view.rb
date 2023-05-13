@@ -2,11 +2,46 @@ require "student_main_window.rb"
 require "student_list_controller.rb"
 
 class StudentListView
-	attr_accessor :window, :controller
-	
 	def set_table_params(column_names, whole_entities_count)
 		self.window.table.setTableSize(whole_entities_count, 4)
 		self.window.set_table_headers column_names
+	end
+	
+	def set_table_data(data_table)
+		table = self.window.table
+		
+		self.erase_table
+		
+		(0...data_table.rows).each do |x|
+			if data_table.get(x, 0).nil? then break end
+			
+			(0...data_table.cols).each do |y|
+				value = data_table.get(x, y)
+				table.setItemText(x, y, value.to_s)
+			end
+		end
+	end
+	
+	def initialize
+		begin
+			app = FXApp.new
+		
+			self.window = StudentMainWindow.new(app)
+			
+			self.set_table_handlers
+			self.set_lcr_handlers
+			self.set_tab_book_handler
+			
+			app.create
+		
+			self.controller = StudentListController.new(self)
+			self.refresh
+			
+			app.run
+		rescue ViewError => ve
+			FXMessageBox.error self.window, MBOX_OK, "Error", ve.to_s
+			exit
+		end
 	end
 	
 	def set_table_handlers
@@ -43,6 +78,9 @@ class StudentListView
 		end
 	end
 	
+	private
+	attr_accessor :window, :controller
+	
 	def set_tab_book_handler
 		window.tabBook.connect(SEL_COMMAND) do |sender, selector, data|
 			if(sender.current == 0) then
@@ -77,21 +115,6 @@ class StudentListView
 		end
 	end
 	
-	def set_table_data(data_table)
-		table = self.window.table
-		
-		self.erase_table
-		
-		(0...data_table.rows).each do |x|
-			if data_table.get(x, 0).nil? then break end
-			
-			(0...data_table.cols).each do |y|
-				value = data_table.get(x, y)
-				table.setItemText(x, y, value.to_s)
-			end
-		end
-	end
-	
 	def refresh reload: false
 		begin
 			self.controller.refresh_data reload: reload
@@ -100,27 +123,6 @@ class StudentListView
 			self.window.cur_page_label.text = self.controller.cur_page.to_s 
 		rescue ViewError => ve
 			FXMessageBox.error self.window, MBOX_OK, "Error", ve.to_s
-		end
-	end
-	
-	def initialize
-		begin
-			app = FXApp.new
-		
-			self.window = StudentMainWindow.new(app)
-			
-			self.set_table_handlers
-			self.set_lcr_handlers
-			self.set_tab_book_handler
-			
-			app.create
-		
-			self.controller = StudentListController.new(self)
-			self.refresh
-			app.run
-		rescue ViewError => ve
-			FXMessageBox.error self.window, MBOX_OK, "Error", ve.to_s
-			exit
 		end
 	end
 end
