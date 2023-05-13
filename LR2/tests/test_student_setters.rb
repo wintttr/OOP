@@ -3,27 +3,27 @@ require "student.rb"
 
 class TestStudentSetters < Minitest::Test
 	def self.get_test_student
-		Student.new surname: "Точно", first_name: "Правильное", mid_name: "Имя"
+		Student.new(surname: "Точно", first_name: "Правильное", mid_name: "Имя")
 	end
 	
 	### Универсальный тест сеттера
 	
-	def setter_test field, correct_array, incorrect_array
+	def setter_test(field, correct_array, incorrect_array)
 		test_student = self.class.get_test_student
 		
 		correct_array.each do |name|
 			begin
-				test_student.method(:"#{field}=").call name
+				test_student.method(:"#{field}=").call(name)
 			rescue 
-				assert false, "Error with value #{name}"
+				assert(false, "Error with value #{name}")
 			end
 			
-			assert true
+			assert(true)
 		end
 		
 		incorrect_array.each do |name|
-			assert_raises (ArgumentError) do
-				test_student.method(:"#{field}=").call name
+			assert_raises(ArgumentError) do
+				test_student.method(:"#{field}=").call(name)
 			end
 		end
 	end
@@ -39,15 +39,15 @@ class TestStudentSetters < Minitest::Test
 	end
 	
 	def test_surname_setter
-		setter_test :surname, self.class.correct_names, self.class.incorrect_names
+		setter_test(:surname, self.class.correct_names, self.class.incorrect_names)
 	end
 	
 	def test_first_name_setter
-		setter_test :first_name, self.class.correct_names, self.class.incorrect_names
+		setter_test(:first_name, self.class.correct_names, self.class.incorrect_names)
 	end
 	
 	def test_mid_name_setter
-		setter_test :mid_name, self.class.correct_names, self.class.incorrect_names
+		setter_test(:mid_name, self.class.correct_names, self.class.incorrect_names)
 	end
 	
 	### Тест на capitalize
@@ -68,9 +68,9 @@ class TestStudentSetters < Minitest::Test
 			test_student.first_name = pair[0]
 			test_student.mid_name = pair[0]
 			
-			assert_equal pair[1], test_student.surname
-			assert_equal pair[1], test_student.first_name
-			assert_equal pair[1], test_student.mid_name
+			assert_equal(pair[1], test_student.surname)
+			assert_equal(pair[1], test_student.first_name)
+			assert_equal(pair[1], test_student.mid_name)
 		end
 	end
 	
@@ -85,7 +85,7 @@ class TestStudentSetters < Minitest::Test
 	end
 	
 	def test_git_setter
-		setter_test :git, self.class.correct_gits, self.class.incorrect_gits
+		setter_test(:git, self.class.correct_gits, self.class.incorrect_gits)
 	end
 	
 	### Тест сеттера телефона
@@ -113,7 +113,7 @@ class TestStudentSetters < Minitest::Test
 	end
 	
 	def test_phone_setter
-		setter_test :phone, self.class.correct_phones, self.class.incorrect_phones
+		setter_test(:phone, self.class.correct_phones, self.class.incorrect_phones)
 	end
 	
 	### Доп. тест сеттера телефона
@@ -134,7 +134,7 @@ class TestStudentSetters < Minitest::Test
 		self.class.correct_phone_pairs.each do |pair|
 			test_student.phone = pair[0]
 			
-			assert_equal pair[1], test_student.phone
+			assert_equal(pair[1], test_student.phone)
 		end
 	end
 	
@@ -160,7 +160,7 @@ class TestStudentSetters < Minitest::Test
 	end
 	
 	def test_email_setter
-		setter_test :email, self.class.correct_emails, self.class.incorrect_emails
+		setter_test(:email, self.class.correct_emails, self.class.incorrect_emails)
 	end
 	
 	# Тест сеттера телеграма
@@ -185,7 +185,7 @@ class TestStudentSetters < Minitest::Test
 	end
 	
 	def test_telegram_setter
-		setter_test :telegram, self.class.correct_tgs, self.class.incorrect_tgs
+		setter_test(:telegram, self.class.correct_tgs, self.class.incorrect_tgs)
 	end
 	
 	# Тест сеттера id
@@ -201,6 +201,6 @@ class TestStudentSetters < Minitest::Test
 	end
 	
 	def test_id_setter
-		setter_test :id, self.class.correct_ids, self.class.incorrect_ids
+		setter_test(:id, self.class.correct_ids, self.class.incorrect_ids)
 	end
 end

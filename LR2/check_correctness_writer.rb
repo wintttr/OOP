@@ -14,14 +14,14 @@ module CheckCorrectnessWriter
 			
 			if value == nil then
 				if nil_expected then
-					instance_variable_set field_sym, nil
+					instance_variable_set(field_sym, nil)
 				else
-					raise NilError, field.to_sym
+					raise(NilError, field.to_sym)
 				end
-			elsif correct_method.call value then
-				instance_variable_set field_sym, preprocess.call(value)
+			elsif correct_method.call(value) then
+				instance_variable_set(field_sym, preprocess.call(value))
 			else
-				raise ArgumentError, "#{value} - wrong format for field #{field}"
+				raise(ArgumentError, "#{value} - wrong format for field #{field}")
 			end
 		end
 	end

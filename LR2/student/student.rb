@@ -3,13 +3,13 @@ require "exceptions.rb"
 
 class Student < BasicStudent
 	# Геттеры и сеттеры
-    attr_reader :surname, :first_name, :mid_name
-    attr_reader :phone, :telegram, :email
+		attr_reader :surname, :first_name, :mid_name
+		attr_reader :phone, :telegram, :email
 	
 	checked_writer :surname, :name_correct?, nil_expected: false, preprocess: lambda {|x| x.capitalize}
 	checked_writer :first_name, :name_correct?, nil_expected: false, preprocess: lambda {|x| x.capitalize}
 	checked_writer :mid_name, :name_correct?, nil_expected: false, preprocess: lambda {|x| x.capitalize}
-	checked_writer :phone, :phone_correct?, preprocess: lambda {|phone| self.preprocess_phone phone}
+	checked_writer :phone, :phone_correct?, preprocess: lambda {|phone| self.preprocess_phone(phone)}
 	checked_writer :telegram, :telegram_correct?
 	checked_writer :email, :email_correct?
 	
@@ -17,8 +17,8 @@ class Student < BasicStudent
 	public :id, :git, :"id=", :"git="
 	public_class_method :new
 	
-    def initialize(surname:, first_name:, mid_name:, id:nil, phone:nil, telegram:nil, email:nil, git:nil)
-        self.id = id
+		def initialize(surname:, first_name:, mid_name:, id:nil, phone:nil, telegram:nil, email:nil, git:nil)
+				self.id = id
 
 		self.surname = surname
 		self.first_name = first_name
@@ -29,7 +29,7 @@ class Student < BasicStudent
 		self.telegram = telegram
 
 		self.git = git
-    end
+		end
 	
 	def surname_initials
 		"#{self.surname} #{self.first_name[0]}.#{self.mid_name[0]}."
@@ -63,20 +63,20 @@ class Student < BasicStudent
 	
 	# смирился с тем, что ужас неисправим
 	def to_s
-		id = Student.pretty_represent "Ид", self.id
-		surname = Student.pretty_represent "Фамилия", self.surname
-		first_name = Student.pretty_represent "Имя", self.first_name
-		mid_name = Student.pretty_represent "Отчество", self.mid_name
-		phone = Student.pretty_represent "Телефон", self.phone
-		telegram = Student.pretty_represent "Телеграм", self.telegram
-		email = Student.pretty_represent "Мейл", self.email
-		git = Student.pretty_represent "Гит", self.git
+		id = Student.pretty_represent("Ид", self.id)
+		surname = Student.pretty_represent("Фамилия", self.surname)
+		first_name = Student.pretty_represent("Имя", self.first_name)
+		mid_name = Student.pretty_represent("Отчество", self.mid_name)
+		phone = Student.pretty_represent("Телефон", self.phone)
+		telegram = Student.pretty_represent("Телеграм", self.telegram)
+		email = Student.pretty_represent("Мейл", self.email)
+		git = Student.pretty_represent("Гит", self.git)
 		
-		full_name = Student.join_with_comma [surname, first_name, mid_name]
-		phone_and_tg = Student.join_with_comma [phone, telegram]
-		email_and_git = Student.join_with_comma [email, git]
+		full_name = Student.join_with_comma([surname, first_name, mid_name])
+		phone_and_tg = Student.join_with_comma([phone, telegram])
+		email_and_git = Student.join_with_comma([email, git])
 
-		[id, full_name, phone_and_tg, email_and_git].compact.join "\n"
+		[id, full_name, phone_and_tg, email_and_git].compact.join("\n")
 	end
 	
 	# Массив всех полей класса
@@ -88,8 +88,8 @@ class Student < BasicStudent
 	end
 	
 	private
-	def self.preprocess_phone value
-		new_value = value.delete "+ ()-"
+	def self.preprocess_phone(value)
+		new_value = value.delete("+ ()-")
 		new_value[0] = "7" if new_value[0] == "8"
 		
 		new_value

@@ -19,8 +19,8 @@ class BasicReaderWriter
 		end
 	end
 	
-	def write_objects hashes_array
-		write_objects_impl hashes_array
+	def write_objects(hashes_array)
+		write_objects_impl(hashes_array)
 	end
 end
 
@@ -42,14 +42,14 @@ class BasicFileReaderWriter < BasicReaderWriter
 	
 	def read_objects_impl
 		file_str = File.open(self.file_path, "r") do |file|
-			file.read()
+			file.read
 		end
 		
 		self.class.parse(file_str)
 	end
 	
 	
-	def write_objects_impl hashes_array
+	def write_objects_impl(hashes_array)
 		File.open(self.file_path, "w") do |file|
 			# esrap - это parse наоборот...
 			file.puts(self.class.esrap(hashes_array))
@@ -69,50 +69,50 @@ class StudentsList
 		self.obj_array.size
 	end
 	
-	def read_all_objects reader
+	def read_all_objects(reader)
 		begin
 			hashes_array = reader.read_objects
-			self.obj_array = Array.new hashes_array.map {|h| Student.new(**h)}
+			self.obj_array = Array.new(hashes_array.map {|h| Student.new(**h)})
 		rescue
-			raise ReadError
+			raise(ReadError)
 		end
 	end
 	
-	def write_all_objects writer
+	def write_all_objects(writer)
 		hashes_array = self.obj_array.map do |obj|
 			obj.to_h do |field, value| 
 				[field, value] 
 			end
 		end
 		
-		writer.write_objects hashes_array
+		writer.write_objects(hashes_array)
 	end
 	
-	def add_obj obj
+	def add_obj(obj)
 		obj.id = self.make_new_id
-		self.obj_array.append obj
+		self.obj_array.append(obj)
 	end
 	
 	
-	def get_obj id
-		index = self.get_index id
+	def get_obj(id)
+		index = self.get_index(id)
 		self.obj_array[index]
 	end
 	
 	
-	def upd_obj id, obj
-		index = self.get_index id
+	def upd_obj(id, obj)
+		index = self.get_index(id)
 		self.obj_array[index] = obj
 	end
 	
-	def del_obj id
-		index = self.get_index id
-		self.obj_array.delete_at index
+	def del_obj(id)
+		index = self.get_index(id)
+		self.obj_array.delete_at(index)
 	end
 	
 	def get_k_n_student_short_list(k, n, data_list:nil)
 		k_n_objs = self.obj_array[k*n...(k*n + n)]
-		k_n_objs.map! { |obj| StudentShort.student_ctor obj }
+		k_n_objs.map! { |obj| StudentShort.student_ctor(obj) }
 		
 		return_list = k_n_objs
 		
@@ -120,7 +120,7 @@ class StudentsList
 			data_list.array = return_list
 		end
 		
-		DataListStudentShort.new return_list
+		DataListStudentShort.new(return_list)
 	end
 	
 	def sort_si
@@ -138,11 +138,11 @@ class StudentsList
 		self.obj_array.max { |obj| if not obj.nil? then obj.id else 0 end}.id + 1
 	end
 	
-	def get_index id
+	def get_index(id)
 		index = self.obj_array.find_index {|item| item.id == id}
 		
 		if index.nil? then 
-			raise ObjectNotFound, id 
+			raise(ObjectNotFound, id) 
 		end
 		
 		index

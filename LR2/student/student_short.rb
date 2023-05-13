@@ -28,22 +28,22 @@ class StudentShort < BasicStudent
 	
 	# Конструктор объекта из id и строки
 	def self.id_string_ctor(id, str)
-		options = Parser.parse str
+		options = Parser.parse(str)
 		options[:id] = id
 		
 		self.new(**options)
 	end
 	
 	def to_s
-		id = StudentShort.pretty_represent "Ид", self.id
-		surname_initials = StudentShort.pretty_represent "Фамилия И.О.", self.surname_initials
-		git = StudentShort.pretty_represent "Гит", self.git
-		contact = StudentShort.pretty_represent "Контакт", self.contact
-		contact_type = StudentShort.pretty_represent "Тип контакта", (self.class.contact_type self.contact)
+		id = StudentShort.pretty_represent("Ид", self.id)
+		surname_initials = StudentShort.pretty_represent("Фамилия И.О.", self.surname_initials)
+		git = StudentShort.pretty_represent("Гит", self.git)
+		contact = StudentShort.pretty_represent("Контакт", self.contact)
+		contact_type = StudentShort.pretty_represent("Тип контакта", (self.class.contact_type(self.contact)))
 		
-		git_and_contact = StudentShort.join_with_comma [git, contact]
+		git_and_contact = StudentShort.join_with_comma([git, contact])
 
-		[id, surname_initials, git_and_contact, contact_type].compact.join "\n"
+		[id, surname_initials, git_and_contact, contact_type].compact.join("\n")
 	end
 	
 	

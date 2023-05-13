@@ -4,7 +4,7 @@ require "student_list_controller.rb"
 class StudentListView
 	def set_table_params(column_names, whole_entities_count)
 		self.window.table.setTableSize(whole_entities_count, 4)
-		self.window.set_table_headers column_names
+		self.window.set_table_headers(column_names)
 	end
 	
 	def set_table_data(data_table)
@@ -39,7 +39,7 @@ class StudentListView
 			
 			app.run
 		rescue ViewError => ve
-			FXMessageBox.error self.window, MBOX_OK, "Error", ve.to_s
+			FXMessageBox.error(self.window, MBOX_OK, "Error", ve.to_s)
 			exit
 		end
 	end
@@ -70,10 +70,10 @@ class StudentListView
 		
 		table.columnHeader.connect(SEL_COMMAND) do |_, _, index|
 			if(index == 1)
-				puts "Сортировка"
+				puts("Сортировка")
 				self.sort
 			else
-				puts "Сортировочки пока нет..."
+				puts("Сортировочки пока нет...")
 			end
 		end
 	end
@@ -84,7 +84,7 @@ class StudentListView
 	def set_tab_book_handler
 		window.tabBook.connect(SEL_COMMAND) do |sender, selector, data|
 			if(sender.current == 0) then
-				self.refresh reload: true
+				self.refresh(reload: true)
 			end
 		end
 	end
@@ -115,14 +115,14 @@ class StudentListView
 		end
 	end
 	
-	def refresh reload: false
+	def refresh(reload: false)
 		begin
-			self.controller.refresh_data reload: reload
+			self.controller.refresh_data(reload: reload)
 			
 			self.window.page_count_label.text = self.controller.page_count.to_s 
 			self.window.cur_page_label.text = self.controller.cur_page.to_s 
 		rescue ViewError => ve
-			FXMessageBox.error self.window, MBOX_OK, "Error", ve.to_s
+			FXMessageBox.error(self.window, MBOX_OK, "Error", ve.to_s)
 		end
 	end
 end

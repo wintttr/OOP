@@ -2,17 +2,17 @@ require 'minitest/autorun'
 require "student.rb"
 
 class TestStudentMethods < Minitest::Test
-	def self.get_test_student other
+	def self.get_test_student(other)
 		Student.new(surname: "Точно", first_name: "Правильное", mid_name: "Имя", **other)
 	end
 	
 	### Универсальный тест
 	
-	def universal_pair_test pair_array, tested_method
+	def universal_pair_test(pair_array, tested_method)
 		pair_array.each do |pair|
 			test_student = self.class.get_test_student(**(pair[0]))
 			
-			assert_equal pair[1], test_student.method(tested_method).call
+			assert_equal(pair[1], test_student.method(tested_method).call)
 		end
 	end
 	
@@ -29,7 +29,7 @@ class TestStudentMethods < Minitest::Test
 	end
 	
 	def test_surname_initials
-		universal_pair_test self.class.correct_name_pairs, :surname_initials
+		universal_pair_test(self.class.correct_name_pairs, :surname_initials)
 	end
 	
 	### Тест метода contact
@@ -43,7 +43,7 @@ class TestStudentMethods < Minitest::Test
 	end
 	
 	def test_contact
-		universal_pair_test self.class.correct_contact_pairs, :contact
+		universal_pair_test(self.class.correct_contact_pairs, :contact)
 	end
 	
 	### Тест метода get_info
@@ -66,6 +66,6 @@ class TestStudentMethods < Minitest::Test
 	end
 	
 	def test_get_info
-		universal_pair_test self.class.correct_info_pairs, :get_info
+		universal_pair_test(self.class.correct_info_pairs, :get_info)
 	end
 end

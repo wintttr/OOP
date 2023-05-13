@@ -18,7 +18,7 @@ end
 desc "Генерируем все UML"
 task :all_uml do
 	Dir["./uml/*.txt"].each do |file|
-		Rake::Task[:uml].execute uml_path: file
+		Rake::Task[:uml].execute(uml_path: file)
 		puts "#{file} done"
 	end
 end

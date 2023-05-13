@@ -22,22 +22,22 @@ class StudentMainWindow < FXMainWindow
 		
 		# Фамилия Имя Отчество?
 		hFrame1 = FXHorizontalFrame.new(vFrame1)
-		self.add_name_field hFrame1
+		self.add_name_field(hFrame1)
 		
 		# Гит
-		self.add_git_field hFrame1
+		self.add_git_field(hFrame1)
 		
 		# Мыло
 		hFrame2 = FXHorizontalFrame.new(vFrame1)
-		self.add_email_field hFrame2
+		self.add_email_field(hFrame2)
 		
 		# Телефон
 		hFrame3 = FXHorizontalFrame.new(vFrame1)
-		self.add_phone_field hFrame3
+		self.add_phone_field(hFrame3)
 		
 		# Телеграм
 		hFrame4 = FXHorizontalFrame.new(vFrame1)
-		self.add_tg_field hFrame4
+		self.add_tg_field(hFrame4)
 		
 		# Табличка
 		hFrame5 = FXHorizontalFrame.new(vFrame1)
@@ -46,15 +46,15 @@ class StudentMainWindow < FXMainWindow
 		hFrame6 = FXHorizontalFrame.new(vFrame1, opts: LAYOUT_FILL_X | LAYOUT_FIX_HEIGHT)
 		hFrame6.height = 230
 		
-		self.add_table hFrame6
+		self.add_table(hFrame6)
 		
 		# Перелистываем страницы
 		hFrame7 = FXHorizontalFrame.new(vFrame1, opts: LAYOUT_FILL_X)
-		add_lcr_buttons hFrame7
+		add_lcr_buttons(hFrame7)
 		
 		# Кнопочки
 		hFrame8 = FXHorizontalFrame.new(vFrame1, opts: LAYOUT_FILL_X)
-		add_crud_buttons hFrame8
+		add_crud_buttons(hFrame8)
 	end
 	
 	def create
@@ -62,7 +62,7 @@ class StudentMainWindow < FXMainWindow
 		show(PLACEMENT_SCREEN)
 	end
 	
-	def set_table_headers arr
+	def set_table_headers(arr)
 		self.table.setColumnText(0, "№")
 		
 		arr.each_with_index { |value, index|
@@ -77,7 +77,7 @@ class StudentMainWindow < FXMainWindow
 	attr_writer :table, :tabBook
 	
 	
-	def handle_list_box_command index, listbox, field
+	def handle_list_box_command(index, listbox, field)
 		item_text = listbox.getItemText(index)
 		if(item_text == "Да")
 			field.enable
@@ -86,7 +86,7 @@ class StudentMainWindow < FXMainWindow
 		end
 	end
 	
-	def add_listboxed_field frame, presence_of, field_name, field_width
+	def add_listboxed_field(frame, presence_of, field_name, field_width)
 		label = FXLabel.new(frame, presence_of)
 		list = FXListBox.new(frame, width: 10, opts: COMBOBOX_STATIC | COMBOBOX_NO_REPLACE)
 		list.appendItem("Да")
@@ -97,37 +97,37 @@ class StudentMainWindow < FXMainWindow
 		field = FXTextField.new(frame, field_width)
 		
 		list.connect(SEL_COMMAND) do |_, _, index|
-			handle_list_box_command index, list, field
+			handle_list_box_command(index, list, field)
 		end
 	end
 	
-	def add_name_field frame
+	def add_name_field(frame)
 		name_label = FXLabel.new(frame, "Фамилия и инициалы: ")
 		name_field = FXTextField.new(frame, 10)
 	end
 	
-	def add_git_field frame
-		add_listboxed_field frame, "Наличие гита: ", "Гит: ", 10
+	def add_git_field(frame)
+		add_listboxed_field(frame, "Наличие гита: ", "Гит: ", 10)
 	end
 	
-	def add_email_field frame
-		add_listboxed_field frame, "Наличие мейла: ", "Мейл: ", 30
+	def add_email_field(frame)
+		add_listboxed_field(frame, "Наличие мейла: ", "Мейл: ", 30)
 	end
 	
-	def add_phone_field frame
-		add_listboxed_field frame, "Наличие телефона: ", "Телефон: ", 17
+	def add_phone_field(frame)
+		add_listboxed_field(frame, "Наличие телефона: ", "Телефон: ", 17)
 	end
 	
-	def add_tg_field frame
-		add_listboxed_field frame, "Наличие телеграма: ", "Телеграм: ", 10
+	def add_tg_field(frame)
+		add_listboxed_field(frame, "Наличие телеграма: ", "Телеграм: ", 10)
 	end
 	
-	def add_table frame
+	def add_table(frame)
 		self.table = FXTable.new(frame, :opts => LAYOUT_FILL)
 		self.table.editable = false
 	end
 	
-	def add_crud_buttons frame
+	def add_crud_buttons(frame)
 		self.add_button = FXButton.new(frame, "Добавить")
 		self.chg_button = FXButton.new(frame, "Изменить")
 		self.del_button = FXButton.new(frame, "Удалить")
@@ -137,7 +137,7 @@ class StudentMainWindow < FXMainWindow
 		self.del_button.disable
 	end
 	
-	def add_lcr_buttons frame
+	def add_lcr_buttons(frame)
 		self.go_left_button = FXButton.new(frame, "<<")
 		
 		self.cur_page_label = FXLabel.new(frame, "")

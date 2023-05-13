@@ -20,6 +20,6 @@ class TestDataListSS < Minitest::Test
 	def test_initialize
 		ss = self.class.get_students_shorts
 		
-		(DataListStudentShort.new ss).get_data
+		(DataListStudentShort.new(ss)).get_data
 	end
 end

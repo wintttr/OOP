@@ -5,7 +5,7 @@ class DBSingleton
 
 	@instance = new
 
-	def db_client= value
+	def db_client=(value)
 		@db_client = value
 	end
 	

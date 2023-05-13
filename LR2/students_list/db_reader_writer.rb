@@ -18,14 +18,14 @@ class DBReaderWriter < BasicReaderWriter
 		self.db_client.query("SELECT * FROM #{self.db_table}", symbolize_keys: true)
 	end
 	
-	def write_objects_impl hashes_array
+	def write_objects_impl(hashes_array)
 		values = hashes_array.map { |h|
-			h.values.join ","
+			h.values.join(",")
 		}.map { |str|
 			"(#{str})"
 		}.join(",")
 		
 		insert_query = "insert into #{self.db_table} values #{values}"
-		self.db_client.query insert_query
+		self.db_client.query(insert_query)
 	end
 end
