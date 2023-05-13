@@ -1,6 +1,5 @@
 @startuml
 skinparam classAttributeIconSize 0
-skinparam dpi 150
 
 abstract class BasicStudent {
 	-- Поля --
@@ -147,6 +146,12 @@ abstract class DataList {
 }
 
 class DataListStudentShort {
+	-- Публичные поля --
+	{field} + view
+	
+	-- Публичные методы --
+	{method} + notify()
+
 	{method} - get_data_impl()
 	{static} - get_names_impl()
 }
@@ -247,6 +252,97 @@ class DBSingleton {
 	{method} - db_client
 }
 
+class StudentMainWindow {
+	-- Публичные геттеры --
+	{field} + add_button
+	{field} + chg_button
+	{field} + del_button
+	{field} + upd_button
+	{field} + go_left_button
+	{field} + go_right_button
+	{field} + page_count_label
+	{field} + cur_page_label
+	{field} + table
+	{field} + tabBook
+	
+	-- Публичные методы --
+	{method} + create()
+	{method} + set_table_headers(array)
+	
+	-- Конструктор --
+	{method} + initialize(app)
+	
+	-- Приватные сеттеры --
+	{field} - add_button
+	{field} - chg_button
+	{field} - del_button
+	{field} - upd_button
+	{field} - go_left_button
+	{field} - go_right_button
+	{field} - page_count_label
+	{field} - cur_page_label
+	{field} - table
+	{field} - tabBook
+	
+	-- Приватные методы --
+	{method} - handle_list_box_command(index, listbox, field)
+	{method} - add_listboxed_field(frame, presence_of, field_name, field_width)
+	{method} - add_name_field(frame)
+	{method} - add_git_field(frame)
+	{method} - add_email_field(frame)
+	{method} - add_phone_field(frame)
+	{method} - add_tg_field(frame)
+	{method} - add_table(frame)
+	{method} - add_crud_buttons(frame)
+	{method} - add_lcr_buttons(frame)
+}
+
+class StudentListView {
+	-- Конструктор --
+	{method} + initialize
+	
+	-- Публичные методы --
+	{method} + set_table_params(column_names, whole_entities_count)
+	{method} + set_table_data(data_table)
+	
+	-- Приватные поля --
+	{field} - window
+	{field} - controller
+	
+	-- Приватные методы --
+	{method} - set_table_handlers()
+	{method} - set_tab_book_handler()
+	{method} - sort()
+	{method} - set_lcr_handlers()
+	{method} - erase_table()
+	{method} - refresh(reload: false)
+}
+
+class StudentListController {
+	-- Публичные геттеры --
+	{field} + cur_page
+	{field} + page_count
+	
+	-- Конструктор --
+	{method} + initialize(view)
+	
+	-- Публичные методы --
+	{method} + next_page
+	{method} + prev_page
+	{method} + refresh_data(reload: false)
+	{method} + sort
+ 	
+	-- Приватные сеттеры --
+	{field} - cur_page
+	
+	-- Приватные методы --
+	{method} - default_readerwriter
+	{method} - table_row_count
+	{method} - last_page?(page)
+	{method} - first_page?(page)
+	{method} - load_list(readerwriter)
+}
+
 BasicStudent ..|> CheckCorrectnessWriter
 DataTable ..|> CheckCorrectnessWriter
 DataList ..|> CheckCorrectnessWriter
@@ -274,4 +370,14 @@ TXTReaderWriter ..> Parser
 JSONReaderWriter --|> BasicFileReaderWriter
 YAMLReaderWriter --|> BasicFileReaderWriter
 
+StudentMainWindow --|> FXWindow
+StudentListView --> StudentMainWindow
+
+StudentListView --> StudentListController
+StudentListController --> StudentListView
+
+StudentListController --> StudentsList
+StudentListController --> DataListStudentShort
+
+DataListStudentShort --> StudentListView
 @enduml
