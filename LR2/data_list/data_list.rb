@@ -5,8 +5,8 @@ class DataList
 	extend CheckCorrectnessWriter
 	
 	# Геттеры/сеттеры
-	attr_accessor :stored_class
-	attr_reader :array
+	attr_accessor :stored_class, :view
+	attr_reader :array	
 	
 	checked_writer :array, :check_array, nil_expected: false, preprocess: lambda {|arr| arr.zip(Array.new(arr.size, false))}
 
@@ -46,6 +46,12 @@ class DataList
 		end
 		
 		DataTable.new(arr)
+	end
+	
+	
+	def notify
+		self.view.set_table_params(self.get_names, self.array.size)
+		self.view.set_table_data(self.get_data)
 	end
 	
 	# Защищённые методы

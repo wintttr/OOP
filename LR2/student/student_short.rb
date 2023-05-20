@@ -7,7 +7,7 @@ class StudentShort < BasicStudent
 	attr_reader :surname_initials, :contact
 	
 	checked_writer :surname_initials, :surname_in_correct?, nil_expected: false
-	checked_writer :contact, :contact_correct?, nil_expected: false
+	checked_writer :contact, :contact_correct?
 	
 	# Допиливание настроек приватности
 	public :id, :git

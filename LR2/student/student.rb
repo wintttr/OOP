@@ -3,8 +3,8 @@ require "exceptions.rb"
 
 class Student < BasicStudent
 	# Геттеры и сеттеры
-		attr_reader :surname, :first_name, :mid_name
-		attr_reader :phone, :telegram, :email
+	attr_reader :surname, :first_name, :mid_name
+	attr_reader :phone, :telegram, :email
 	
 	checked_writer :surname, :name_correct?, nil_expected: false, preprocess: lambda {|x| x.capitalize}
 	checked_writer :first_name, :name_correct?, nil_expected: false, preprocess: lambda {|x| x.capitalize}
@@ -17,19 +17,19 @@ class Student < BasicStudent
 	public :id, :git, :"id=", :"git="
 	public_class_method :new
 	
-		def initialize(surname:, first_name:, mid_name:, id:nil, phone:nil, telegram:nil, email:nil, git:nil)
-				self.id = id
+    def initialize(surname:, first_name:, mid_name:, id:nil, phone:nil, telegram:nil, email:nil, git:nil)
+        self.id = id
 
-		self.surname = surname
-		self.first_name = first_name
-		self.mid_name = mid_name
-		
-		self.phone = phone
-		self.email = email
-		self.telegram = telegram
+        self.surname = surname
+        self.first_name = first_name
+        self.mid_name = mid_name
+        
+        self.phone = phone
+        self.email = email
+        self.telegram = telegram
 
-		self.git = git
-		end
+        self.git = git
+    end
 	
 	def surname_initials
 		"#{self.surname} #{self.first_name[0]}.#{self.mid_name[0]}."
