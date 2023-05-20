@@ -23,10 +23,10 @@ class StudentAddDialog < FXDialogBox
         self.back_btn = FXButton.new(hFrame, "Отмена")
     end
     
-    def create
-		super
-		show(PLACEMENT_SCREEN)
-	end
+    # def create
+		# super
+        # show(PLACEMENT_SCREEN)
+	# end
     
     def add_field(frame, field_sym, field_name)
         hFrame = FXHorizontalFrame.new(frame)

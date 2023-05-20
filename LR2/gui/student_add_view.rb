@@ -15,7 +15,6 @@ class StudentAddView
         
         self.dialog.add_btn.connect(SEL_COMMAND) do
             list_controller.add_student(add_controller.student)
-            list_view.refresh
             
             self.dialog.handle(self.dialog.add_btn, FXSEL(SEL_COMMAND,
                                FXDialogBox::ID_ACCEPT), nil)
@@ -39,8 +38,12 @@ class StudentAddView
             }
         end
         
-        self.dialog.create
-        self.dialog.show
+        # self.dialog.create
+        # self.dialog.show
+    end
+    
+    def execute
+        return self.dialog.execute
     end
     
     def surname() self.dialog.surname.text end

@@ -41,12 +41,16 @@ class StudentListView
             
             self.window.add_button.connect(SEL_COMMAND) do
                 add_view = StudentAddView.new(self, self.controller)
+                
+                if add_view.execute == 1 then
+                    self.refresh
+                end
             end
             
             self.window.del_button.connect(SEL_COMMAND) do
                 self.controller.del_selected
                 self.refresh
-            end            
+            end
             
 			self.refresh
 			
