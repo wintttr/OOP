@@ -1,0 +1,19 @@
+@startuml
+actor Пользователь as actor
+actor -> StudentListView : "Удалить"
+
+StudentListView -> StudentAddView : new(self, self.controller)
+
+StudentAddView -> StudentAddController : new(window)
+StudentAddView <-- StudentAddController
+
+StudentAddView -> StudentAddDialog : new(window)
+StudentAddView <-- StudentAddDialog
+
+StudentListView <-- StudentAddView
+
+StudentListView -> StudentListView : refresh
+
+actor <-- StudentListView
+
+@enduml

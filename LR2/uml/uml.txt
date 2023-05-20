@@ -343,6 +343,56 @@ class StudentListController {
 	{method} - load_list(readerwriter)
 }
 
+class StudentAddController{
+	-- Поля --
+	{field} + view
+	{field} + student
+	
+	-- Конструктор --
+	{static} + initialize(view)
+	
+	-- Методы --
+	{method} + validate_fields()
+}
+
+class StudentAddDialog {
+	{field} + surname
+	{field} + first_name
+	{field} + mid_name
+	{field} + phone
+	{field} + telegram
+	{field} + email
+	{field} + git
+	{field} + add_btn
+	{field} + back_btn
+
+	-- Конструктор --
+	{static} + initialize(parent_window)
+	
+	-- Методы --
+	{method} - add_field(frame, field_sym, field_name)
+}
+
+class StudentAddView {
+	{field} + dialog
+	
+	-- Конструктор --
+	{method} + initialize(list_view, list_controller)
+	
+	-- Методы --
+	{method} + execute()
+
+	-- Публичные геттеры --
+	{method} + surname
+	{method} + first_name
+	{method} + mid_name
+	{method} + phone
+	{method} + telegram
+	{method} + email
+	{method} + git
+}
+
+
 BasicStudent ..|> CheckCorrectnessWriter
 DataTable ..|> CheckCorrectnessWriter
 DataList ..|> CheckCorrectnessWriter
@@ -380,4 +430,12 @@ StudentListController --> StudentsList
 StudentListController --> DataListStudentShort
 
 DataListStudentShort --> StudentListView
+
+StudentAddView ..> StudentAddController
+StudentAddView --* StudentAddDialog
+
+StudentAddDialog --|> FXDialogBox
+
+StudentAddController --> StudentAddView
+StudentAddController --> Student
 @enduml

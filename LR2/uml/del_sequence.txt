@@ -1,0 +1,19 @@
+@startuml
+actor Пользователь as actor
+actor -> StudentListView : "Удалить"
+
+StudentListView -> StudentListController : del_selected
+
+StudentListController -> DLSS : get_selected
+StudentListController <-- DLSS
+
+StudentListController -> DLSS : del_obj
+StudentListController <-- DLSS
+
+StudentListView <-- StudentListController
+
+StudentListView -> StudentListView : refresh
+
+actor <-- StudentListView
+
+@enduml
