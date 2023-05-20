@@ -37,9 +37,6 @@ class StudentAddView
                 end
             }
         end
-        
-        # self.dialog.create
-        # self.dialog.show
     end
     
     def execute
