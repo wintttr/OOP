@@ -1,7 +1,10 @@
 require "student_main_window.rb"
 require "student_list_controller.rb"
+require "student_add_view"
 
 class StudentListView
+    attr_accessor :window
+
 	def set_table_params(column_names, whole_entities_count)
 		self.window.table.setTableSize(whole_entities_count, 4)
 		self.window.set_table_headers(column_names)
@@ -35,6 +38,16 @@ class StudentListView
 			app.create
 		
 			self.controller = StudentListController.new(self)
+            
+            self.window.add_button.connect(SEL_COMMAND) do
+                add_view = StudentAddView.new(self, self.controller)
+            end
+            
+            self.window.del_button.connect(SEL_COMMAND) do
+                self.controller.del_selected
+                self.refresh
+            end            
+            
 			self.refresh
 			
 			app.run
@@ -52,7 +65,13 @@ class StudentListView
 		cells_selected_handler = Proc.new do
 			all_cols_selected = table.selEndColumn - table.selStartColumn + 1 == table.numColumns
 			num_selected_rows = table.selEndRow - table.selStartRow + 1
-				
+            
+            self.controller.unselect
+            
+            (table.selStartRow..table.selEndRow).each do |row|
+                self.controller.select(row)
+            end
+            
 			if num_selected_rows == 1 and all_cols_selected
 				chg_button.enable
 				del_button.enable
@@ -78,8 +97,19 @@ class StudentListView
 		end
 	end
 	
+	def refresh(reload: false)
+		begin
+			self.controller.refresh_data(reload: reload)
+			
+			self.window.page_count_label.text = self.controller.page_count.to_s 
+			self.window.cur_page_label.text = self.controller.cur_page.to_s 
+		rescue ViewError => ve
+			FXMessageBox.error(self.window, MBOX_OK, "Error", ve.to_s)
+		end
+	end
+    
 	private
-	attr_accessor :window, :controller
+	attr_accessor :controller
 	
 	def set_tab_book_handler
 		window.tabBook.connect(SEL_COMMAND) do |sender, selector, data|
@@ -115,14 +145,4 @@ class StudentListView
 		end
 	end
 	
-	def refresh(reload: false)
-		begin
-			self.controller.refresh_data(reload: reload)
-			
-			self.window.page_count_label.text = self.controller.page_count.to_s 
-			self.window.cur_page_label.text = self.controller.cur_page.to_s 
-		rescue ViewError => ve
-			FXMessageBox.error(self.window, MBOX_OK, "Error", ve.to_s)
-		end
-	end
 end

@@ -4,8 +4,9 @@ require "json_reader_writer.rb"
 require "db_singleton.rb"
 
 class StudentListController
+    attr_accessor :list
+    
 	def initialize(view)
-		# Спроси зачем
 		self.view = view
 		self.list = StudentsList.new
 		
@@ -14,9 +15,29 @@ class StudentListController
 		
 		self.dlss.view = self.view
 	end
-
+    
+    def del_selected
+        id_array = self.dlss.get_selected
+        
+        id_array.each do |id|
+            self.list.del_obj(id)
+        end
+    end
+    
+    def unselect
+        self.dlss.unselect
+    end
+    
+    def select(id)
+        self.dlss.select(id)
+    end
+    
+    def add_student(st)
+        list.add_obj(st)
+    end
+    
 	def cur_page
-		if @cur_page.nil? or @cur_page <= 1 or @cur_page >= self.page_count then @cur_page = 1 end
+		if @cur_page.nil? or @cur_page < 1 or @cur_page > self.page_count then @cur_page = 1 end
 		
 		@cur_page
 	end
@@ -53,7 +74,7 @@ class StudentListController
 	
 	
 	private
-	attr_accessor :view, :list, :dlss
+	attr_accessor :view, :dlss
 	
 	def default_readerwriter
 		DBReaderWriter.new(table: "students", db: DBSingleton.instance.db_client)

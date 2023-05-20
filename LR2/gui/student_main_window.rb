@@ -63,10 +63,8 @@ class StudentMainWindow < FXMainWindow
 	end
 	
 	def set_table_headers(arr)
-		self.table.setColumnText(0, "№")
-		
-		arr.each_with_index { |value, index|
-			self.table.setColumnText(index+1, value)
+	arr.each_with_index { |value, index|
+			self.table.setColumnText(index, value)
 		}
 	end
 	
@@ -93,7 +91,7 @@ class StudentMainWindow < FXMainWindow
 		list.appendItem("Нет")
 		list.appendItem("Не важно")
 		
-		field_label = FXLabel.new(frame, "Гит: ")
+		field_label = FXLabel.new(frame, field_name)
 		field = FXTextField.new(frame, field_width)
 		
 		list.connect(SEL_COMMAND) do |_, _, index|
